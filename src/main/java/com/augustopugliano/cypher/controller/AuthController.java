@@ -26,12 +26,14 @@ public class AuthController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserService userService, UserRepository userRepository, JwtService jwtService) {
+    public AuthController(UserService userService, UserRepository userRepository, JwtService jwtService, com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
 
@@ -54,8 +56,22 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String token = jwtService.generateToken(user);
-        return ResponseEntity.ok(new TokenResponse(token, 900));
+        String accessToken = jwtService.generateToken(user);
+        com.augustopugliano.cypher.service.RefreshTokenService.TokenPair pair = refreshTokenService.generateAndSaveRefreshToken(user);
+        return ResponseEntity.ok(new TokenResponse(accessToken, pair.rawToken(), 900));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenResponse> refresh(@Valid @RequestBody com.augustopugliano.cypher.dto.RefreshRequest request) {
+        try {
+            com.augustopugliano.cypher.service.RefreshTokenService.RotationResult result = 
+                refreshTokenService.processRefresh(request.getRefresh_token());
+                
+            String newAccessToken = jwtService.generateToken(result.user());
+            return ResponseEntity.ok(new TokenResponse(newAccessToken, result.newRawToken(), 900));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @org.springframework.web.bind.annotation.GetMapping("/me")

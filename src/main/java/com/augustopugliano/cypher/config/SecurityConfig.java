@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new org.springframework.security.web.authentication.HttpStatusEntryPoint(org.springframework.http.HttpStatus.UNAUTHORIZED))
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/register", "/auth/login", "/.well-known/jwks.json").permitAll()
+                .requestMatchers("/auth/register", "/auth/login", "/auth/refresh", "/.well-known/jwks.json").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
