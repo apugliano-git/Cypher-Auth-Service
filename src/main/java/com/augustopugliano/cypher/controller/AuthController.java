@@ -57,4 +57,20 @@ public class AuthController {
         String token = jwtService.generateToken(user);
         return ResponseEntity.ok(new TokenResponse(token, 900));
     }
+
+    @org.springframework.web.bind.annotation.GetMapping("/me")
+    public ResponseEntity<com.augustopugliano.cypher.dto.UserDto> getMe() {
+        org.springframework.security.core.Authentication authentication = 
+            org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+            
+        com.augustopugliano.cypher.security.AuthenticatedUser user = 
+            (com.augustopugliano.cypher.security.AuthenticatedUser) authentication.getPrincipal();
+            
+        String role = authentication.getAuthorities().stream()
+            .findFirst()
+            .map(auth -> auth.getAuthority().replace("ROLE_", ""))
+            .orElse("USER");
+            
+        return ResponseEntity.ok(new com.augustopugliano.cypher.dto.UserDto(user.id(), user.email(), role));
+    }
 }

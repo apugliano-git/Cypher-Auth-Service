@@ -56,4 +56,12 @@ public class JwtService {
     public PublicKey getPublicKey() {
         return publicKey;
     }
+
+    public io.jsonwebtoken.Claims getClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(publicKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
 }
