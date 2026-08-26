@@ -20,10 +20,13 @@ public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final SecureRandom secureRandom;
+    private final int refreshExpirationDays;
 
-    public RefreshTokenService(RefreshTokenRepository refreshTokenRepository) {
+    public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, 
+            @org.springframework.beans.factory.annotation.Value("${cypher.jwt.refresh.expiration-days:7}") int refreshExpirationDays) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.secureRandom = new SecureRandom();
+        this.refreshExpirationDays = refreshExpirationDays;
     }
 
     public record TokenPair(RefreshToken entity, String rawToken) {}
@@ -41,7 +44,7 @@ public class RefreshTokenService {
         refreshToken.setUser(user);
         refreshToken.setTokenHash(tokenHash);
         refreshToken.setIssuedAt(Instant.now());
-        refreshToken.setExpiresAt(Instant.now().plus(7, ChronoUnit.DAYS));
+        refreshToken.setExpiresAt(Instant.now().plus(refreshExpirationDays, ChronoUnit.DAYS));
         refreshToken.setRevoked(false);
 
         refreshTokenRepository.save(refreshToken);
@@ -63,10 +66,10 @@ public class RefreshTokenService {
     public RotationResult processRefresh(String rawRefreshToken) {
         String tokenHash = hashToken(rawRefreshToken);
         RefreshToken refreshToken = refreshTokenRepository.findByTokenHash(tokenHash)
-                .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+                .orElseThrow(() -> new com.augustopugliano.cypher.exception.TokenRefreshException("Invalid refresh token"));
 
         if (refreshToken.isRevoked() || refreshToken.getExpiresAt().isBefore(Instant.now())) {
-            throw new RuntimeException("Invalid or expired refresh token");
+            throw new com.augustopugliano.cypher.exception.TokenRefreshException("Invalid or expired refresh token");
         }
 
         refreshToken.setRevoked(true);

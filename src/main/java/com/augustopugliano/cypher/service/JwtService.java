@@ -21,11 +21,13 @@ public class JwtService {
 
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
+    private final int expirationSeconds;
 
     public JwtService(
             @Value("${cypher.jwt.keystore.location}") Resource keystoreLocation,
             @Value("${cypher.jwt.keystore.password}") String keystorePassword,
-            @Value("${cypher.jwt.keystore.alias}") String keystoreAlias) throws Exception {
+            @Value("${cypher.jwt.keystore.alias}") String keystoreAlias,
+            @Value("${cypher.jwt.expiration-seconds:900}") int expirationSeconds) throws Exception {
         
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         try (InputStream is = keystoreLocation.getInputStream()) {
@@ -37,11 +39,16 @@ public class JwtService {
 
         this.privateKey = privateKeyEntry.getPrivateKey();
         this.publicKey = privateKeyEntry.getCertificate().getPublicKey();
+        this.expirationSeconds = expirationSeconds;
+    }
+
+    public int getExpirationSeconds() {
+        return expirationSeconds;
     }
 
     public String generateToken(User user) {
         Instant now = Instant.now();
-        Instant expiration = now.plus(15, ChronoUnit.MINUTES);
+        Instant expiration = now.plus(expirationSeconds, ChronoUnit.SECONDS);
 
         return Jwts.builder()
                 .subject(user.getId().toString())

@@ -29,12 +29,12 @@ public class AuthController {
     private final com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserService userService, UserRepository userRepository, JwtService jwtService, com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService) {
+    public AuthController(UserService userService, UserRepository userRepository, JwtService jwtService, com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
-        this.passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
@@ -58,7 +58,7 @@ public class AuthController {
 
         String accessToken = jwtService.generateToken(user);
         com.augustopugliano.cypher.service.RefreshTokenService.TokenPair pair = refreshTokenService.generateAndSaveRefreshToken(user);
-        return ResponseEntity.ok(new TokenResponse(accessToken, pair.rawToken(), 900));
+        return ResponseEntity.ok(new TokenResponse(accessToken, pair.rawToken(), jwtService.getExpirationSeconds()));
     }
 
     @PostMapping("/refresh")
@@ -68,8 +68,8 @@ public class AuthController {
                 refreshTokenService.processRefresh(request.getRefresh_token());
                 
             String newAccessToken = jwtService.generateToken(result.user());
-            return ResponseEntity.ok(new TokenResponse(newAccessToken, result.newRawToken(), 900));
-        } catch (Exception e) {
+            return ResponseEntity.ok(new TokenResponse(newAccessToken, result.newRawToken(), jwtService.getExpirationSeconds()));
+        } catch (com.augustopugliano.cypher.exception.TokenRefreshException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

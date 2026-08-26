@@ -15,10 +15,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        // Using default Argon2 parameters recommended by Spring Security
-        this.passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
