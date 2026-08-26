@@ -29,4 +29,9 @@ public class RateLimitService {
         
         return attempts != null ? attempts : 0;
     }
+
+    public void reset(String key) {
+        String redisKey = "login_attempts:" + key;
+        redisTemplate.delete(redisKey);
+    }
 }

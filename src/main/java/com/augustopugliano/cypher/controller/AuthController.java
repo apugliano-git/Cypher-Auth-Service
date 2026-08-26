@@ -93,6 +93,9 @@ public class AuthController {
         auditLog.setSuccess(true);
         loginAuditLogRepository.save(auditLog);
 
+        rateLimitService.reset(ipAddress);
+        rateLimitService.reset(email);
+
         String accessToken = jwtService.generateToken(user);
         com.augustopugliano.cypher.service.RefreshTokenService.TokenPair pair = refreshTokenService.generateAndSaveRefreshToken(user);
         return ResponseEntity.ok(new TokenResponse(accessToken, pair.rawToken(), jwtService.getExpirationSeconds()));
