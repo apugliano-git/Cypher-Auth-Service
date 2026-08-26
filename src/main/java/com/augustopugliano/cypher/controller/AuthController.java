@@ -28,13 +28,26 @@ public class AuthController {
     private final JwtService jwtService;
     private final com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final com.augustopugliano.cypher.service.RateLimitService rateLimitService;
+    private final com.augustopugliano.cypher.repository.LoginAuditLogRepository loginAuditLogRepository;
+    private final int maxAttempts;
 
-    public AuthController(UserService userService, UserRepository userRepository, JwtService jwtService, com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder) {
+    public AuthController(UserService userService, 
+                          UserRepository userRepository, 
+                          JwtService jwtService, 
+                          com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService, 
+                          PasswordEncoder passwordEncoder,
+                          com.augustopugliano.cypher.service.RateLimitService rateLimitService,
+                          com.augustopugliano.cypher.repository.LoginAuditLogRepository loginAuditLogRepository,
+                          @org.springframework.beans.factory.annotation.Value("${cypher.rate-limit.max-attempts}") int maxAttempts) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = passwordEncoder;
+        this.rateLimitService = rateLimitService;
+        this.loginAuditLogRepository = loginAuditLogRepository;
+        this.maxAttempts = maxAttempts;
     }
 
     @PostMapping("/register")
@@ -44,17 +57,41 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest request) {
-        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
+    public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest request, jakarta.servlet.http.HttpServletRequest httpRequest) {
+        String ipAddress = httpRequest.getRemoteAddr();
+        String userAgent = httpRequest.getHeader("User-Agent");
+        String email = request.getEmail();
+
+        long ipAttempts = rateLimitService.checkAndIncrement(ipAddress);
+        long emailAttempts = rateLimitService.checkAndIncrement(email);
+
+        if (ipAttempts > maxAttempts || emailAttempts > maxAttempts) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+        }
+
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         
+        com.augustopugliano.cypher.model.LoginAuditLog auditLog = new com.augustopugliano.cypher.model.LoginAuditLog();
+        auditLog.setIpAddress(ipAddress);
+        auditLog.setUserAgent(userAgent);
+
         if (optionalUser.isEmpty()) {
+            auditLog.setSuccess(false);
+            loginAuditLogRepository.save(auditLog);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         User user = optionalUser.get();
+        auditLog.setUserId(user.getId());
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+            auditLog.setSuccess(false);
+            loginAuditLogRepository.save(auditLog);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        auditLog.setSuccess(true);
+        loginAuditLogRepository.save(auditLog);
 
         String accessToken = jwtService.generateToken(user);
         com.augustopugliano.cypher.service.RefreshTokenService.TokenPair pair = refreshTokenService.generateAndSaveRefreshToken(user);
