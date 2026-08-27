@@ -30,6 +30,8 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final com.augustopugliano.cypher.service.RateLimitService rateLimitService;
     private final com.augustopugliano.cypher.repository.LoginAuditLogRepository loginAuditLogRepository;
+    private final com.augustopugliano.cypher.service.AnomalyDetectionService anomalyDetectionService;
+    private final com.augustopugliano.cypher.service.LlmExplanationService llmExplanationService;
     private final int maxAttempts;
 
     public AuthController(UserService userService, 
@@ -39,6 +41,8 @@ public class AuthController {
                           PasswordEncoder passwordEncoder,
                           com.augustopugliano.cypher.service.RateLimitService rateLimitService,
                           com.augustopugliano.cypher.repository.LoginAuditLogRepository loginAuditLogRepository,
+                          com.augustopugliano.cypher.service.AnomalyDetectionService anomalyDetectionService,
+                          com.augustopugliano.cypher.service.LlmExplanationService llmExplanationService,
                           @org.springframework.beans.factory.annotation.Value("${cypher.rate-limit.max-attempts}") int maxAttempts) {
         this.userService = userService;
         this.userRepository = userRepository;
@@ -47,6 +51,8 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
         this.rateLimitService = rateLimitService;
         this.loginAuditLogRepository = loginAuditLogRepository;
+        this.anomalyDetectionService = anomalyDetectionService;
+        this.llmExplanationService = llmExplanationService;
         this.maxAttempts = maxAttempts;
     }
 
@@ -91,6 +97,16 @@ public class AuthController {
         }
 
         auditLog.setSuccess(true);
+        
+        com.augustopugliano.cypher.dto.AnomalyResult anomaly = anomalyDetectionService.evaluate(user.getId(), ipAddress);
+        if (anomaly.isAnomaly()) {
+            auditLog.setAnomalyFlag(true);
+            String explanation = llmExplanationService.explainAnomaly(anomaly);
+            auditLog.setAnomalyExplanation(explanation);
+        } else {
+            auditLog.setAnomalyFlag(false);
+        }
+
         loginAuditLogRepository.save(auditLog);
 
         rateLimitService.reset(ipAddress);
