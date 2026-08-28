@@ -4,9 +4,12 @@ import com.augustopugliano.cypher.dto.GeoLocation;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CityResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -14,19 +17,36 @@ import java.net.InetAddress;
 @Service
 public class GeoLocationService {
 
+    private static final Logger logger = LoggerFactory.getLogger(GeoLocationService.class);
     private DatabaseReader dbReader;
+    private final String dbPath;
+
+    public GeoLocationService(@org.springframework.beans.factory.annotation.Value("${cypher.geoip.db-path}") String dbPath) {
+        this.dbPath = dbPath;
+    }
 
     @PostConstruct
     public void init() {
         try {
-            File database = new File("secrets/GeoLite2-City.mmdb");
+            File database = new File(dbPath);
             if (database.exists()) {
                 dbReader = new DatabaseReader.Builder(database).build();
             } else {
-                System.err.println("GeoLite2-City.mmdb not found in secrets directory!");
+                logger.error("GeoIP database not found at {}", dbPath);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error initializing GeoIP database reader", e);
+        }
+    }
+
+    @PreDestroy
+    public void cleanup() {
+        if (dbReader != null) {
+            try {
+                dbReader.close();
+            } catch (IOException e) {
+                logger.error("Error closing GeoIP database reader", e);
+            }
         }
     }
 
@@ -56,7 +76,7 @@ public class GeoLocationService {
         } catch (AddressNotFoundException e) {
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error resolving IP address: {}", ipAddress, e);
         }
 
         return null;

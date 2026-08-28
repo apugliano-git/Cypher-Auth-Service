@@ -24,36 +24,18 @@ import java.util.Optional;
 public class AuthController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
-    private final JwtService jwtService;
+    private final com.augustopugliano.cypher.service.LoginService loginService;
     private final com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService;
-    private final PasswordEncoder passwordEncoder;
-    private final com.augustopugliano.cypher.service.RateLimitService rateLimitService;
-    private final com.augustopugliano.cypher.repository.LoginAuditLogRepository loginAuditLogRepository;
-    private final com.augustopugliano.cypher.service.AnomalyDetectionService anomalyDetectionService;
-    private final com.augustopugliano.cypher.service.LlmExplanationService llmExplanationService;
-    private final int maxAttempts;
+    private final JwtService jwtService;
 
     public AuthController(UserService userService, 
-                          UserRepository userRepository, 
-                          JwtService jwtService, 
-                          com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService, 
-                          PasswordEncoder passwordEncoder,
-                          com.augustopugliano.cypher.service.RateLimitService rateLimitService,
-                          com.augustopugliano.cypher.repository.LoginAuditLogRepository loginAuditLogRepository,
-                          com.augustopugliano.cypher.service.AnomalyDetectionService anomalyDetectionService,
-                          com.augustopugliano.cypher.service.LlmExplanationService llmExplanationService,
-                          @org.springframework.beans.factory.annotation.Value("${cypher.rate-limit.max-attempts}") int maxAttempts) {
+                          com.augustopugliano.cypher.service.LoginService loginService, 
+                          com.augustopugliano.cypher.service.RefreshTokenService refreshTokenService,
+                          JwtService jwtService) {
         this.userService = userService;
-        this.userRepository = userRepository;
-        this.jwtService = jwtService;
+        this.loginService = loginService;
         this.refreshTokenService = refreshTokenService;
-        this.passwordEncoder = passwordEncoder;
-        this.rateLimitService = rateLimitService;
-        this.loginAuditLogRepository = loginAuditLogRepository;
-        this.anomalyDetectionService = anomalyDetectionService;
-        this.llmExplanationService = llmExplanationService;
-        this.maxAttempts = maxAttempts;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/register")
@@ -66,55 +48,9 @@ public class AuthController {
     public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest request, jakarta.servlet.http.HttpServletRequest httpRequest) {
         String ipAddress = httpRequest.getRemoteAddr();
         String userAgent = httpRequest.getHeader("User-Agent");
-        String email = request.getEmail();
-
-        long ipAttempts = rateLimitService.checkAndIncrement(ipAddress);
-        long emailAttempts = rateLimitService.checkAndIncrement(email);
-
-        if (ipAttempts > maxAttempts || emailAttempts > maxAttempts) {
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
-        }
-
-        Optional<User> optionalUser = userRepository.findByEmail(email);
         
-        com.augustopugliano.cypher.model.LoginAuditLog auditLog = new com.augustopugliano.cypher.model.LoginAuditLog();
-        auditLog.setIpAddress(ipAddress);
-        auditLog.setUserAgent(userAgent);
-
-        if (optionalUser.isEmpty()) {
-            auditLog.setSuccess(false);
-            loginAuditLogRepository.save(auditLog);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        User user = optionalUser.get();
-        auditLog.setUserId(user.getId());
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-            auditLog.setSuccess(false);
-            loginAuditLogRepository.save(auditLog);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        auditLog.setSuccess(true);
-        
-        com.augustopugliano.cypher.dto.AnomalyResult anomaly = anomalyDetectionService.evaluate(user.getId(), ipAddress);
-        if (anomaly.isAnomaly()) {
-            auditLog.setAnomalyFlag(true);
-            String explanation = llmExplanationService.explainAnomaly(anomaly);
-            auditLog.setAnomalyExplanation(explanation);
-        } else {
-            auditLog.setAnomalyFlag(false);
-        }
-
-        loginAuditLogRepository.save(auditLog);
-
-        rateLimitService.reset(ipAddress);
-        rateLimitService.reset(email);
-
-        String accessToken = jwtService.generateToken(user);
-        com.augustopugliano.cypher.service.RefreshTokenService.TokenPair pair = refreshTokenService.generateAndSaveRefreshToken(user);
-        return ResponseEntity.ok(new TokenResponse(accessToken, pair.rawToken(), jwtService.getExpirationSeconds()));
+        TokenResponse response = loginService.performLogin(request, ipAddress, userAgent);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/refresh")

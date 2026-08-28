@@ -1,28 +1,40 @@
 package com.augustopugliano.cypher.service;
 
 import com.augustopugliano.cypher.dto.AnomalyResult;
+import com.augustopugliano.cypher.model.LoginAuditLog;
+import com.augustopugliano.cypher.repository.LoginAuditLogRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class LlmExplanationService {
 
+    private static final Logger logger = LoggerFactory.getLogger(LlmExplanationService.class);
     private final RestClient restClient;
+    private final LoginAuditLogRepository loginAuditLogRepository;
 
-    public LlmExplanationService(@Value("${cypher.anthropic.api-key:}") String apiKey) {
+    public LlmExplanationService(
+            @Value("${cypher.anthropic.api-key:}") String apiKey,
+            LoginAuditLogRepository loginAuditLogRepository) {
         this.restClient = RestClient.builder()
                 .baseUrl("https://api.anthropic.com/v1/messages")
                 .defaultHeader("x-api-key", apiKey)
                 .defaultHeader("anthropic-version", "2023-06-01")
                 .defaultHeader("content-type", "application/json")
                 .build();
+        this.loginAuditLogRepository = loginAuditLogRepository;
     }
 
-    public String explainAnomaly(AnomalyResult anomaly) {
-        if (anomaly == null || !anomaly.isAnomaly()) return null;
+    @Async
+    public void explainAnomalyAsync(Long auditLogId, AnomalyResult anomaly) {
+        if (anomaly == null || !anomaly.isAnomaly()) return;
 
         String prevLoc = anomaly.prevGeo().city() + ", " + anomaly.prevGeo().country();
         String currLoc = anomaly.currGeo().city() + ", " + anomaly.currGeo().country();
@@ -38,23 +50,33 @@ public class LlmExplanationService {
                 )
         );
 
+        String explanation;
         try {
-            Map response = restClient.post()
+            Map<String, Object> response = restClient.post()
                     .body(requestBody)
                     .retrieve()
-                    .body(Map.class);
+                    .body(new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {});
 
             if (response != null && response.containsKey("content")) {
+                @SuppressWarnings("unchecked")
                 List<Map<String, Object>> content = (List<Map<String, Object>>) response.get("content");
                 if (!content.isEmpty()) {
-                    return (String) content.get(0).get("text");
+                    explanation = (String) content.get(0).get("text");
+                } else {
+                    explanation = "Explicación no disponible.";
                 }
+            } else {
+                explanation = "Explicación no disponible.";
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            return "No se pudo generar la explicación debido a un error de conexión con el LLM.";
+            logger.error("Error calling Anthropic API for anomaly explanation", e);
+            explanation = "No se pudo generar la explicación debido a un error de conexión con el LLM.";
         }
 
-        return "Explicación no disponible.";
+        String finalExplanation = explanation;
+        loginAuditLogRepository.findById(auditLogId).ifPresent(auditLog -> {
+            auditLog.setAnomalyExplanation(finalExplanation);
+            loginAuditLogRepository.save(auditLog);
+        });
     }
 }

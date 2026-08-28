@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "login_audit_log")
+@Table(name = "login_audit_log", indexes = {
+    @Index(name = "idx_login_audit_user_success_time", columnList = "user_id, success, created_at")
+})
 public class LoginAuditLog {
 
     @Id
