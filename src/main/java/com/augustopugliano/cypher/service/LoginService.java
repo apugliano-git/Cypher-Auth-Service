@@ -1,5 +1,6 @@
 package com.augustopugliano.cypher.service;
 
+import com.augustopugliano.cypher.dto.AnomalyResult;
 import com.augustopugliano.cypher.dto.LoginRequest;
 import com.augustopugliano.cypher.dto.TokenResponse;
 import com.augustopugliano.cypher.model.LoginAuditLog;
@@ -81,7 +82,7 @@ public class LoginService {
 
         auditLog.setSuccess(true);
         
-        com.augustopugliano.cypher.dto.AnomalyResult anomaly = anomalyDetectionService.evaluate(user.getId(), ipAddress);
+        AnomalyResult anomaly = anomalyDetectionService.evaluate(user.getId(), ipAddress);
         if (anomaly.isAnomaly()) {
             auditLog.setAnomalyFlag(true);
         } else {
