@@ -169,12 +169,12 @@ Retrieves identity information for the authenticated user.
    Edit `.env` with your preferred passwords and optional Anthropic API key:
    ```env
    DB_PASSWORD=your_secure_db_password
-   KEYSTORE_PASSWORD=changeit
+   KEYSTORE_PASSWORD=replace_with_a_unique_keystore_password
    ANTHROPIC_API_KEY=your_anthropic_api_key_optional
    ```
 
 3. **Verify Required Secrets:**
-   Ensure the following binary assets exist in the `secrets/` directory:
+   Ensure the following binary assets exist in the `secrets/` directory. Keep `.env` and this directory readable only by the service account (`chmod 600 .env secrets/cypher-keystore.p12`); never commit either one. If the keystore or its password may have been exposed, generate a new key pair, deploy its JWKS key alongside the old one during the transition, then retire the old key.
    - `secrets/cypher-keystore.p12` (PKCS12 RSA Keystore)
    - `secrets/GeoLite2-City.mmdb` (MaxMind GeoLite2 Database)
 
@@ -183,8 +183,8 @@ Retrieves identity information for the authenticated user.
    docker compose up -d --build
    ```
    This will spin up:
-   - **PostgreSQL 16** on port `5433` (internal `5432`)
-   - **Redis 7** on port `6380` (internal `6379`)
+   - **PostgreSQL 16** on local port `5433` (internal `5432`)
+   - **Redis 7**, internal to the Docker network only
    - **Cypher Auth Service** on port `8080`
 
 5. **Verify Service Health:**
@@ -199,7 +199,8 @@ Retrieves identity information for the authenticated user.
 Cypher includes an end-to-end integration test suite that leverages **Testcontainers** to spin up dedicated PostgreSQL and Redis containers automatically:
 
 ```bash
-./mvnw test
+set -a && . ./.env && set +a
+KEYSTORE_PATH="$PWD/secrets/cypher-keystore.p12" GEOIP_DB_PATH="$PWD/secrets/GeoLite2-City.mmdb" ./mvnw test
 ```
 
 ---

@@ -65,7 +65,7 @@ public class RefreshTokenService {
     @Transactional
     public RotationResult processRefresh(String rawRefreshToken) {
         String tokenHash = hashToken(rawRefreshToken);
-        RefreshToken refreshToken = refreshTokenRepository.findByTokenHash(tokenHash)
+        RefreshToken refreshToken = refreshTokenRepository.findWithLockByTokenHash(tokenHash)
                 .orElseThrow(() -> new com.augustopugliano.cypher.exception.TokenRefreshException("Invalid refresh token"));
 
         if (refreshToken.isRevoked() || refreshToken.getExpiresAt().isBefore(Instant.now())) {

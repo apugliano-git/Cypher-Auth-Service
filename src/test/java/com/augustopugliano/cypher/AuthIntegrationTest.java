@@ -2,6 +2,7 @@ package com.augustopugliano.cypher;
 
 import com.augustopugliano.cypher.dto.LoginRequest;
 import com.augustopugliano.cypher.dto.RegisterRequest;
+import com.augustopugliano.cypher.dto.RefreshRequest;
 import com.augustopugliano.cypher.dto.TokenResponse;
 import com.augustopugliano.cypher.model.User;
 import com.augustopugliano.cypher.repository.UserRepository;
@@ -24,6 +25,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,9 +51,10 @@ public class AuthIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
         registry.add("spring.data.redis.host", redis::getHost);
         registry.add("spring.data.redis.port", redis::getFirstMappedPort);
-        registry.add("cypher.jwt.keystore.location", () -> "file:secrets/cypher-keystore.p12");
-        registry.add("cypher.jwt.keystore.password", () -> "changeit");
-        registry.add("cypher.geoip.db-path", () -> "secrets/GeoLite2-City.mmdb");
+        registry.add("cypher.jwt.keystore.location", () -> "file:" + System.getenv("KEYSTORE_PATH"));
+        registry.add("cypher.jwt.keystore.password", () -> System.getenv("KEYSTORE_PASSWORD"));
+        registry.add("cypher.geoip.db-path", () -> System.getenv("GEOIP_DB_PATH"));
+        registry.add("spring.sql.init.mode", () -> "always");
     }
 
     @LocalServerPort
@@ -135,5 +140,57 @@ public class AuthIntegrationTest {
         // 6th attempt should be blocked
         ResponseEntity<String> rateLimitedRes = restTemplate.postForEntity(url("/auth/login"), loginRequest, String.class);
         assertThat(rateLimitedRes.getStatusCode()).isEqualTo(HttpStatus.TOO_MANY_REQUESTS);
+    }
+
+    @Test
+    void shouldRateLimitRegistrationsByIp() {
+        for (int i = 0; i < 5; i++) {
+            RegisterRequest request = new RegisterRequest();
+            request.setEmail("register" + i + "@example.com");
+            request.setPassword("LongPassword123!");
+            assertThat(restTemplate.postForEntity(url("/auth/register"), request, Void.class).getStatusCode())
+                    .isEqualTo(HttpStatus.CREATED);
+        }
+
+        RegisterRequest request = new RegisterRequest();
+        request.setEmail("blocked@example.com");
+        request.setPassword("LongPassword123!");
+        assertThat(restTemplate.postForEntity(url("/auth/register"), request, String.class).getStatusCode())
+                .isEqualTo(HttpStatus.TOO_MANY_REQUESTS);
+    }
+
+    @Test
+    void shouldConsumeRefreshTokenOnlyOnceWhenRequestsRace() throws Exception {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setEmail("refresh@example.com");
+        registerRequest.setPassword("LongPassword123!");
+        restTemplate.postForEntity(url("/auth/register"), registerRequest, Void.class);
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("refresh@example.com");
+        loginRequest.setPassword("LongPassword123!");
+        String refreshToken = restTemplate.postForEntity(url("/auth/login"), loginRequest, TokenResponse.class)
+                .getBody().getRefresh_token();
+
+        CountDownLatch start = new CountDownLatch(1);
+        CompletableFuture<ResponseEntity<TokenResponse>> first = CompletableFuture.supplyAsync(() -> refresh(start, refreshToken));
+        CompletableFuture<ResponseEntity<TokenResponse>> second = CompletableFuture.supplyAsync(() -> refresh(start, refreshToken));
+        start.countDown();
+
+        ResponseEntity<TokenResponse> firstResponse = first.get(10, TimeUnit.SECONDS);
+        ResponseEntity<TokenResponse> secondResponse = second.get(10, TimeUnit.SECONDS);
+        assertThat(firstResponse.getStatusCode().is2xxSuccessful() ^ secondResponse.getStatusCode().is2xxSuccessful()).isTrue();
+    }
+
+    private ResponseEntity<TokenResponse> refresh(CountDownLatch start, String token) {
+        try {
+            start.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException(e);
+        }
+        RefreshRequest request = new RefreshRequest();
+        request.setRefresh_token(token);
+        return restTemplate.postForEntity(url("/auth/refresh"), request, TokenResponse.class);
     }
 }

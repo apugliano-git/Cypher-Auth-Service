@@ -20,7 +20,11 @@ public class RateLimitService {
     }
 
     public long checkAndIncrement(String key) {
-        String redisKey = "login_attempts:" + key;
+        return checkAndIncrement("login_attempts:", key);
+    }
+
+    public long checkAndIncrement(String namespace, String key) {
+        String redisKey = namespace + key;
         Long attempts = redisTemplate.opsForValue().increment(redisKey);
         
         if (attempts != null && attempts == 1) {
