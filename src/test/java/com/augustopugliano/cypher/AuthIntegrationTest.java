@@ -48,7 +48,7 @@ public class AuthIntegrationTest {
         registry.add("spring.data.redis.host", redis::getHost);
         registry.add("spring.data.redis.port", redis::getFirstMappedPort);
         registry.add("cypher.jwt.keystore.location", () -> "file:secrets/cypher-keystore.p12");
-        registry.add("cypher.jwt.keystore.password", () -> "aPugliano1971"); // Local dev password
+        registry.add("cypher.jwt.keystore.password", () -> "changeit");
         registry.add("cypher.geoip.db-path", () -> "secrets/GeoLite2-City.mmdb");
     }
 

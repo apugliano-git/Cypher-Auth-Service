@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
@@ -18,7 +18,7 @@ services:
     image: redis:7
     container_name: cypher_redis
     ports:
-      - "6379:6379"
+      - "6380:6379"
     restart: unless-stopped
 
   cypher:

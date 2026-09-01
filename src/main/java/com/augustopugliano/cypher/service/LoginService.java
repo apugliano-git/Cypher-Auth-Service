@@ -92,10 +92,10 @@ public class LoginService {
         LoginAuditLog savedAudit = loginAuditLogRepository.save(auditLog);
         
         if (anomaly.isAnomaly()) {
-            // TODO: Si a futuro el método performLogin se anota con @Transactional, la llamada @Async
-            // podría causar una race condition donde el LLM intente leer el ID del audit log antes
-            // de que el transaction haga commit en la DB. En ese caso, habría que refactorizar usando 
-            // ApplicationEventPublisher y @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT).
+            // TODO: If performLogin is annotated with @Transactional in the future, the @Async call
+            // could cause a race condition where the LLM attempts to read the audit log ID before
+            // the transaction commits to the DB. In that case, refactor using 
+            // ApplicationEventPublisher and @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT).
             llmExplanationService.explainAnomalyAsync(savedAudit.getId(), anomaly);
         }
 

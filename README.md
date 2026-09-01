@@ -1,48 +1,247 @@
 # Cypher Auth Service
 
-Cypher es un servicio centralizado de identidad y autorización (OAuth2/OIDC) diseñado como un módulo base de seguridad reutilizable para múltiples proyectos personales. Su objetivo es unificar la autenticación y el control de acceso: emite y valida tokens JWT firmados asimétricamente, permitiendo que cualquier otra aplicación (cliente OIDC estándar) delegue el proceso de login en lugar de reimplementarlo desde cero. Es un proyecto de aprendizaje continuo donde cada pieza se construyó primero entendiendo los fundamentos conceptuales de la seguridad en sistemas distribuidos antes de escribir código.
+[![Java](https://img.shields.io/badge/Java-21-orange.svg?style=flat&logo=openjdk)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4%2B-brightgreen.svg?style=flat&logo=springboot)](https://spring.io/projects/spring-boot)
+[![Security](https://img.shields.io/badge/Spring%20Security-Argon2%20%2F%20RS256-blue.svg?style=flat&logo=springsecurity)](https://spring.io/projects/spring-security)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg?style=flat&logo=postgresql)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-7-red.svg?style=flat&logo=redis)](https://redis.io/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg?style=flat&logo=docker)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Tecnologías y Stack
+**Cypher** is a production-grade, centralized identity and authentication (OAuth2/OIDC compatible) microservice designed as a reusable security foundation for distributed systems and microservices architectures. 
 
-- **Java 21** & **Spring Boot 3**
-- **PostgreSQL 16**: Persistencia de usuarios y auditoría de accesos.
-- **Redis 7**: Contadores en memoria para Rate Limiting.
-- **MaxMind GeoLite2**: Resolución de IPs para detección de viajes imposibles.
-- **Anthropic Claude (LLM)**: Explicación de anomalías en lenguaje natural.
-- **Docker & Docker Compose**: Despliegue empaquetado y reproducible.
-- **Testcontainers**: Pruebas de integración con contenedores efímeros.
+It unifies authentication, token issuance, and access delegation across client applications using asymmetric cryptography (RS256) and standard JWKS. Cypher implements enterprise-level security patterns including sliding-window rate limiting, rotating refresh tokens, and real-time impossible-travel anomaly detection augmented with LLM-powered incident explanations.
 
-## Cómo Levantar el Proyecto (Docker Compose)
+---
 
-1. **Clonar el repositorio**:
+## Key Features
+
+- **Asymmetric JWT Signing (RS256 & JWKS)**: Tokens are signed using an RSA private key stored in a PKCS12 keystore. Downstream microservices verify tokens autonomously via the public `/.well-known/jwks.json` endpoint without sharing sensitive secrets.
+- **Rotating Refresh Tokens**: Mitigates token theft through single-use refresh tokens stored as SHA-256 hashes. Automatic invalidation and rotation occurs on each renewal.
+- **Redis-Backed Rate Limiting**: High-throughput sliding window rate limiting on login attempts per IP and account, neutralizing brute-force and credential-stuffing attacks.
+- **Impossible Travel Detection**: Computes geographical displacement and speed between consecutive logins using MaxMind GeoLite2. Speeds exceeding physical feasibility (>900 km/h) trigger security anomaly alerts.
+- **AI-Powered Threat Summaries**: Anomalous logins asynchronously trigger Anthropic Claude to generate concise, human-readable threat explanations stored in audit logs.
+- **State-of-the-Art Password Hashing**: Utilizes **Argon2id**, the winner of the Password Hashing Competition (PHC), for resistance against GPU/ASIC-assisted attacks.
+- **Ephemeral Integration Testing**: Comprehensive integration test suite using **Testcontainers** (spinning up isolated PostgreSQL and Redis containers).
+
+---
+
+## System Architecture
+
+```mermaid
+flowchart TD
+    Client[Client App / User] -->|1. POST /auth/login| Cypher[Cypher Auth Service]
+    
+    subgraph Security Layer
+        Cypher -->|Check Rate Limit| Redis[(Redis 7)]
+        Cypher -->|Verify Credentials Argon2| DB[(PostgreSQL 16)]
+        Cypher -->|Calculate Geo Distance| GeoIP[MaxMind GeoLite2]
+        Cypher -.->|Async Anomaly Explanation| Claude[Anthropic Claude LLM]
+    end
+    
+    Cypher -->|2. Issue RS256 JWT & Refresh Token| Client
+    
+    subgraph Downstream Services
+        Client -->|3. Bearer Token| Microservice[Resource Server / Microservice]
+        Microservice -->|Fetch Public Key| JWKS[GET /.well-known/jwks.json]
+    end
+```
+
+---
+
+## Tech Stack
+
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Language & Framework** | Java 21, Spring Boot 3 | Core application framework and modern runtime |
+| **Security & Auth** | Spring Security, JJWT, BouncyCastle | Security filters, Argon2 password hashing, RS256 JWT generation |
+| **Relational Database** | PostgreSQL 16, Spring Data JPA | Relational storage for users, refresh tokens, and login audit logs |
+| **In-Memory Store** | Redis 7, Spring Data Redis | High-speed atomic counters for rate limiting |
+| **Geolocation** | MaxMind GeoLite2 City | Offline binary database for IP-to-coordinates resolution |
+| **Artificial Intelligence** | Anthropic Claude API | Asynchronous LLM integration for security anomaly explanations |
+| **Containerization** | Docker, Docker Compose | Multi-stage reproducible container builds |
+| **Testing** | JUnit 5, AssertJ, Testcontainers | Automated integration testing with isolated containerized dependencies |
+
+---
+
+## Architectural Decisions & Design Patterns
+
+### 1. Asymmetric (RS256) vs. Symmetric (HS256) Tokens
+In microservices ecosystems, symmetric signing (HS256) requires every verifying service to share the same secret key. If a single service is compromised, the entire signing authority is lost. Cypher uses **RS256**: only Cypher holds the private key (inside `cypher-keystore.p12`), while resource servers fetch the public key via `/.well-known/jwks.json`.
+
+### 2. Single-Use Refresh Token Rotation
+Access tokens have a short lifespan (15 minutes). Refresh tokens are long-lived (7 days) but strictly single-use. When exchanged, the old refresh token is marked as revoked and replaced by a newly issued pair. Only SHA-256 hashes of refresh tokens are persisted to prevent token leakage from database backups.
+
+### 3. High-Performance Rate Limiting with Redis
+Login attempts are tracked in memory using Redis atomic operations (`INCR`, `EXPIRE`). This offloads transient counter writes from PostgreSQL and maintains millisecond-level response times during traffic spikes or distributed brute-force attacks.
+
+### 4. Non-Blocking Anomaly Detection (`@Async`)
+When a geographic jump is identified as impossible travel, calling an external LLM synchronously would degrade the login response latency. Cypher uses Spring's `@Async` worker pool to dispatch the LLM explanation request in the background, immediately returning the authentication token to the user and updating the audit log asynchronously.
+
+---
+
+## API Reference
+
+### Public Endpoints
+
+#### `POST /auth/register`
+Creates a new user account.
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "SecurePassword123!"
+  }
+  ```
+- **Response:** `201 Created`
+
+#### `POST /auth/login`
+Authenticates user credentials, evaluates rate limits, records audit metadata, and issues tokens.
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "SecurePassword123!"
+  }
+  ```
+- **Response:** `200 OK`
+  ```json
+  {
+    "access_token": "eyJhbGciOiJSUzI1NiIs...",
+    "refresh_token": "a8fbc730...",
+    "expires_in": 900
+  }
+  ```
+
+#### `POST /auth/refresh`
+Rotates a valid refresh token and issues a new access/refresh token pair.
+- **Request Body:**
+  ```json
+  {
+    "refresh_token": "a8fbc730..."
+  }
+  ```
+- **Response:** `200 OK`
+
+#### `GET /.well-known/jwks.json`
+Exposes the JSON Web Key Set containing public RSA keys for downstream signature verification.
+- **Response:** `200 OK`
+
+---
+
+### Protected Endpoints
+
+#### `GET /auth/me`
+Retrieves identity information for the authenticated user.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Response:** `200 OK`
+  ```json
+  {
+    "id": "c1f7b884-6e1d-4d92-9e9b-9c76251b32ea",
+    "email": "user@example.com",
+    "role": "USER"
+  }
+  ```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- **Java 21** or higher
+- **Docker** & **Docker Compose**
+- **Git**
+
+### Installation & Local Setup
+
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/apugliano-git/Cypher-Auth-Service
+   git clone https://github.com/apugliano-git/Cypher-Auth-Service.git
    cd Cypher_Auth_Service
    ```
 
-2. **Configurar el entorno**:
-   Copiá el archivo de ejemplo y completá las variables:
+2. **Configure Environment Variables:**
+   Copy the example environment configuration:
    ```bash
    cp .env.example .env
    ```
-   Asegurate de tener el keystore (`cypher-keystore.p12`) y la base de datos de MaxMind (`GeoLite2-City.mmdb`) en la carpeta `secrets/`.
-
-3. **Levantar los servicios**:
-   ```bash
-   docker compose up -d
+   Edit `.env` with your preferred passwords and optional Anthropic API key:
+   ```env
+   DB_PASSWORD=your_secure_db_password
+   KEYSTORE_PASSWORD=changeit
+   ANTHROPIC_API_KEY=your_anthropic_api_key_optional
    ```
-   Esto levantará `postgres`, `redis` y compilará la aplicación `cypher` usando un Dockerfile multi-stage, exponiéndola en el puerto `8080`.
 
-## Endpoints Disponibles
+3. **Verify Required Secrets:**
+   Ensure the following binary assets exist in the `secrets/` directory:
+   - `secrets/cypher-keystore.p12` (PKCS12 RSA Keystore)
+   - `secrets/GeoLite2-City.mmdb` (MaxMind GeoLite2 Database)
 
-- `POST /auth/register`: Registra un nuevo usuario (requiere `email` y `password` fuerte).
-- `POST /auth/login`: Autentica al usuario y devuelve JWTs (`access_token` y `refresh_token`). Posee protección de Rate Limit (max 5 intentos por ventana).
-- `POST /auth/refresh`: Intercambia un `refresh_token` válido por un nuevo par de tokens (Rotación).
-- `GET /auth/me`: Endpoint protegido que devuelve los datos del usuario actual (requiere header `Authorization: Bearer <access_token>`).
+4. **Launch with Docker Compose:**
+   ```bash
+   docker compose up -d --build
+   ```
+   This will spin up:
+   - **PostgreSQL 16** on port `5433` (internal `5432`)
+   - **Redis 7** on port `6380` (internal `6379`)
+   - **Cypher Auth Service** on port `8080`
 
-## Decisiones de Arquitectura
+5. **Verify Service Health:**
+   ```bash
+   curl http://localhost:8080/.well-known/jwks.json
+   ```
 
-- **Firmas Asimétricas (RS256) para JWT**: A diferencia de HS256, RS256 utiliza un par de claves (pública/privada). Esto permite que el servicio Cypher sea el único capaz de firmar tokens (con la clave privada guardada en su keystore), mientras que cualquier otro microservicio puede verificar la validez del token descargando solo la clave pública, sin riesgo de que la clave simétrica se filtre o comparta.
-- **Refresh Tokens Rotativos**: Los access tokens tienen un tiempo de expiración de 15 minutos para minimizar el impacto en caso de compromiso. Los refresh tokens tienen mayor duración, pero al ser utilizados se rotan (se emite uno nuevo y el anterior se invalida). Si un refresh token comprometido es reutilizado, la rotación permite detectar la anomalía y mitigar el acceso no autorizado.
-- **Rate Limiting con Redis**: En lugar de delegar el conteo de intentos fallidos de login por IP o Email a PostgreSQL, se utiliza Redis. Sus operaciones atómicas en memoria (`INCR`, `EXPIRE`) permiten limitar peticiones concurrentes con baja latencia.
-- **Detección de Anomalías Asíncrona**: La validación de salto geográfico delega la explicación en lenguaje natural a un LLM. Para evitar que la latencia del proveedor externo bloquee el tiempo de respuesta del Login, el llamado se realiza en un hilo secundario (`@Async`), actualizando el registro de auditoría posteriormente.
+---
+
+## Running Automated Tests
+
+Cypher includes an end-to-end integration test suite that leverages **Testcontainers** to spin up dedicated PostgreSQL and Redis containers automatically:
+
+```bash
+./mvnw test
+```
+
+---
+
+## Project Structure
+
+```
+├── .github/                       # CI/CD workflows and configurations
+├── secrets/                       # Local keystore and GeoLite2 database
+│   ├── GeoLite2-City.mmdb
+│   └── cypher-keystore.p12
+├── src/
+│   ├── main/
+│   │   ├── java/com/augustopugliano/cypher/
+│   │   │   ├── config/            # Security and filter configurations
+│   │   │   ├── controller/        # REST controllers (Auth, JWKS)
+│   │   │   ├── dto/               # Data Transfer Objects & Records
+│   │   │   ├── exception/         # Custom exception hierarchy
+│   │   │   ├── model/             # JPA Entities (User, RefreshToken, LoginAuditLog)
+│   │   │   ├── repository/        # Spring Data JPA Repositories
+│   │   │   ├── security/          # Security principal definitions
+│   │   │   └── service/           # Core domain logic (JWT, RateLimit, Anomaly, LLM)
+│   │   └── resources/
+│   │       └── application.properties
+│   └── test/                      # Testcontainers integration tests
+├── docker-compose.yml             # Container orchestration
+├── Dockerfile                     # Multi-stage container build
+├── pom.xml                        # Maven dependencies & build lifecycle
+├── LICENSE                        # MIT License
+└── README.md                      # Project documentation
+```
+
+---
+
+## License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Author
+
+**Augusto Pugliano**
+- GitHub: [@apugliano-git](https://github.com/apugliano-git)
+- Email: [apug2004@gmail.com](mailto:apug2004@gmail.com)

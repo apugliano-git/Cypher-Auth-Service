@@ -23,7 +23,7 @@ public class UserService {
     @Transactional
     public void register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistsException("El usuario con email " + request.getEmail() + " ya existe");
+            throw new UserAlreadyExistsException("User with email " + request.getEmail() + " already exists");
         }
 
         User user = new User();

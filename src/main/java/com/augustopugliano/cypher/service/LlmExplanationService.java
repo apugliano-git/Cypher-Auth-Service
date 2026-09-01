@@ -39,7 +39,7 @@ public class LlmExplanationService {
         String prevLoc = anomaly.prevGeo().city() + ", " + anomaly.prevGeo().country();
         String currLoc = anomaly.currGeo().city() + ", " + anomaly.currGeo().country();
         
-        String prompt = String.format("Explica brevemente (2 o 3 oraciones) por qué es sospechoso un inicio de sesión que saltó de %s a %s en %.2f horas a una velocidad estimada de %.2f km/h. Responde en español y de forma directa.",
+        String prompt = String.format("Briefly explain (in 2 to 3 sentences) why a login attempt that jumped from %s to %s in %.2f hours at an estimated speed of %.2f km/h is suspicious. Respond in English and be direct.",
                 prevLoc, currLoc, anomaly.hours(), anomaly.speedKmh());
 
         Map<String, Object> requestBody = Map.of(
@@ -63,14 +63,14 @@ public class LlmExplanationService {
                 if (!content.isEmpty()) {
                     explanation = (String) content.get(0).get("text");
                 } else {
-                    explanation = "Explicación no disponible.";
+                    explanation = "Explanation unavailable.";
                 }
             } else {
-                explanation = "Explicación no disponible.";
+                explanation = "Explanation unavailable.";
             }
         } catch (Exception e) {
             logger.error("Error calling Anthropic API for anomaly explanation", e);
-            explanation = "No se pudo generar la explicación debido a un error de conexión con el LLM.";
+            explanation = "Could not generate explanation due to a connection error with the LLM.";
         }
 
         String finalExplanation = explanation;
