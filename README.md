@@ -180,7 +180,7 @@ Retrieves identity information for the authenticated user.
 
 4. **Launch with Docker Compose:**
    ```bash
-   docker compose up -d --build
+   APP_UID=$(id -u) docker compose up -d --build
    ```
    This will spin up:
    - **PostgreSQL 16** on local port `5433` (internal `5432`)
@@ -199,8 +199,7 @@ Retrieves identity information for the authenticated user.
 Cypher includes an end-to-end integration test suite that leverages **Testcontainers** to spin up dedicated PostgreSQL and Redis containers automatically:
 
 ```bash
-set -a && . ./.env && set +a
-KEYSTORE_PATH="$PWD/secrets/cypher-keystore.p12" GEOIP_DB_PATH="$PWD/secrets/GeoLite2-City.mmdb" ./mvnw test
+./mvnw test
 ```
 
 ---

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16
@@ -20,8 +18,12 @@ services:
     restart: unless-stopped
 
   cypher:
-    build: .
+    build:
+      context: .
+      args:
+        APP_UID: ${APP_UID:-1000}
     container_name: cypher_app
+    user: "${APP_UID:-1000}:${APP_UID:-1000}"
     depends_on:
       - postgres
       - redis

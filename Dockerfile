@@ -5,9 +5,10 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
+ARG APP_UID=1000
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-RUN addgroup -S cypher && adduser -S cypher -G cypher
+RUN addgroup -S -g "$APP_UID" cypher && adduser -S -D -H -u "$APP_UID" -G cypher cypher
 USER cypher
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

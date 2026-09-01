@@ -25,15 +25,21 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 public class AuthIntegrationTest {
+
+    private static final String TEST_KEYSTORE_PASSWORD = UUID.randomUUID().toString();
+    private static final Path TEST_KEYSTORE = createTestKeystore();
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16")
@@ -51,9 +57,9 @@ public class AuthIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
         registry.add("spring.data.redis.host", redis::getHost);
         registry.add("spring.data.redis.port", redis::getFirstMappedPort);
-        registry.add("cypher.jwt.keystore.location", () -> "file:" + System.getenv("KEYSTORE_PATH"));
-        registry.add("cypher.jwt.keystore.password", () -> System.getenv("KEYSTORE_PASSWORD"));
-        registry.add("cypher.geoip.db-path", () -> System.getenv("GEOIP_DB_PATH"));
+        registry.add("cypher.jwt.keystore.location", () -> "file:" + TEST_KEYSTORE);
+        registry.add("cypher.jwt.keystore.password", () -> TEST_KEYSTORE_PASSWORD);
+        registry.add("cypher.geoip.db-path", () -> "missing-test-geoip.mmdb");
         registry.add("spring.sql.init.mode", () -> "always");
     }
 
@@ -192,5 +198,25 @@ public class AuthIntegrationTest {
         RefreshRequest request = new RefreshRequest();
         request.setRefresh_token(token);
         return restTemplate.postForEntity(url("/auth/refresh"), request, TokenResponse.class);
+    }
+
+    private static Path createTestKeystore() {
+        try {
+            Path path = Files.createTempFile("cypher-test-", ".p12");
+            Files.delete(path);
+            Process process = new ProcessBuilder(
+                    "keytool", "-genkeypair", "-alias", "cypher-key", "-keyalg", "RSA", "-keysize", "2048",
+                    "-storetype", "PKCS12", "-keystore", path.toString(), "-storepass", TEST_KEYSTORE_PASSWORD,
+                    "-keypass", TEST_KEYSTORE_PASSWORD, "-dname", "CN=Cypher Test", "-validity", "1", "-noprompt")
+                    .redirectErrorStream(true)
+                    .start();
+            if (process.waitFor() != 0) {
+                throw new IllegalStateException("Could not create test keystore");
+            }
+            path.toFile().deleteOnExit();
+            return path;
+        } catch (Exception e) {
+            throw new ExceptionInInitializerError(e);
+        }
     }
 }
