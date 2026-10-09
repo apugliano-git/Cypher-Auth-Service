@@ -1,0 +1,26 @@
+name: Cypher tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: ./mvnw -B clean verify
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: synthetic-test-evidence
+          path: |
+            target/surefire-reports/
+            target/security-load.json
+            target/security-load-driver.log
+            target/security-sustained.json
+            target/security-sustained-driver.log

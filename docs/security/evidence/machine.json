@@ -1,0 +1,16 @@
+{
+  "logical_cpus": 8,
+  "cpu_model": "Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz",
+  "memory": {
+    "MemTotal": "16022248 kB",
+    "MemAvailable": "6702968 kB",
+    "SwapTotal": "2097148 kB",
+    "SwapFree": "992188 kB"
+  },
+  "kernel": "7.0.0-34-generic",
+  "python": "3.12.3",
+  "jdk": "Temurin 21.0.3",
+  "maven": "3.9.16",
+  "docker": "29.8.1",
+  "timestamp": "2026-10-08"
+}

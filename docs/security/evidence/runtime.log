@@ -1,0 +1,10 @@
+1000
+openjdk version "21.0.12.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)
+libpng: Portable Network Graphics library
+libpng: http://www.libpng.org
+libpng: 181 KiB
+zlib: A compression/decompression Library
+zlib: https://zlib.net/
+zlib: 105 KiB

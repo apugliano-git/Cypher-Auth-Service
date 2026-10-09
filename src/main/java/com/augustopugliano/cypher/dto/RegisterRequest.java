@@ -8,6 +8,7 @@ public class RegisterRequest {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
+    @Size(max = 255)
     private String email;
 
     @NotBlank(message = "Password is required")

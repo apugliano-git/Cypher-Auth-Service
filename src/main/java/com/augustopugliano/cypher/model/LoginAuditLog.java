@@ -29,7 +29,7 @@ public class LoginAuditLog {
     @Column(name = "anomaly_flag")
     private Boolean anomalyFlag;
 
-    @Column(name = "anomaly_explanation")
+    @Column(name = "anomaly_explanation", length = 2000)
     private String anomalyExplanation;
 
     @Column(name = "created_at", nullable = false, updatable = false)

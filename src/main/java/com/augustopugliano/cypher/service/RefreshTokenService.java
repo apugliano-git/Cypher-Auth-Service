@@ -21,16 +21,20 @@ public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final SecureRandom secureRandom;
     private final int refreshExpirationDays;
+    private final JwtService jwtService;
+    private final java.time.Clock clock;
 
     public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, 
-            @org.springframework.beans.factory.annotation.Value("${cypher.jwt.refresh.expiration-days:7}") int refreshExpirationDays) {
+            @org.springframework.beans.factory.annotation.Value("${cypher.jwt.refresh.expiration-days:7}") int refreshExpirationDays, JwtService jwtService, java.time.Clock clock) {
+        this.jwtService = jwtService; this.clock = clock;
+        if (refreshExpirationDays < 1 || refreshExpirationDays > 7) throw new IllegalArgumentException("Invalid refresh lifetime");
         this.refreshTokenRepository = refreshTokenRepository;
         this.secureRandom = new SecureRandom();
         this.refreshExpirationDays = refreshExpirationDays;
     }
 
     public record TokenPair(RefreshToken entity, String rawToken) {}
-    public record RotationResult(User user, String newRawToken) {}
+    public record RotationResult(String accessToken, String newRawToken) {}
 
     @Transactional
     public TokenPair generateAndSaveRefreshToken(User user) {
@@ -43,8 +47,8 @@ public class RefreshTokenService {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(user);
         refreshToken.setTokenHash(tokenHash);
-        refreshToken.setIssuedAt(Instant.now());
-        refreshToken.setExpiresAt(Instant.now().plus(refreshExpirationDays, ChronoUnit.DAYS));
+        refreshToken.setIssuedAt(clock.instant());
+        refreshToken.setExpiresAt(clock.instant().plus(refreshExpirationDays, ChronoUnit.DAYS));
         refreshToken.setRevoked(false);
 
         refreshTokenRepository.save(refreshToken);
@@ -68,7 +72,7 @@ public class RefreshTokenService {
         RefreshToken refreshToken = refreshTokenRepository.findWithLockByTokenHash(tokenHash)
                 .orElseThrow(() -> new com.augustopugliano.cypher.exception.TokenRefreshException("Invalid refresh token"));
 
-        if (refreshToken.isRevoked() || refreshToken.getExpiresAt().isBefore(Instant.now())) {
+        if (refreshToken.isRevoked() || !refreshToken.getExpiresAt().isAfter(clock.instant())) {
             throw new com.augustopugliano.cypher.exception.TokenRefreshException("Invalid or expired refresh token");
         }
 
@@ -77,9 +81,11 @@ public class RefreshTokenService {
         User user = refreshToken.getUser();
         TokenPair newPair = generateAndSaveRefreshToken(user);
 
+        newPair.entity().setExpiresAt(refreshToken.getExpiresAt());
+        String accessToken = jwtService.generateToken(user);
         refreshToken.setReplacedBy(newPair.entity().getId());
         refreshTokenRepository.save(refreshToken);
 
-        return new RotationResult(user, newPair.rawToken());
+        return new RotationResult(accessToken, newPair.rawToken());
     }
 }

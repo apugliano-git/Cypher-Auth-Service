@@ -19,13 +19,18 @@ public class SecurityConfig {
     }
 
     @Bean
+    public static java.time.Clock clock() { return java.time.Clock.systemUTC(); }
+
+    @Bean
     public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder() {
-        return org.springframework.security.crypto.argon2.Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        return new org.springframework.security.crypto.argon2.Argon2PasswordEncoder(16, 32, 1, 19 * 1024, 2);
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .sessionManagement(s -> s.sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
+            .requestCache(AbstractHttpConfigurer::disable)
             .csrf(AbstractHttpConfigurer::disable)
             .exceptionHandling(e -> e
                 .authenticationEntryPoint(new org.springframework.security.web.authentication.HttpStatusEntryPoint(org.springframework.http.HttpStatus.UNAUTHORIZED))

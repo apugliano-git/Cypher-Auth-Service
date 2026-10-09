@@ -1,0 +1,1524 @@
+{
+  "checked_at": "2026-10-09T03:47:08.077947+00:00",
+  "sources": {
+    "CVE-2026-76642": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-76642",
+      "status": "verified",
+      "vendor_tables": [
+        "util-linux ( PTS ) bookworm 2.38.1-5+deb12u3 vulnerable",
+        "bookworm (security) 2.38.1-5+deb12u1 vulnerable",
+        "trixie (security), trixie 2.41.5-0+deb13u1 vulnerable",
+        "forky, sid 2.42.4-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "util-linux source (unstable) 2.42.3-1"
+      ]
+    },
+    "CVE-2026-78408": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-78408",
+      "status": "verified",
+      "vendor_tables": [
+        "util-linux ( PTS ) bookworm 2.38.1-5+deb12u3 vulnerable",
+        "bookworm (security) 2.38.1-5+deb12u1 vulnerable",
+        "trixie (security), trixie 2.41.5-0+deb13u1 vulnerable",
+        "forky, sid 2.42.4-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "util-linux source (unstable) 2.42.4-1"
+      ]
+    },
+    "CVE-2026-78409": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-78409",
+      "status": "verified",
+      "vendor_tables": [
+        "util-linux ( PTS ) bookworm 2.38.1-5+deb12u3 vulnerable",
+        "bookworm (security) 2.38.1-5+deb12u1 vulnerable",
+        "trixie (security), trixie 2.41.5-0+deb13u1 vulnerable",
+        "forky, sid 2.42.4-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "util-linux source (unstable) 2.42.3-1"
+      ]
+    },
+    "CVE-2026-78410": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-78410",
+      "status": "verified",
+      "vendor_tables": [
+        "util-linux ( PTS ) bookworm 2.38.1-5+deb12u3 vulnerable",
+        "bookworm (security) 2.38.1-5+deb12u1 vulnerable",
+        "trixie (security), trixie 2.41.5-0+deb13u1 vulnerable",
+        "forky, sid 2.42.4-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "util-linux source (unstable) 2.42.3-1"
+      ]
+    },
+    "CVE-2026-24882": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-24882",
+      "status": "verified",
+      "vendor_tables": [
+        "gnupg2 ( PTS ) bookworm 2.2.40-1.1+deb12u2 fixed",
+        "trixie 2.4.7-21+deb13u1 vulnerable",
+        "forky, sid 2.4.9-7 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "gnupg2 source bookworm (not affected)",
+        "gnupg2 source (unstable) 2.4.9-4 1126631"
+      ]
+    },
+    "CVE-2026-54369": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-54369",
+      "status": "verified",
+      "vendor_tables": [
+        "acl ( PTS ) bookworm 2.3.1-3 vulnerable",
+        "trixie 2.3.2-2 vulnerable",
+        "forky, sid 2.4.0-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "acl source (unstable) 2.4.0-1 1141110"
+      ]
+    },
+    "CVE-2025-69720": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2025-69720",
+      "status": "verified",
+      "vendor_tables": [
+        "ncurses ( PTS ) bookworm 6.4-4 vulnerable",
+        "trixie 6.5+20250216-2 vulnerable",
+        "forky, sid 6.6+20260608-2 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "ncurses source (unstable) 6.6+20251231-1"
+      ]
+    },
+    "CVE-2026-9538": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-9538",
+      "status": "verified",
+      "vendor_tables": [
+        "perl ( PTS ) bookworm 5.36.0-7+deb12u3 vulnerable",
+        "bookworm (security) 5.36.0-7+deb12u4 vulnerable",
+        "trixie 5.40.1-6+deb13u1 vulnerable",
+        "forky, sid 5.42.3-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "perl source (unstable) 5.42.3-1 1138861"
+      ]
+    },
+    "CVE-2026-16742": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-16742",
+      "status": "verified",
+      "vendor_tables": [
+        "systemd ( PTS ) bookworm 252.39-1~deb12u2 vulnerable",
+        "bookworm (security) 252.38-1~deb12u1 vulnerable",
+        "trixie 257.13-1~deb13u1 vulnerable",
+        "forky, sid 262-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "systemd source (unstable) 261.2-1"
+      ]
+    },
+    "CVE-2026-6653": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-6653",
+      "status": "verified",
+      "vendor_tables": [
+        "libxml2 ( PTS ) bookworm 2.9.14+dfsg-1.3~deb12u6 vulnerable",
+        "bookworm (security) 2.9.14+dfsg-1.3~deb12u4 vulnerable",
+        "trixie 2.12.7+dfsg+really2.9.14-2.1+deb13u3 vulnerable",
+        "trixie (security) 2.12.7+dfsg+really2.9.14-2.1+deb13u1 vulnerable",
+        "forky, sid 2.15.4+dfsg-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "libxml2 source (unstable) 2.14.5+dfsg-0.1"
+      ]
+    },
+    "CVE-2026-74860": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-74860",
+      "status": "verified",
+      "vendor_tables": [
+        "libxml2 ( PTS ) bookworm 2.9.14+dfsg-1.3~deb12u6 vulnerable",
+        "bookworm (security) 2.9.14+dfsg-1.3~deb12u4 vulnerable",
+        "trixie 2.12.7+dfsg+really2.9.14-2.1+deb13u3 vulnerable",
+        "trixie (security) 2.12.7+dfsg+really2.9.14-2.1+deb13u1 vulnerable",
+        "forky, sid 2.15.4+dfsg-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "libxml2 source (unstable) 2.15.3+dfsg-1"
+      ]
+    },
+    "CVE-2026-86138": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-86138",
+      "status": "verified",
+      "vendor_tables": [
+        "libxml2 ( PTS ) bookworm 2.9.14+dfsg-1.3~deb12u6 vulnerable",
+        "bookworm (security) 2.9.14+dfsg-1.3~deb12u4 vulnerable",
+        "trixie 2.12.7+dfsg+really2.9.14-2.1+deb13u3 vulnerable",
+        "trixie (security) 2.12.7+dfsg+really2.9.14-2.1+deb13u1 vulnerable",
+        "forky, sid 2.15.4+dfsg-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "libxml2 source (unstable) 2.15.4+dfsg-1 1146744"
+      ]
+    },
+    "CVE-2026-86139": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-86139",
+      "status": "verified",
+      "vendor_tables": [
+        "libxml2 ( PTS ) bookworm 2.9.14+dfsg-1.3~deb12u6 fixed",
+        "bookworm (security) 2.9.14+dfsg-1.3~deb12u4 fixed",
+        "trixie 2.12.7+dfsg+really2.9.14-2.1+deb13u3 vulnerable",
+        "trixie (security) 2.12.7+dfsg+really2.9.14-2.1+deb13u1 vulnerable",
+        "forky, sid 2.15.4+dfsg-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "libxml2 source bookworm (not affected)",
+        "libxml2 source (unstable) 2.15.4+dfsg-1 1146744"
+      ]
+    },
+    "CVE-2026-86140": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-86140",
+      "status": "verified",
+      "vendor_tables": [
+        "libxml2 ( PTS ) bookworm 2.9.14+dfsg-1.3~deb12u6 vulnerable",
+        "bookworm (security) 2.9.14+dfsg-1.3~deb12u4 vulnerable",
+        "trixie 2.12.7+dfsg+really2.9.14-2.1+deb13u3 vulnerable",
+        "trixie (security) 2.12.7+dfsg+really2.9.14-2.1+deb13u1 vulnerable",
+        "forky, sid 2.15.4+dfsg-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "libxml2 source (unstable) 2.15.4+dfsg-1 1146744"
+      ]
+    },
+    "CVE-2026-86142": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-86142",
+      "status": "verified",
+      "vendor_tables": [
+        "libxml2 ( PTS ) bookworm 2.9.14+dfsg-1.3~deb12u6 vulnerable",
+        "bookworm (security) 2.9.14+dfsg-1.3~deb12u4 vulnerable",
+        "trixie 2.12.7+dfsg+really2.9.14-2.1+deb13u3 vulnerable",
+        "trixie (security) 2.12.7+dfsg+really2.9.14-2.1+deb13u1 vulnerable",
+        "forky, sid 2.15.4+dfsg-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "libxml2 source (unstable) 2.15.4+dfsg-1 1146744"
+      ]
+    },
+    "CVE-2026-86143": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-86143",
+      "status": "verified",
+      "vendor_tables": [
+        "libxml2 ( PTS ) bookworm 2.9.14+dfsg-1.3~deb12u6 vulnerable",
+        "bookworm (security) 2.9.14+dfsg-1.3~deb12u4 vulnerable",
+        "trixie 2.12.7+dfsg+really2.9.14-2.1+deb13u3 vulnerable",
+        "trixie (security) 2.12.7+dfsg+really2.9.14-2.1+deb13u1 vulnerable",
+        "forky, sid 2.15.4+dfsg-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "libxml2 source (unstable) 2.15.4+dfsg-1 1146744"
+      ]
+    },
+    "CVE-2026-86144": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-86144",
+      "status": "verified",
+      "vendor_tables": [
+        "libxml2 ( PTS ) bookworm 2.9.14+dfsg-1.3~deb12u6 vulnerable",
+        "bookworm (security) 2.9.14+dfsg-1.3~deb12u4 vulnerable",
+        "trixie 2.12.7+dfsg+really2.9.14-2.1+deb13u3 vulnerable",
+        "trixie (security) 2.12.7+dfsg+really2.9.14-2.1+deb13u1 vulnerable",
+        "forky, sid 2.15.4+dfsg-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "libxml2 source (unstable) 2.15.4+dfsg-1 1146744"
+      ]
+    },
+    "CVE-2025-68121": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4337.json",
+      "status": "verified",
+      "id": "GO-2026-4337",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.24.13"
+                },
+                {
+                  "introduced": "1.25.0-0"
+                },
+                {
+                  "fixed": "1.25.7"
+                },
+                {
+                  "introduced": "1.26.0-rc.1"
+                },
+                {
+                  "fixed": "1.26.0-rc.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "crypto/tls",
+                "symbols": [
+                  "Conn.Handshake",
+                  "Conn.HandshakeContext",
+                  "Conn.Read",
+                  "Conn.Write",
+                  "Conn.handshakeContext",
+                  "Dial",
+                  "DialWithDialer",
+                  "Dialer.Dial",
+                  "Dialer.DialContext",
+                  "QUICConn.Start"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-02-05T17:23:09Z"
+    },
+    "CVE-2025-61726": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4341.json",
+      "status": "verified",
+      "id": "GO-2026-4341",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.24.12"
+                },
+                {
+                  "introduced": "1.25.0"
+                },
+                {
+                  "fixed": "1.25.6"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net/url",
+                "symbols": [
+                  "ParseQuery",
+                  "URL.Query",
+                  "parseQuery"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-01-28T19:08:18Z"
+    },
+    "CVE-2025-61729": {
+      "url": "https://vuln.go.dev/ID/GO-2025-4155.json",
+      "status": "verified",
+      "id": "GO-2025-4155",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.24.11"
+                },
+                {
+                  "introduced": "1.25.0"
+                },
+                {
+                  "fixed": "1.25.5"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "crypto/x509",
+                "symbols": [
+                  "Certificate.Verify",
+                  "Certificate.VerifyHostname"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2025-12-03T17:43:24Z"
+    },
+    "CVE-2026-25679": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4601.json",
+      "status": "verified",
+      "id": "GO-2026-4601",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.8"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.1"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net/url",
+                "symbols": [
+                  "JoinPath",
+                  "Parse",
+                  "ParseRequestURI",
+                  "URL.Parse",
+                  "URL.UnmarshalBinary",
+                  "parseHost"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-03-06T21:03:42Z"
+    },
+    "CVE-2026-27145": {
+      "url": "https://vuln.go.dev/ID/GO-2026-5037.json",
+      "status": "verified",
+      "id": "GO-2026-5037",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.11"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.4"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "crypto/x509",
+                "symbols": [
+                  "Certificate.Verify",
+                  "Certificate.VerifyHostname",
+                  "HostnameError.Error",
+                  "matchHostnames"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-06-02T21:39:47Z"
+    },
+    "CVE-2026-32280": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4947.json",
+      "status": "verified",
+      "id": "GO-2026-4947",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.9"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.2"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "crypto/x509",
+                "symbols": [
+                  "Certificate.Verify",
+                  "Certificate.buildChains"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-04-07T22:53:49Z"
+    },
+    "CVE-2026-32281": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4946.json",
+      "status": "verified",
+      "id": "GO-2026-4946",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.9"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.2"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "crypto/x509",
+                "symbols": [
+                  "Certificate.Verify",
+                  "policiesValid"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-04-07T22:53:49Z"
+    },
+    "CVE-2026-32283": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4870.json",
+      "status": "verified",
+      "id": "GO-2026-4870",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.9"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.2"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "crypto/tls",
+                "symbols": [
+                  "Conn.Handshake",
+                  "Conn.HandshakeContext",
+                  "Conn.Read",
+                  "Conn.Write",
+                  "Conn.handleKeyUpdate",
+                  "Dial",
+                  "DialWithDialer",
+                  "Dialer.Dial",
+                  "Dialer.DialContext",
+                  "QUICConn.HandleData",
+                  "QUICConn.Start",
+                  "clientHandshakeStateTLS13.establishHandshakeKeys",
+                  "clientHandshakeStateTLS13.readServerFinished",
+                  "serverHandshakeStateTLS13.readClientFinished",
+                  "serverHandshakeStateTLS13.sendServerParameters"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-04-07T22:53:49Z"
+    },
+    "CVE-2026-33811": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4981.json",
+      "status": "verified",
+      "id": "GO-2026-4981",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.10"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net",
+                "symbols": [
+                  "LookupCNAME",
+                  "Resolver.LookupCNAME",
+                  "cgoResSearch"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-05-07T19:21:40Z"
+    },
+    "CVE-2026-33814": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4918.json",
+      "status": "verified",
+      "id": "GO-2026-4918",
+      "affected": [
+        {
+          "package": {
+            "name": "golang.org/x/net",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "0.53.0"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "golang.org/x/net/http2",
+                "symbols": [
+                  "Transport.NewClientConn",
+                  "Transport.RoundTrip",
+                  "Transport.RoundTripOpt",
+                  "clientConnPool.GetClientConn",
+                  "clientConnReadLoop.processSettingsNoWrite",
+                  "noDialClientConnPool.GetClientConn",
+                  "noDialH2RoundTripper.NewClientConn",
+                  "noDialH2RoundTripper.RoundTrip",
+                  "unencryptedTransport.RoundTrip"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.10"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net/http",
+                "symbols": [
+                  "Client.CloseIdleConnections",
+                  "Client.Do",
+                  "Client.Get",
+                  "Client.Head",
+                  "Client.Post",
+                  "Client.PostForm",
+                  "ClientConn.Close",
+                  "ClientConn.RoundTrip",
+                  "Get",
+                  "Head",
+                  "Post",
+                  "PostForm",
+                  "Transport.CloseIdleConnections",
+                  "Transport.NewClientConn",
+                  "Transport.RoundTrip",
+                  "http1ClientConn.Close",
+                  "http1ClientConn.RoundTrip",
+                  "http2Transport.NewClientConn",
+                  "http2Transport.RoundTrip",
+                  "http2Transport.RoundTripOpt",
+                  "http2clientConnPool.GetClientConn",
+                  "http2clientConnReadLoop.processSettingsNoWrite",
+                  "http2noDialClientConnPool.GetClientConn",
+                  "http2noDialH2RoundTripper.NewClientConn",
+                  "http2noDialH2RoundTripper.RoundTrip",
+                  "http2unencryptedTransport.RoundTrip"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-05-07T19:21:40Z"
+    },
+    "CVE-2026-33818": {
+      "url": "https://vuln.go.dev/ID/GO-2026-5972.json",
+      "status": "verified",
+      "id": "GO-2026-5972",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.13"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.6"
+                },
+                {
+                  "introduced": "1.27.0-0"
+                },
+                {
+                  "fixed": "1.27.0-rc.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "encoding/asn1",
+                "symbols": [
+                  "Unmarshal",
+                  "UnmarshalWithParams",
+                  "parseField",
+                  "parseSequenceOf"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-08-13T21:43:54Z"
+    },
+    "CVE-2026-39820": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4986.json",
+      "status": "verified",
+      "id": "GO-2026-4986",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.10"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net/mail",
+                "symbols": [
+                  "AddressParser.Parse",
+                  "AddressParser.ParseList",
+                  "Header.AddressList",
+                  "Header.Date",
+                  "ParseAddress",
+                  "ParseAddressList",
+                  "ParseDate",
+                  "addrParser.consumeComment"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-05-07T19:21:40Z"
+    },
+    "CVE-2026-39821": {
+      "url": "https://vuln.go.dev/ID/GO-2026-5026.json",
+      "status": "verified",
+      "id": "GO-2026-5026",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.13"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.6"
+                },
+                {
+                  "introduced": "1.27.0-0"
+                },
+                {
+                  "fixed": "1.27.0-rc.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net/http",
+                "symbols": [
+                  "Client.CloseIdleConnections",
+                  "Client.Do",
+                  "Client.Get",
+                  "Client.Head",
+                  "Client.Post",
+                  "Client.PostForm",
+                  "ClientConn.Close",
+                  "ClientConn.RoundTrip",
+                  "Get",
+                  "Head",
+                  "Post",
+                  "PostForm",
+                  "Transport.CloseIdleConnections",
+                  "Transport.NewClientConn",
+                  "Transport.RoundTrip",
+                  "http1ClientConn.Close",
+                  "http1ClientConn.RoundTrip",
+                  "http2ClientConn.RoundTrip",
+                  "http2RoundTripper.RoundTrip",
+                  "idnaASCII"
+                ]
+              },
+              {
+                "path": "net/http/internal/http2",
+                "symbols": [
+                  "Transport.AddConn",
+                  "Transport.RoundTrip",
+                  "Transport.RoundTripOpt",
+                  "authorityAddr"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "package": {
+            "name": "golang.org/x/net",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "0.55.0"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "golang.org/x/net/idna",
+                "symbols": [
+                  "Profile.ToASCII",
+                  "Profile.ToUnicode",
+                  "Profile.process",
+                  "ToASCII",
+                  "ToUnicode"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-08-21T20:38:00Z"
+    },
+    "CVE-2026-39822": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4970.json",
+      "status": "verified",
+      "id": "GO-2026-4970",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.12"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.5"
+                },
+                {
+                  "introduced": "1.27.0-0"
+                },
+                {
+                  "fixed": "1.27.0-rc.2"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "os",
+                "symbols": [
+                  "OpenInRoot",
+                  "Root.Create",
+                  "Root.Open",
+                  "Root.OpenFile",
+                  "Root.OpenRoot",
+                  "Root.ReadFile",
+                  "Root.WriteFile",
+                  "openRootInRoot",
+                  "rootFS.Open",
+                  "rootFS.ReadDir",
+                  "rootFS.ReadFile",
+                  "rootOpenFileNolog"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-07-07T21:34:47Z"
+    },
+    "CVE-2026-39836": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4971.json",
+      "status": "verified",
+      "id": "GO-2026-4971",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.10"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net",
+                "symbols": [
+                  "Dial",
+                  "DialTimeout",
+                  "Dialer.Dial",
+                  "Dialer.DialContext",
+                  "Listen",
+                  "ListenConfig.Listen",
+                  "ListenConfig.ListenPacket",
+                  "ListenPacket",
+                  "LookupAddr",
+                  "LookupCNAME",
+                  "LookupHost",
+                  "LookupIP",
+                  "LookupMX",
+                  "LookupNS",
+                  "LookupPort",
+                  "LookupSRV",
+                  "LookupTXT",
+                  "ResolveIPAddr",
+                  "ResolveTCPAddr",
+                  "ResolveUDPAddr",
+                  "Resolver.LookupAddr",
+                  "Resolver.LookupCNAME",
+                  "Resolver.LookupHost",
+                  "Resolver.LookupIP",
+                  "Resolver.LookupIPAddr",
+                  "Resolver.LookupMX",
+                  "Resolver.LookupNS",
+                  "Resolver.LookupNetIP",
+                  "Resolver.LookupPort",
+                  "Resolver.LookupSRV",
+                  "Resolver.LookupTXT",
+                  "Resolver.lookupAddr",
+                  "Resolver.lookupMX",
+                  "Resolver.lookupNS",
+                  "Resolver.lookupPort",
+                  "Resolver.lookupSRV",
+                  "Resolver.lookupTXT"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-05-07T19:21:40Z"
+    },
+    "CVE-2026-42499": {
+      "url": "https://vuln.go.dev/ID/GO-2026-4977.json",
+      "status": "verified",
+      "id": "GO-2026-4977",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.10"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net/mail",
+                "symbols": [
+                  "AddressParser.Parse",
+                  "AddressParser.ParseList",
+                  "Header.AddressList",
+                  "ParseAddress",
+                  "ParseAddressList",
+                  "addrParser.consumePhrase"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-05-07T19:21:40Z"
+    },
+    "CVE-2026-42504": {
+      "url": "https://vuln.go.dev/ID/GO-2026-5038.json",
+      "status": "verified",
+      "id": "GO-2026-5038",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.11"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.4"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "mime",
+                "symbols": [
+                  "WordDecoder.DecodeHeader"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-06-02T21:39:47Z"
+    },
+    "CVE-2026-56853": {
+      "url": "https://vuln.go.dev/ID/GO-2026-6089.json",
+      "status": "verified",
+      "id": "GO-2026-6089",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.13"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.6"
+                },
+                {
+                  "introduced": "1.27.0-0"
+                },
+                {
+                  "fixed": "1.27.0-rc.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net/http",
+                "symbols": [
+                  "ListenAndServe",
+                  "ListenAndServeTLS",
+                  "Serve",
+                  "ServeTLS",
+                  "Server.ListenAndServe",
+                  "Server.ListenAndServeTLS",
+                  "Server.Serve",
+                  "Server.ServeTLS",
+                  "conn.readRequest",
+                  "conn.serve"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-08-13T21:43:54Z"
+    },
+    "CVE-2026-56858": {
+      "url": "https://vuln.go.dev/ID/GO-2026-6091.json",
+      "status": "verified",
+      "id": "GO-2026-6091",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.13"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.6"
+                },
+                {
+                  "introduced": "1.27.0-0"
+                },
+                {
+                  "fixed": "1.27.0-rc.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "html/template",
+                "symbols": [
+                  "Template.Execute",
+                  "Template.ExecuteTemplate",
+                  "tJS"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-08-13T21:43:54Z"
+    },
+    "CVE-2026-56859": {
+      "url": "https://vuln.go.dev/ID/GO-2026-6088.json",
+      "status": "verified",
+      "id": "GO-2026-6088",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.13"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.6"
+                },
+                {
+                  "introduced": "1.27.0-0"
+                },
+                {
+                  "fixed": "1.27.0-rc.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "encoding/xml",
+                "symbols": [
+                  "Decoder.Decode",
+                  "Decoder.DecodeElement",
+                  "Decoder.RawToken",
+                  "Decoder.Skip",
+                  "Decoder.Token",
+                  "Decoder.pop",
+                  "Decoder.push",
+                  "Decoder.unmarshal",
+                  "Decoder.unmarshalPath",
+                  "Unmarshal"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-08-13T21:43:54Z"
+    },
+    "CVE-2026-56860": {
+      "url": "https://vuln.go.dev/ID/GO-2026-6218.json",
+      "status": "verified",
+      "id": "GO-2026-6218",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.13"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.6"
+                },
+                {
+                  "introduced": "1.27.0-0"
+                },
+                {
+                  "fixed": "1.27.0-rc.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "net/url",
+                "symbols": [
+                  "URL.Parse",
+                  "URL.ResolveReference",
+                  "resolvePath"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-08-13T21:43:54Z"
+    },
+    "CVE-2026-56862": {
+      "url": "https://vuln.go.dev/ID/GO-2026-6090.json",
+      "status": "verified",
+      "id": "GO-2026-6090",
+      "affected": [
+        {
+          "package": {
+            "name": "stdlib",
+            "ecosystem": "Go"
+          },
+          "ranges": [
+            {
+              "type": "SEMVER",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1.25.13"
+                },
+                {
+                  "introduced": "1.26.0-0"
+                },
+                {
+                  "fixed": "1.26.6"
+                },
+                {
+                  "introduced": "1.27.0-0"
+                },
+                {
+                  "fixed": "1.27.0-rc.3"
+                }
+              ]
+            }
+          ],
+          "ecosystem_specific": {
+            "imports": [
+              {
+                "path": "crypto/tls",
+                "symbols": [
+                  "Conn.Handshake",
+                  "Conn.HandshakeContext",
+                  "Conn.Read",
+                  "Conn.Write",
+                  "Conn.readRecordOrCCS",
+                  "Dial",
+                  "DialWithDialer",
+                  "Dialer.Dial",
+                  "Dialer.DialContext",
+                  "QUICConn.HandleData",
+                  "QUICConn.Start"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "modified": "2026-08-13T21:43:54Z"
+    },
+    "CVE-2026-53613": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-53613",
+      "status": "verified",
+      "vendor_tables": [
+        "util-linux ( PTS ) bookworm 2.38.1-5+deb12u3 vulnerable",
+        "bookworm (security) 2.38.1-5+deb12u1 vulnerable",
+        "trixie (security), trixie 2.41.5-0+deb13u1 fixed",
+        "forky, sid 2.42.4-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "util-linux source trixie 2.41.5-0+deb13u1 DSA-6442-1",
+        "util-linux source (unstable) 2.42.2-1 1140195"
+      ]
+    },
+    "CVE-2026-41992": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-41992",
+      "status": "verified",
+      "vendor_tables": [
+        "gzip ( PTS ) bookworm 1.12-1 vulnerable",
+        "trixie 1.13-1+deb13u1 fixed",
+        "forky, sid 1.14-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "gzip source trixie 1.13-1+deb13u1",
+        "gzip source (unstable) 1.14-1 1141443"
+      ]
+    },
+    "CVE-2026-84782": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2026-84782",
+      "status": "verified",
+      "vendor_tables": [
+        "openssl ( PTS ) bookworm 3.0.20-1~deb12u2 vulnerable",
+        "bookworm (security) 3.0.22-1~deb12u1 vulnerable",
+        "trixie 3.5.7-1~deb13u2 vulnerable",
+        "trixie (security) 3.5.7-1~deb13u3 fixed",
+        "forky, sid 3.6.5-1 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "openssl source trixie 3.5.7-1~deb13u3 DSA-6531-1",
+        "openssl source (unstable) 3.6.5-1"
+      ]
+    },
+    "CVE-2023-45853": {
+      "url": "https://security-tracker.debian.org/tracker/CVE-2023-45853",
+      "status": "verified",
+      "vendor_tables": [
+        "minizip ( PTS ) bookworm 1.1-8+deb12u1 fixed",
+        "zlib ( PTS ) bookworm 1:1.2.13.dfsg-1 vulnerable",
+        "trixie 1:1.3.dfsg+really1.3.1-1 fixed",
+        "forky, sid 1:1.3.dfsg+really1.3.2-3 fixed",
+        "Package Type Release Fixed Version Urgency Origin Debian Bugs",
+        "minizip source bookworm 1.1-8+deb12u1",
+        "minizip source (unstable) (unfixed) 1056718",
+        "zlib source (unstable) 1:1.3.dfsg-2 1054290"
+      ]
+    }
+  }
+}

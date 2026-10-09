@@ -6,8 +6,6 @@ import com.augustopugliano.cypher.dto.RefreshRequest;
 import com.augustopugliano.cypher.dto.TokenResponse;
 import com.augustopugliano.cypher.dto.UserDto;
 import com.augustopugliano.cypher.exception.TokenRefreshException;
-import com.augustopugliano.cypher.model.User;
-import com.augustopugliano.cypher.repository.UserRepository;
 import com.augustopugliano.cypher.security.AuthenticatedUser;
 import com.augustopugliano.cypher.service.JwtService;
 import com.augustopugliano.cypher.service.LoginService;
@@ -21,8 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -77,12 +72,14 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponse> refresh(@Valid @RequestBody RefreshRequest request) {
+    public ResponseEntity<TokenResponse> refresh(@Valid @RequestBody RefreshRequest request, HttpServletRequest httpRequest) {
+        if (rateLimitService.checkAndIncrement("refresh_ip:", httpRequest.getRemoteAddr()) > 30) {
+            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS);
+        }
         try {
             RotationResult result = refreshTokenService.processRefresh(request.getRefresh_token());
                 
-            String newAccessToken = jwtService.generateToken(result.user());
-            return ResponseEntity.ok(new TokenResponse(newAccessToken, result.newRawToken(), jwtService.getExpirationSeconds()));
+            return ResponseEntity.ok(new TokenResponse(result.accessToken(), result.newRawToken(), jwtService.getExpirationSeconds()));
         } catch (TokenRefreshException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

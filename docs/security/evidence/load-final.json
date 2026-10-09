@@ -1,0 +1,1634 @@
+{
+  "budget": {
+    "max_concurrency": 8,
+    "max_seconds": 60,
+    "http_timeout_seconds": 5,
+    "min_available_mib": 2048,
+    "max_jvm_rss_mib": 2048,
+    "stop_after_server_errors": 2
+  },
+  "configuration": {
+    "rate_limit": 5,
+    "window_minutes": 5,
+    "refresh_ip_limit": 30,
+    "limits_active": true,
+    "sources": "127.0.0.1..32; recovery .100",
+    "llm": "disabled",
+    "jvm_pid": 132380
+  },
+  "phases": [
+    {
+      "phase": "baseline",
+      "concurrency": 1,
+      "attempts": 16,
+      "seconds": 1.354,
+      "throughput_rps": 11.821
+    },
+    {
+      "phase": "step-2",
+      "concurrency": 2,
+      "attempts": 32,
+      "seconds": 1.403,
+      "throughput_rps": 22.809
+    },
+    {
+      "phase": "step-4",
+      "concurrency": 4,
+      "attempts": 48,
+      "seconds": 1.684,
+      "throughput_rps": 28.51
+    },
+    {
+      "phase": "spike",
+      "concurrency": 8,
+      "attempts": 64,
+      "seconds": 0.94,
+      "throughput_rps": 68.115
+    }
+  ],
+  "results": [
+    {
+      "phase": "baseline",
+      "operation": "login_valid",
+      "attempts": 4,
+      "statuses": {
+        "200": 4
+      },
+      "p50_ms": 96.318,
+      "p95_ms": 119.948,
+      "p99_ms": 119.948,
+      "admitted_p95_ms": 119.948
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_invalid",
+      "attempts": 4,
+      "statuses": {
+        "401": 4
+      },
+      "p50_ms": 98.056,
+      "p95_ms": 156.807,
+      "p99_ms": 156.807,
+      "admitted_p95_ms": 156.807
+    },
+    {
+      "phase": "baseline",
+      "operation": "register",
+      "attempts": 4,
+      "statuses": {
+        "201": 4
+      },
+      "p50_ms": 90.579,
+      "p95_ms": 102.512,
+      "p99_ms": 102.512,
+      "admitted_p95_ms": 102.512
+    },
+    {
+      "phase": "baseline",
+      "operation": "refresh",
+      "attempts": 4,
+      "statuses": {
+        "200": 4
+      },
+      "p50_ms": 21.204,
+      "p95_ms": 30.705,
+      "p99_ms": 30.705,
+      "admitted_p95_ms": 30.705
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "attempts": 8,
+      "statuses": {
+        "200": 8
+      },
+      "p50_ms": 99.41,
+      "p95_ms": 169.443,
+      "p99_ms": 169.443,
+      "admitted_p95_ms": 169.443
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "attempts": 8,
+      "statuses": {
+        "401": 8
+      },
+      "p50_ms": 97.767,
+      "p95_ms": 153.21,
+      "p99_ms": 153.21,
+      "admitted_p95_ms": 153.21
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "attempts": 8,
+      "statuses": {
+        "201": 8
+      },
+      "p50_ms": 95.962,
+      "p95_ms": 152.785,
+      "p99_ms": 152.785,
+      "admitted_p95_ms": 152.785
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "attempts": 8,
+      "statuses": {
+        "200": 8
+      },
+      "p50_ms": 20.494,
+      "p95_ms": 32.773,
+      "p99_ms": 32.773,
+      "admitted_p95_ms": 32.773
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "attempts": 12,
+      "statuses": {
+        "200": 12
+      },
+      "p50_ms": 190.546,
+      "p95_ms": 232.753,
+      "p99_ms": 232.753,
+      "admitted_p95_ms": 232.753
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "attempts": 12,
+      "statuses": {
+        "401": 12
+      },
+      "p50_ms": 170.981,
+      "p95_ms": 204.781,
+      "p99_ms": 204.781,
+      "admitted_p95_ms": 204.781
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "attempts": 12,
+      "statuses": {
+        "201": 12
+      },
+      "p50_ms": 150.915,
+      "p95_ms": 206.534,
+      "p99_ms": 206.534,
+      "admitted_p95_ms": 206.534
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "attempts": 12,
+      "statuses": {
+        "200": 12
+      },
+      "p50_ms": 31.674,
+      "p95_ms": 58.236,
+      "p99_ms": 58.236,
+      "admitted_p95_ms": 58.236
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "attempts": 16,
+      "statuses": {
+        "200": 8,
+        "429": 8
+      },
+      "p50_ms": 17.514,
+      "p95_ms": 359.488,
+      "p99_ms": 359.488,
+      "admitted_p95_ms": 359.488
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "attempts": 16,
+      "statuses": {
+        "401": 8,
+        "429": 8
+      },
+      "p50_ms": 22.913,
+      "p95_ms": 343.799,
+      "p99_ms": 343.799,
+      "admitted_p95_ms": 343.799
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "attempts": 16,
+      "statuses": {
+        "201": 8,
+        "429": 8
+      },
+      "p50_ms": 25.236,
+      "p95_ms": 274.111,
+      "p99_ms": 274.111,
+      "admitted_p95_ms": 274.111
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "attempts": 16,
+      "statuses": {
+        "200": 16
+      },
+      "p50_ms": 53.913,
+      "p95_ms": 112.066,
+      "p99_ms": 112.066,
+      "admitted_p95_ms": 112.066
+    }
+  ],
+  "resources": [
+    {
+      "phase": "baseline",
+      "jvm_rss_kib": 664208,
+      "jvm_cpu_ticks": 8384,
+      "jvm_cpu_percent": 124.12
+    },
+    {
+      "phase": "step-2",
+      "jvm_rss_kib": 664856,
+      "jvm_cpu_ticks": 8778,
+      "jvm_cpu_percent": 280.84
+    },
+    {
+      "phase": "step-4",
+      "jvm_rss_kib": 978564,
+      "jvm_cpu_ticks": 9521,
+      "jvm_cpu_percent": 441.31
+    },
+    {
+      "phase": "spike",
+      "jvm_rss_kib": 1038940,
+      "jvm_cpu_ticks": 10054,
+      "jvm_cpu_percent": 567.27
+    }
+  ],
+  "samples": [
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 121.94
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 122.008
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 90.505
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 95.36
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 85.898
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 97.468
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 90.058
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 100.089
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 86.271
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 94.016
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 98.146
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 97.285
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 83.361
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 94.848
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 81.029
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 97.529
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 80.79
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 106.322
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 82.236
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 92.233
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 88.425
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 92.661
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 83.52
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 93.55
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 90.932
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 98.529
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 81.06
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 94.328
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 92.463
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 99.649
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 87.265
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 142.668
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 92.876
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 88.777
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 81.973
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 93.765
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 81.855
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 100.998
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 98.974
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 92.429
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 100.177
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 89.129
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 80.65
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 106.091
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 96.446
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 107.445
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 86.212
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 115.937
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 93.642
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 107.933
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 78.508
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 95.468
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 80.823
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 153.887
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 82.82
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 104.231
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 89.255
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 111.055
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 101.981
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 90.367
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 77.633
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 91.37
+    },
+    {
+      "phase": "setup",
+      "operation": "register",
+      "status": 201,
+      "ms": 82.283
+    },
+    {
+      "phase": "setup",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 85.139
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 119.948
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 128.06
+    },
+    {
+      "phase": "baseline",
+      "operation": "register",
+      "status": 201,
+      "ms": 95.311
+    },
+    {
+      "phase": "baseline",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 30.705
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 102.196
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 156.807
+    },
+    {
+      "phase": "baseline",
+      "operation": "register",
+      "status": 201,
+      "ms": 102.512
+    },
+    {
+      "phase": "baseline",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 22.659
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 96.318
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 98.056
+    },
+    {
+      "phase": "baseline",
+      "operation": "register",
+      "status": 201,
+      "ms": 80.459
+    },
+    {
+      "phase": "baseline",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 20.727
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 90.365
+    },
+    {
+      "phase": "baseline",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 93.841
+    },
+    {
+      "phase": "baseline",
+      "operation": "register",
+      "status": 201,
+      "ms": 90.579
+    },
+    {
+      "phase": "baseline",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 21.204
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 150.704
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 153.21
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 32.773
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 99.488
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 106.881
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 89.442
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 18.422
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 84.602
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 87.377
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 99.046
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 18.365
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 119.57
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 94.731
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 97.735
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 87.761
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 21.32
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 116.253
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 112.33
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 30.488
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 97.301
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 96.898
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 92.04
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 20.494
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 95.962
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 99.41
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 97.767
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 20.259
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 152.785
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 169.443
+    },
+    {
+      "phase": "step-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 122.795
+    },
+    {
+      "phase": "step-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 92.633
+    },
+    {
+      "phase": "step-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 21.993
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 35.491
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 145.777
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 166.49
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 134.115
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 197.892
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 37.095
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 194.272
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 206.534
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 190.546
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 183.276
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 45.518
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 184.826
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 30.035
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 154.764
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 194.224
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 204.781
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 58.236
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 150.027
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 170.981
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 223.975
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 19.76
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 232.753
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 150.915
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 204.24
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 44.182
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 196.847
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 181.41
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 202.556
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 26.045
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 177.609
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 169.064
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 143.981
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 21.88
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 141.807
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 163.075
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 183.877
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 26.982
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 159.335
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 204.231
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 144.762
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 32.731
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 142.309
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 149.749
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 138.176
+    },
+    {
+      "phase": "step-4",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 31.674
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 123.116
+    },
+    {
+      "phase": "step-4",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 158.965
+    },
+    {
+      "phase": "step-4",
+      "operation": "register",
+      "status": 201,
+      "ms": 106.509
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 429,
+      "ms": 9.604
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 429,
+      "ms": 9.919
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 429,
+      "ms": 17.204
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 429,
+      "ms": 16.491
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 429,
+      "ms": 19.725
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 429,
+      "ms": 18.57
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 429,
+      "ms": 16.105
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 429,
+      "ms": 15.557
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 429,
+      "ms": 18.681
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 429,
+      "ms": 16.945
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 429,
+      "ms": 19.196
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 45.38
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 429,
+      "ms": 21.122
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 39.872
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 30.922
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 46.602
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 73.793
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 74.667
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 201,
+      "ms": 196.377
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 212.559
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 218.932
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 240.128
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 56.927
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 201,
+      "ms": 274.111
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 208.008
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 429,
+      "ms": 12.181
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 429,
+      "ms": 17.469
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 429,
+      "ms": 11.114
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 53.913
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 429,
+      "ms": 15.701
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 359.488
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 429,
+      "ms": 17.511
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 201,
+      "ms": 166.626
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 49.793
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 260.895
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 429,
+      "ms": 25.236
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 429,
+      "ms": 16.127
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 429,
+      "ms": 17.948
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 429,
+      "ms": 18.121
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 175.631
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 40.998
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 429,
+      "ms": 17.514
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 30.061
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 429,
+      "ms": 18.684
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 429,
+      "ms": 22.913
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 174.813
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 80.77
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 201,
+      "ms": 250.737
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 112.066
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 60.317
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 189.722
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 201,
+      "ms": 187.862
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 201,
+      "ms": 260.699
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 319.466
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 322.742
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 343.799
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 80.28
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 201,
+      "ms": 157.365
+    },
+    {
+      "phase": "spike",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 53.955
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 324.344
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 296.326
+    },
+    {
+      "phase": "spike",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 204.14
+    },
+    {
+      "phase": "spike",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 155.156
+    },
+    {
+      "phase": "spike",
+      "operation": "register",
+      "status": 201,
+      "ms": 154.882
+    },
+    {
+      "phase": "recovery",
+      "operation": "register",
+      "status": 201,
+      "ms": 92.838
+    },
+    {
+      "phase": "recovery",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 95.115
+    }
+  ],
+  "unexpected_responses": [],
+  "unexpected_count": 0,
+  "server_errors_or_timeouts": 0,
+  "wall_seconds": 12.655
+}

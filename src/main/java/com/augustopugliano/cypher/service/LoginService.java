@@ -27,6 +27,8 @@ public class LoginService {
     private final AnomalyDetectionService anomalyDetectionService;
     private final LlmExplanationService llmExplanationService;
     private final int maxAttempts;
+    private final String dummyPasswordHash;
+    private final org.springframework.transaction.support.TransactionTemplate transaction;
 
     public LoginService(
             UserRepository userRepository,
@@ -37,11 +39,14 @@ public class LoginService {
             LoginAuditLogRepository loginAuditLogRepository,
             AnomalyDetectionService anomalyDetectionService,
             LlmExplanationService llmExplanationService,
-            @Value("${cypher.rate-limit.max-attempts}") int maxAttempts) {
+            @Value("${cypher.rate-limit.max-attempts}") int maxAttempts,
+            org.springframework.transaction.PlatformTransactionManager transactionManager) {
+        this.transaction = new org.springframework.transaction.support.TransactionTemplate(transactionManager);
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = passwordEncoder;
+        this.dummyPasswordHash = passwordEncoder.encode(java.util.UUID.randomUUID().toString());
         this.rateLimitService = rateLimitService;
         this.loginAuditLogRepository = loginAuditLogRepository;
         this.anomalyDetectionService = anomalyDetectionService;
@@ -52,10 +57,12 @@ public class LoginService {
     public TokenResponse performLogin(LoginRequest request, String ipAddress, String userAgent) {
         String email = request.getEmail();
 
-        long ipAttempts = rateLimitService.checkAndIncrement(ipAddress);
-        long emailAttempts = rateLimitService.checkAndIncrement(email);
-
-        if (ipAttempts > maxAttempts || emailAttempts > maxAttempts) {
+        long ipAttempts = rateLimitService.checkAndIncrement("login_ip:", ipAddress);
+        if (ipAttempts > maxAttempts) {
+            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Rate limit exceeded");
+        }
+        long emailAttempts = rateLimitService.checkAndIncrement("login_account:", email);
+        if (emailAttempts > maxAttempts) {
             throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Rate limit exceeded");
         }
 
@@ -63,9 +70,10 @@ public class LoginService {
 
         LoginAuditLog auditLog = new LoginAuditLog();
         auditLog.setIpAddress(ipAddress);
-        auditLog.setUserAgent(userAgent);
+        auditLog.setUserAgent(userAgent == null ? null : userAgent.substring(0, Math.min(userAgent.length(), 255)).replaceAll("[\\p{Cntrl}]", " "));
 
         if (optionalUser.isEmpty()) {
+            passwordEncoder.matches(request.getPassword(), dummyPasswordHash);
             auditLog.setSuccess(false);
             loginAuditLogRepository.save(auditLog);
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
@@ -80,31 +88,23 @@ public class LoginService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
 
-        auditLog.setSuccess(true);
-        
-        AnomalyResult anomaly = anomalyDetectionService.evaluate(user.getId(), ipAddress);
-        if (anomaly.isAnomaly()) {
-            auditLog.setAnomalyFlag(true);
-        } else {
-            auditLog.setAnomalyFlag(false);
+        record Issued(TokenResponse tokens, Long auditId, AnomalyResult anomaly) {}
+        Issued issued = transaction.execute(status -> {
+            AnomalyResult anomaly = anomalyDetectionService.evaluate(user.getId(), ipAddress);
+            String accessToken = jwtService.generateToken(user);
+            RefreshTokenService.TokenPair pair = refreshTokenService.generateAndSaveRefreshToken(user);
+            auditLog.setSuccess(true);
+            auditLog.setAnomalyFlag(anomaly.isAnomaly());
+            LoginAuditLog savedAudit = loginAuditLogRepository.saveAndFlush(auditLog);
+            return new Issued(new TokenResponse(accessToken, pair.rawToken(), jwtService.getExpirationSeconds()), savedAudit.getId(), anomaly);
+        });
+        if (issued.anomaly().isAnomaly()) {
+            try {
+                llmExplanationService.explainAnomalyAsync(issued.auditId(), issued.anomaly());
+            } catch (org.springframework.core.task.TaskRejectedException e) {
+                org.slf4j.LoggerFactory.getLogger(LoginService.class).warn("Optional explanation queue is full");
+            }
         }
-
-        LoginAuditLog savedAudit = loginAuditLogRepository.save(auditLog);
-        
-        if (anomaly.isAnomaly()) {
-            // TODO: If performLogin is annotated with @Transactional in the future, the @Async call
-            // could cause a race condition where the LLM attempts to read the audit log ID before
-            // the transaction commits to the DB. In that case, refactor using 
-            // ApplicationEventPublisher and @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT).
-            llmExplanationService.explainAnomalyAsync(savedAudit.getId(), anomaly);
-        }
-
-        rateLimitService.reset(ipAddress);
-        rateLimitService.reset(email);
-
-        String accessToken = jwtService.generateToken(user);
-        RefreshTokenService.TokenPair pair = refreshTokenService.generateAndSaveRefreshToken(user);
-        
-        return new TokenResponse(accessToken, pair.rawToken(), jwtService.getExpirationSeconds());
+        return issued.tokens();
     }
 }

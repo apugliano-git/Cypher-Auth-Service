@@ -1,247 +1,77 @@
 # Cypher Auth Service
 
-[![Java](https://img.shields.io/badge/Java-21-orange.svg?style=flat&logo=openjdk)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4%2B-brightgreen.svg?style=flat&logo=springboot)](https://spring.io/projects/spring-boot)
-[![Security](https://img.shields.io/badge/Spring%20Security-Argon2%20%2F%20RS256-blue.svg?style=flat&logo=springsecurity)](https://spring.io/projects/spring-security)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg?style=flat&logo=postgresql)](https://www.postgresql.org/)
-[![Redis](https://img.shields.io/badge/Redis-7-red.svg?style=flat&logo=redis)](https://redis.io/)
-[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg?style=flat&logo=docker)](https://www.docker.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+Cypher is a Java 21 / Spring Boot 4.1.1 authentication service for a controlled local engineering demo. It registers users, verifies passwords with Argon2id, issues RS256 access tokens, publishes a public JWKS and rotates single-use refresh tokens in PostgreSQL.
 
-**Cypher** is a production-grade, centralized identity and authentication (OAuth2/OIDC compatible) microservice designed as a reusable security foundation for distributed systems and microservices architectures. 
+It does **not** implement a complete OAuth2/OIDC authorization server: there is no discovery document, authorization-code flow, consent or delegated scopes. JWT/JWKS interoperability does not establish those capabilities. It has not been certified for production or distributed DDoS resistance.
 
-It unifies authentication, token issuance, and access delegation across client applications using asymmetric cryptography (RS256) and standard JWKS. Cypher implements enterprise-level security patterns including sliding-window rate limiting, rotating refresh tokens, and real-time impossible-travel anomaly detection augmented with LLM-powered incident explanations.
+See the [security audit and measured scope](docs/security/audit.md), [identity contract](docs/security/identity-contract.md) and [operating procedure](docs/security/operations.md).
 
----
+## Stack and behavior
 
-## Key Features
+Java 21, Maven Wrapper 3.9.16, Spring MVC/Security/Data JPA, PostgreSQL 16, Redis 7, JJWT 0.12.5, Bouncy Castle 1.86; test consumers use Spring Security/Nimbus. The POM is authoritative. Tomcat and Jackson patch overrides are explained in the audit.
 
-- **Asymmetric JWT Signing (RS256 & JWKS)**: Tokens are signed using an RSA private key stored in a PKCS12 keystore. Downstream microservices verify tokens autonomously via the public `/.well-known/jwks.json` endpoint without sharing sensitive secrets.
-- **Rotating Refresh Tokens**: Mitigates token theft through single-use refresh tokens stored as SHA-256 hashes. Automatic invalidation and rotation occurs on each renewal.
-- **Redis-Backed Rate Limiting**: High-throughput sliding window rate limiting on login attempts per IP and account, neutralizing brute-force and credential-stuffing attacks.
-- **Impossible Travel Detection**: Computes geographical displacement and speed between consecutive logins using MaxMind GeoLite2. Speeds exceeding physical feasibility (>900 km/h) trigger security anomaly alerts.
-- **AI-Powered Threat Summaries**: Anomalous logins asynchronously trigger Anthropic Claude to generate concise, human-readable threat explanations stored in audit logs.
-- **State-of-the-Art Password Hashing**: Utilizes **Argon2id**, the winner of the Password Hashing Competition (PHC), for resistance against GPU/ASIC-assisted attacks.
-- **Ephemeral Integration Testing**: Comprehensive integration test suite using **Testcontainers** (spinning up isolated PostgreSQL and Redis containers).
+- Registration accepts validated emails up to 255 characters and passwords of 12–128 Java characters. Login accepts existing passwords of 1–128 characters. Passwords are never trimmed or normalized. Email identity is exact and case-sensitive; no accounts are merged.
+- Argon2id uses 19 MiB memory, two iterations, parallelism one, 16-byte salt and 32-byte hash. Missing accounts also perform one dummy comparison; this mitigates a large timing difference without proving indistinguishability.
+- Redis implements an **atomic fixed window from the first attempt**, not a sliding window. Login allows five attempts per IP and exact email in five minutes; registration five per IP; refresh 30 per IP. Successful login does not reset the budget. Shared NAT/proxy clients share an IP budget. A window boundary can allow twice the budget over a short interval.
+- Access tokens last 900 seconds. Refresh sessions have a seven-day absolute expiry; successors inherit the original expiry. PostgreSQL locks enforce single consumption. Replay rejects the old token; it does not revoke the successor/family or prove theft detection. There is no logout/admin/session cap endpoint. Revoking refresh does not revoke existing access tokens.
+- Audit success means token issuance/persistence committed, not delivery acknowledged by a client. Admitted failed logins are recorded. 429 requests are represented by rate counters, not per-request SQL audit rows; refresh history is the persisted rotation chain.
+- Impossible-travel detection is advisory: anomalies do not block login or enable MFA. Missing/corrupt GeoIP data or non-positive travel duration means unknown. Audit time uses the server's local zone; run in UTC consistently and preserve the original zone for legacy records.
+- Anthropic explanations are off by default, and also off without a key. Enabling them sends only countries and coarse travel estimates, never credentials/tokens/IP/email. Two workers, a queue of 16, a two-second connect timeout, a five-second cancellable request deadline and response limits bound optional work. Queue saturation drops explanations without failing authentication. LLM text is untrusted and must be escaped by a UI.
+- Authentication uses bearer headers and stateless security; no authentication cookies or open CORS are configured. Token responses use `Cache-Control: no-store`. Invalid protected requests return 401. Dependency failures return 503 and never silently disable limits.
 
----
+## API
 
-## System Architecture
+| Method and route | Input / output | Expected statuses |
+|---|---|---|
+| POST `/auth/register` | `{ "email": "user@example.com", "password": "SyntheticPassword123!" }` | 201, 400, 409 duplicate, 429, 503 |
+| POST `/auth/login` | Same fields; returns `access_token`, `refresh_token`, `expires_in` | 200, 400, 401 credentials, 429, 503 |
+| POST `/auth/refresh` | `{ "refresh_token": "<43-character Base64url token>" }`; returns same token fields | 200, 400 format, 401 invalid/replayed/expired, 429, 503 |
+| GET `/auth/me` | Bearer token; returns only `id`, `email`, `role` | 200, 401 |
+| GET `/.well-known/jwks.json` | Active public RSA key | 200 |
 
-```mermaid
-flowchart TD
-    Client[Client App / User] -->|1. POST /auth/login| Cypher[Cypher Auth Service]
-    
-    subgraph Security Layer
-        Cypher -->|Check Rate Limit| Redis[(Redis 7)]
-        Cypher -->|Verify Credentials Argon2| DB[(PostgreSQL 16)]
-        Cypher -->|Calculate Geo Distance| GeoIP[MaxMind GeoLite2]
-        Cypher -.->|Async Anomaly Explanation| Claude[Anthropic Claude LLM]
-    end
-    
-    Cypher -->|2. Issue RS256 JWT & Refresh Token| Client
-    
-    subgraph Downstream Services
-        Client -->|3. Bearer Token| Microservice[Resource Server / Microservice]
-        Microservice -->|Fetch Public Key| JWKS[GET /.well-known/jwks.json]
-    end
-```
+Registration intentionally exposes an exact-email conflict via 409. Login failures do not distinguish missing accounts from incorrect passwords in their status/body. JWT roles are exactly `USER`/`ANALYST`; registration always creates `USER`, with analyst provision described in the identity contract. No granular role-protected endpoint exists, so a positive/negative role authorization (403) contract is not claimed.
 
----
+POST bodies are capped at 16 KiB, including chunked bodies. Headers are capped at 8 KiB and bearer tokens at 4096 characters. Invalid payloads are rejected before Argon2/DB work. Header/address information from `Forwarded` or `X-Forwarded-For` is ignored; only the socket peer is counted. A trusted proxy deployment requires explicit separate configuration and verification (see contract).
 
-## Tech Stack
+## Local setup
 
-| Component | Technology | Description |
-| :--- | :--- | :--- |
-| **Language & Framework** | Java 21, Spring Boot 3 | Core application framework and modern runtime |
-| **Security & Auth** | Spring Security, JJWT, BouncyCastle | Security filters, Argon2 password hashing, RS256 JWT generation |
-| **Relational Database** | PostgreSQL 16, Spring Data JPA | Relational storage for users, refresh tokens, and login audit logs |
-| **In-Memory Store** | Redis 7, Spring Data Redis | High-speed atomic counters for rate limiting |
-| **Geolocation** | MaxMind GeoLite2 City | Offline binary database for IP-to-coordinates resolution |
-| **Artificial Intelligence** | Anthropic Claude API | Asynchronous LLM integration for security anomaly explanations |
-| **Containerization** | Docker, Docker Compose | Multi-stage reproducible container builds |
-| **Testing** | JUnit 5, AssertJ, Testcontainers | Automated integration testing with isolated containerized dependencies |
+Requires Java 21, Python 3 for the bounded test campaign, Docker and Compose. Fixtures generate their own keys and ephemeral databases; they do not use personal infrastructure.
 
----
-
-## Architectural Decisions & Design Patterns
-
-### 1. Asymmetric (RS256) vs. Symmetric (HS256) Tokens
-In microservices ecosystems, symmetric signing (HS256) requires every verifying service to share the same secret key. If a single service is compromised, the entire signing authority is lost. Cypher uses **RS256**: only Cypher holds the private key (inside `cypher-keystore.p12`), while resource servers fetch the public key via `/.well-known/jwks.json`.
-
-### 2. Single-Use Refresh Token Rotation
-Access tokens have a short lifespan (15 minutes). Refresh tokens are long-lived (7 days) but strictly single-use. When exchanged, the old refresh token is marked as revoked and replaced by a newly issued pair. Only SHA-256 hashes of refresh tokens are persisted to prevent token leakage from database backups.
-
-### 3. High-Performance Rate Limiting with Redis
-Login attempts are tracked in memory using Redis atomic operations (`INCR`, `EXPIRE`). This offloads transient counter writes from PostgreSQL and maintains millisecond-level response times during traffic spikes or distributed brute-force attacks.
-
-### 4. Non-Blocking Anomaly Detection (`@Async`)
-When a geographic jump is identified as impossible travel, calling an external LLM synchronously would degrade the login response latency. Cypher uses Spring's `@Async` worker pool to dispatch the LLM explanation request in the background, immediately returning the authentication token to the user and updating the audit log asynchronously.
-
----
-
-## API Reference
-
-### Public Endpoints
-
-#### `POST /auth/register`
-Creates a new user account.
-- **Request Body:**
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "SecurePassword123!"
-  }
-  ```
-- **Response:** `201 Created`
-
-#### `POST /auth/login`
-Authenticates user credentials, evaluates rate limits, records audit metadata, and issues tokens.
-- **Request Body:**
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "SecurePassword123!"
-  }
-  ```
-- **Response:** `200 OK`
-  ```json
-  {
-    "access_token": "eyJhbGciOiJSUzI1NiIs...",
-    "refresh_token": "a8fbc730...",
-    "expires_in": 900
-  }
-  ```
-
-#### `POST /auth/refresh`
-Rotates a valid refresh token and issues a new access/refresh token pair.
-- **Request Body:**
-  ```json
-  {
-    "refresh_token": "a8fbc730..."
-  }
-  ```
-- **Response:** `200 OK`
-
-#### `GET /.well-known/jwks.json`
-Exposes the JSON Web Key Set containing public RSA keys for downstream signature verification.
-- **Response:** `200 OK`
-
----
-
-### Protected Endpoints
-
-#### `GET /auth/me`
-Retrieves identity information for the authenticated user.
-- **Headers:** `Authorization: Bearer <access_token>`
-- **Response:** `200 OK`
-  ```json
-  {
-    "id": "c1f7b884-6e1d-4d92-9e9b-9c76251b32ea",
-    "email": "user@example.com",
-    "role": "USER"
-  }
-  ```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- **Java 21** or higher
-- **Docker** & **Docker Compose**
-- **Git**
-
-### Installation & Local Setup
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/apugliano-git/Cypher-Auth-Service.git
-   cd Cypher_Auth_Service
-   ```
-
-2. **Configure Environment Variables:**
-   Copy the example environment configuration:
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` with your preferred passwords and optional Anthropic API key:
-   ```env
-   DB_PASSWORD=your_secure_db_password
-   KEYSTORE_PASSWORD=replace_with_a_unique_keystore_password
-   ANTHROPIC_API_KEY=your_anthropic_api_key_optional
-   ```
-
-3. **Verify Required Secrets:**
-   Ensure the following binary assets exist in the `secrets/` directory. Keep `.env` and this directory readable only by the service account (`chmod 600 .env secrets/cypher-keystore.p12`); never commit either one. If the keystore or its password may have been exposed, generate a new key pair, deploy its JWKS key alongside the old one during the transition, then retire the old key.
-   - `secrets/cypher-keystore.p12` (PKCS12 RSA Keystore)
-   - `secrets/GeoLite2-City.mmdb` (MaxMind GeoLite2 Database)
-
-4. **Launch with Docker Compose:**
-   ```bash
-   APP_UID=$(id -u) docker compose up -d --build
-   ```
-   This will spin up:
-   - **PostgreSQL 16** on local port `5433` (internal `5432`)
-   - **Redis 7**, internal to the Docker network only
-   - **Cypher Auth Service** on port `8080`
-
-5. **Verify Service Health:**
-   ```bash
-   curl http://localhost:8080/.well-known/jwks.json
-   ```
-
----
-
-## Running Automated Tests
-
-Cypher includes an end-to-end integration test suite that leverages **Testcontainers** to spin up dedicated PostgreSQL and Redis containers automatically:
+1. Copy `.env.example` to `.env`, choose unique `DB_PASSWORD` and `KEYSTORE_PASSWORD`, leave `ANTHROPIC_ENABLED=false` and `ANTHROPIC_API_KEY` empty.
+2. Create a development keystore. The password entered at the prompt must match `.env`; never reuse a personal key:
 
 ```bash
-./mvnw test
+umask 077
+mkdir -p secrets
+chmod 700 secrets
+keytool -genkeypair -alias cypher-key -keyalg RSA -keysize 3072 \
+  -storetype PKCS12 -keystore secrets/cypher-keystore.p12 \
+  -dname "CN=Cypher Development" -validity 365
+chmod 600 .env secrets/cypher-keystore.p12
 ```
 
----
+3. Optionally obtain a licensed GeoLite2 City database and place it in `secrets/GeoLite2-City.mmdb`. Its absence disables geolocation, not authentication.
+4. Run `APP_UID=$(id -u) docker compose up -d --build`. API binds **127.0.0.1:8080**, PostgreSQL **127.0.0.1:5433**; Redis is internal. The app runs with that UID and reads secrets from a read-only mount. Docker builds exclude local secrets and use the Maven Wrapper. Image tags remain mutable; image scanning/digest pinning are deployment prerequisites.
+5. `curl http://127.0.0.1:8080/.well-known/jwks.json` verifies HTTP/key publication, not all dependency health.
 
-## Project Structure
+Do not delete an existing PostgreSQL volume to upgrade. This remediation requires no schema alteration; `ddl-auto=validate` remains active. Read the operating procedure for retention, backups, key replacement and exposure prerequisites. Compose's database superuser is a local-demo default, not a least-privilege public deployment.
 
-```
-├── .github/                       # CI/CD workflows and configurations
-├── secrets/                       # Local keystore and GeoLite2 database
-│   ├── GeoLite2-City.mmdb
-│   └── cypher-keystore.p12
-├── src/
-│   ├── main/
-│   │   ├── java/com/augustopugliano/cypher/
-│   │   │   ├── config/            # Security and filter configurations
-│   │   │   ├── controller/        # REST controllers (Auth, JWKS)
-│   │   │   ├── dto/               # Data Transfer Objects & Records
-│   │   │   ├── exception/         # Custom exception hierarchy
-│   │   │   ├── model/             # JPA Entities (User, RefreshToken, LoginAuditLog)
-│   │   │   ├── repository/        # Spring Data JPA Repositories
-│   │   │   ├── security/          # Security principal definitions
-│   │   │   └── service/           # Core domain logic (JWT, RateLimit, Anomaly, LLM)
-│   │   └── resources/
-│   │       └── application.properties
-│   └── test/                      # Testcontainers integration tests
-├── docker-compose.yml             # Container orchestration
-├── Dockerfile                     # Multi-stage container build
-├── pom.xml                        # Maven dependencies & build lifecycle
-├── LICENSE                        # MIT License
-└── README.md                      # Project documentation
+## Verification
+
+```bash
+./mvnw clean verify
 ```
 
----
+This runs deterministic JWT/validation/optional-work checks, actual HTTP/PostgreSQL/Redis flows, races, failure recovery, independent Java verification, synthetic backup/restore and a short bounded load campaign with security limits active. Docker socket access and local Mockito instrumentation are required. Reports are generated afresh in `target/surefire-reports/` and `target/security-load.json`. CI runs the same command; no hosted CI execution is claimed until pushed by the owner.
 
-## License
+To repeat only the local campaign:
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+```bash
+./mvnw -Dtest=AuthIntegrationTest#boundedLoadPreservesDatabaseInvariantsAndRecovers test
+```
 
----
+Never point this campaign at public/personal services. The suite also runs three minutes of admitted traffic at concurrency one (60 synthetic source/account workflows; 240 measured requests) with limits active, resource/latency budgets and recovery assertions. The JUnit fixture creates its target and Redis cleanup is limited to its own ephemeral container. Ratchet's preauthenticated load test is not a Cypher authentication benchmark. .NET and full consumer integration are separate pending checks.
 
-## Author
+## License / author
 
-**Augusto Pugliano**
-- GitHub: [@apugliano-git](https://github.com/apugliano-git)
-- Email: [apug2004@gmail.com](mailto:apug2004@gmail.com)
+[MIT](LICENSE). Augusto Pugliano — [GitHub](https://github.com/apugliano-git).

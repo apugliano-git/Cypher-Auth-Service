@@ -1,0 +1,5 @@
+capabilities CapBnd:	00000000a80425fb
+fstab 37 /etc/fstab
+9:C 09 Oct 2026 03:48:45.359 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+tls-port
+0

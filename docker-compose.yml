@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16
+    image: postgres:16@sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d
     container_name: cypher_postgres
     environment:
       POSTGRES_DB: cypher
@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:7
+    image: redis:7@sha256:4fa24486b8bcca8eec45ee0eb166edc674795e53a2b53d1a9ef263eecebaac85
     container_name: cypher_redis
     restart: unless-stopped
 
@@ -28,13 +28,17 @@ services:
       - postgres
       - redis
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     environment:
       - DB_HOST=postgres
       - REDIS_HOST=redis
       - DB_PASSWORD=${DB_PASSWORD}
       - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ANTHROPIC_ENABLED=${ANTHROPIC_ENABLED:-false}
+      - JWT_ISSUER=${JWT_ISSUER:-http://localhost:8080}
+      - JWT_KEY_ID=${JWT_KEY_ID:-cypher-key}
+      - JAVA_TOOL_OPTIONS=-Duser.timezone=UTC
       - DDL_AUTO=validate
       - SQL_INIT_MODE=always
     volumes:

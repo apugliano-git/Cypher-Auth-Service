@@ -4,7 +4,6 @@ import com.augustopugliano.cypher.dto.RegisterRequest;
 import com.augustopugliano.cypher.exception.UserAlreadyExistsException;
 import com.augustopugliano.cypher.model.User;
 import com.augustopugliano.cypher.repository.UserRepository;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,7 @@ public class UserService {
     @Transactional
     public void register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistsException("User with email " + request.getEmail() + " already exists");
+            throw new UserAlreadyExistsException("Account already exists");
         }
 
         User user = new User();
@@ -31,6 +30,17 @@ public class UserService {
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         // role is "USER" by default and createdAt is set automatically by JPA
 
-        userRepository.save(user);
+        try {
+            userRepository.saveAndFlush(user);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            Throwable cause = e;
+            while (cause != null) {
+                if (cause instanceof java.sql.SQLException sql && "23505".equals(sql.getSQLState())) {
+                    throw new UserAlreadyExistsException("Account already exists");
+                }
+                cause = cause.getCause();
+            }
+            throw e;
+        }
     }
 }

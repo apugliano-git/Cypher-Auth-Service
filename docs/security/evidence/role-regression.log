@@ -1,0 +1,43 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ---------------------< com.augustopugliano:cypher >---------------------
+[INFO] Building Cypher Auth Service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.5.0:resources (default-resources) @ cypher ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO]
+[INFO] --- compiler:3.15.0:compile (default-compile) @ cypher ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 32 source files with javac [debug parameters release 21] to target/classes
+[INFO]
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ cypher ---
+[INFO] skip non existing resourceDirectory /home/augep/Documentos/Proyectos/Cypher_Auth_Service/src/test/resources
+[INFO]
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ cypher ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 8 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] /home/augep/Documentos/Proyectos/Cypher_Auth_Service/src/test/java/com/augustopugliano/cypher/AuthIntegrationTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/augep/Documentos/Proyectos/Cypher_Auth_Service/src/test/java/com/augustopugliano/cypher/AuthIntegrationTest.java: Recompile with -Xlint:unchecked for details.
+[INFO]
+[INFO] --- surefire:3.5.6:test (default-test) @ cypher ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.augustopugliano.cypher.JwtContractTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.220 s -- in com.augustopugliano.cypher.JwtContractTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.298 s
+[INFO] Finished at: 2026-10-09T00:46:11-03:00
+[INFO] ------------------------------------------------------------------------

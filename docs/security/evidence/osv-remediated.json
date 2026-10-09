@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-08T20:02:43.021237+00:00",
+  "source": "https://api.osv.dev/v1/querybatch",
+  "packages": 164,
+  "findings": [
+    {
+      "coordinate": "org.apache.tomcat.embed:tomcat-embed-core:11.0.24",
+      "advisories": [
+        {
+          "id": "GHSA-9xv2-5v5q-p794",
+          "modified": "2026-09-11T08:25:52.825871Z"
+        },
+        {
+          "id": "GHSA-gcx9-497g-6cp6",
+          "modified": "2026-09-11T08:25:41.300012Z"
+        },
+        {
+          "id": "GHSA-h3x4-894j-xpx5",
+          "modified": "2026-09-11T08:25:40.118635Z"
+        }
+      ]
+    }
+  ],
+  "status": "completed; applicability requires official advisory review"
+}

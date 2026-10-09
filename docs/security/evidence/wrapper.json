@@ -1,0 +1,6 @@
+{
+  "url": "https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.16/apache-maven-3.9.16-bin.zip",
+  "method": "Downloaded official Maven Central distribution and matched publisher SHA-512; computed pinned SHA-256",
+  "sha256": "5af3b743dd8b876b5c45da33b676251e5f1687712644abb4ee519ca56e1d89ce",
+  "sha512_matched": true
+}

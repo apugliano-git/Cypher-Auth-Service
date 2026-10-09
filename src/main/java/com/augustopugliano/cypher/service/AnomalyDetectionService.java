@@ -57,7 +57,7 @@ public class AnomalyDetectionService {
         double hours = duration.toMillis() / (1000.0 * 60 * 60);
 
         if (hours <= 0) {
-            hours = 0.001; // Avoid division by zero
+            return new AnomalyResult(false, prevGeo, currentGeo, 0, hours);
         }
 
         double speedKmh = distance / hours;

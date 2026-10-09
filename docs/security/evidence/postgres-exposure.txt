@@ -1,0 +1,6 @@
+capabilities CapBnd:	00000000a80425fb
+fstab 37 /etc/fstab
+/usr/lib/systemd/systemd-homed absent
+/usr/lib/gnupg/tpm2daemon absent
+/dev/tpm0 absent
+/dev/tpmrm0 absent

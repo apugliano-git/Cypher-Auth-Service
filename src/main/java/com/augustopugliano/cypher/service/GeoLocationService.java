@@ -60,8 +60,12 @@ public class GeoLocationService {
             return null;
         }
 
+        // Only address literals from the socket/audit store are accepted; never resolve hostnames.
+        if (!(ipAddress.matches("[0-9.]+") || (ipAddress.contains(":") && ipAddress.matches("[0-9a-fA-F:.]+")))) return null;
         try {
             InetAddress ipAddressObj = InetAddress.getByName(ipAddress);
+            if (ipAddressObj.isAnyLocalAddress() || ipAddressObj.isLoopbackAddress() || ipAddressObj.isSiteLocalAddress()
+                    || ipAddressObj.isLinkLocalAddress() || ipAddressObj.isMulticastAddress()) return null;
             CityResponse response = dbReader.city(ipAddressObj);
 
             Double lat = response.getLocation().getLatitude();

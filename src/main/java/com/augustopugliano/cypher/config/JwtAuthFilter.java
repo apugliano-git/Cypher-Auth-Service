@@ -61,7 +61,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (Exception e) {
-            logger.debug("Failed to validate JWT token", e);
+            SecurityContextHolder.clearContext();
+            logger.debug("Rejected bearer token");
         }
 
         filterChain.doFilter(request, response);

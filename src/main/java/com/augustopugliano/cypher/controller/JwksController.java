@@ -18,16 +18,22 @@ public class JwksController {
         this.jwtService = jwtService;
     }
 
+    private static String unsigned(java.math.BigInteger integer) {
+        byte[] bytes = integer.toByteArray();
+        if (bytes.length > 1 && bytes[0] == 0) bytes = java.util.Arrays.copyOfRange(bytes, 1, bytes.length);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+    }
+
     @GetMapping("/.well-known/jwks.json")
     public Map<String, Object> getJwks() {
         RSAPublicKey publicKey = (RSAPublicKey) jwtService.getPublicKey();
         
-        String n = Base64.getUrlEncoder().withoutPadding().encodeToString(publicKey.getModulus().toByteArray());
-        String e = Base64.getUrlEncoder().withoutPadding().encodeToString(publicKey.getPublicExponent().toByteArray());
+        String n = unsigned(publicKey.getModulus());
+        String e = unsigned(publicKey.getPublicExponent());
 
         Map<String, Object> key = Map.of(
             "kty", "RSA",
-            "kid", "cypher-key",
+            "kid", jwtService.getKeyId(),
             "use", "sig",
             "alg", "RS256",
             "n", n,
