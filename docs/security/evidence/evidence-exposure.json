@@ -1,0 +1,9 @@
+{
+  "published_commit": "16b30846310536b6c98812175b7b68353748a06d",
+  "credential_line_categories": {
+    "generated_boot_password": 13,
+    "rejected_test_credentials": 10,
+    "other_credential_assignments": 1
+  },
+  "values_exported": false
+}

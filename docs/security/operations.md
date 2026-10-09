@@ -66,7 +66,7 @@ Historical literal password configuration exists at commits `d2242f052f58e0a6252
 python3 scripts/security/dependency_scan.py target/dependencies.txt target/osv.json
 ```
 
-Tests require Docker and Mockito instrumentation outside a restrictive sandbox; their containers are disposable and have no personal volume mounts. CI workflow is included, but no push/hosted run occurs in this audit. Maven/OSV results are complemented by Trivy 0.75.0 scans in the audit. Re-run `trivy image --scanners vuln cypher-security-audit:20261009-closeout` on the actually built image and review official advisories/applicability.
+Tests require Docker and Mockito instrumentation outside a restrictive sandbox; their containers are disposable and have no personal volume mounts. The audit branch was subsequently committed/pushed at the owner’s request; hosted CI results are separate from local test evidence. Maven/OSV results are complemented by Trivy 0.75.0 scans in the audit. Re-run `trivy image --scanners vuln cypher-security-audit:20261009-closeout` on the actually built image and review official advisories/applicability.
 
 The final Cypher image has zero Trivy Alpine/JAR matches at the recorded date. PostgreSQL/Redis cached images had many component matches; read the audit for official-source false-positive/reachability analysis and updated-image results. Binary JRE internals are not exhaustively audited by a JAR/package scan. Do not expose a deployment merely because its application image is clean.
 
@@ -91,3 +91,19 @@ Required non-secret confirmation: **which environments/roles/config stores were 
 - Rotate every reused service credential through that service's supported owner procedure. For keystore-password reuse, replace protection and update config; if private-key material may have been obtained, follow urgent signing-key replacement in the identity contract. Password-only DB rotation does not inherently invalidate access JWTs or refresh rows. A demonstrated database compromise additionally requires incident review of users/roles/audits/session integrity; this audit cannot infer that it occurred.
 
 Impact: issuance/registration/refresh may return 503 while DB credentials are mismatched; already-open connections can persist until restarted. Existing JWT verification/JWKS normally remains available in a running instance because the signing key is independent. Reused signing-key compromise has a different, global token/cache impact. Record the owner's final confirmation here without secrets; until then there is no favorable public-exposure claim.
+
+
+## Publishing sanitized evidence
+
+The initial audit publication incorrectly included raw test logs. The owner reported a generic-password alert; the corrected audit records the incident and its limits. Cypher now excludes Boot's default password-bearing user auto-configuration rather than hiding its logger. Own JWT authentication and Argon2 remain enabled.
+
+Before committing evidence, run:
+
+```bash
+python3 -m unittest discover -s scripts/security -p test_evidence.py
+python3 scripts/security/evidence.py docs/security/evidence
+```
+
+Raw output stays in an owned temporary location. For public CI output, use `python3 scripts/security/evidence.py --summary /tmp/<owned-test-run>.log`, which permits only strictly formatted Maven results. Sanitize an explicitly selected local log with `python3 scripts/security/evidence.py --redact /tmp/<owned-test-run>.log`, review it, then copy only that sanitized version into evidence. The redactor conservatively discards the remainder after a credential marker (multiline values have no trustworthy log delimiter), preserving only allowed Maven results. Review static evidence before publishing it. The check reports file/line only, never the matched value. It recognizes the demonstrated Boot warning, rejected password/refresh fields, credential assignments, authorization headers and private-key markers. It is a bounded format guard, not an exhaustive entropy/provider secret scanner; do not publish actual environment dumps, HTTP credentials/tokens, private keys or raw reports regardless of a passing result.
+
+CI captures Maven output privately, publishes only allowed test/build summary lines, preserves Maven's exit code, and gates selected public artifacts on the evidence check. Raw Surefire XML/text and driver logs are no longer uploaded. GitHub runner console output/artifacts from earlier runs and already published Git commits are not erased by this patch. No force push, history rewrite, real rotation or automatic alert dismissal is performed. The reported Boot credentials belong to discarded synthetic runs, not PostgreSQL, PKCS12 or Anthropic; Basic access was rejected in the reproduction. C08's historical database credentials still need the separate owner verification above.

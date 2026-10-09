@@ -1,0 +1,7 @@
+{
+  "tests": 6,
+  "failures": 1,
+  "case": "Multiline rejected/assigned credentials survived the first redactor",
+  "values_withheld": true,
+  "state": "subsequently fixed; seven final unit tests pass"
+}

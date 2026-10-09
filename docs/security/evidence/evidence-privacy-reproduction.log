@@ -1,0 +1,29 @@
+FFF.
+======================================================================
+FAIL: test_assignments_authorization_and_private_keys_are_rejected (test_evidence.EvidencePrivacyTest.test_assignments_authorization_and_private_keys_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/augep/Documentos/Proyectos/Cypher_Auth_Service/scripts/security/test_evidence.py", line 23, in test_assignments_authorization_and_private_keys_are_rejected
+    self.assertTrue(findings(text))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_generated_password_is_removed_without_losing_test_result (test_evidence.EvidencePrivacyTest.test_generated_password_is_removed_without_losing_test_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/augep/Documentos/Proyectos/Cypher_Auth_Service/scripts/security/test_evidence.py", line 8, in test_generated_password_is_removed_without_losing_test_result
+    self.assertNotIn("fixture-only-value", redact(text))
+[REDACTED credential-bearing log line]
+
+======================================================================
+FAIL: test_rejected_password_and_refresh_values_are_removed (test_evidence.EvidencePrivacyTest.test_rejected_password_and_refresh_values_are_removed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/augep/Documentos/Proyectos/Cypher_Auth_Service/scripts/security/test_evidence.py", line 16, in test_rejected_password_and_refresh_values_are_removed
+    self.assertNotIn("fixture-only-value", redact(text))
+[REDACTED credential-bearing log line]
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=3)

@@ -115,7 +115,7 @@ OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader clas
 2026-10-08T16:54:42.387-03:00  WARN 95523 --- [cypher] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2026-10-08T16:54:42.597-03:00  WARN 95523 --- [cypher] [           main] .s.a.UserDetailsServiceAutoConfiguration :
 
-Using generated security password: b57d7ad9-b1d5-493f-9804-aeb301bc4ff2
+[REDACTED credential-bearing log line]
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
@@ -913,7 +913,7 @@ expected: 2026-10-15T19:54:51.760600Z
 expected: 2026-10-15T19:54:52.199437Z
  but was: 2026-10-15T19:54:52.220295Z
 [ERROR] Errors:
-[ERROR]   AuthIntegrationTest.failedSigningDoesNotConsumeRefreshToken:248->refresh:280 » RestClient Error while extracting response for type [class com.augustopugliano.cypher.dto.TokenResponse] and content type [application/json]
+[REDACTED credential-bearing log line]
 [INFO]
 [ERROR] Tests run: 17, Failures: 5, Errors: 1, Skipped: 0
 [INFO]

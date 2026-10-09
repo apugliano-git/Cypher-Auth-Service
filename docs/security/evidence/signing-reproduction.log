@@ -116,7 +116,7 @@ OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader clas
 2026-10-08T16:55:43.566-03:00  WARN 96581 --- [cypher] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2026-10-08T16:55:43.808-03:00  WARN 96581 --- [cypher] [           main] .s.a.UserDetailsServiceAutoConfiguration :
 
-Using generated security password: 227718d9-8dac-4e86-96e4-506f878a2814
+[REDACTED credential-bearing log line]
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 

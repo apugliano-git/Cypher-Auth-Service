@@ -85,6 +85,20 @@ public class AuthIntegrationTest {
     @Autowired
     private org.springframework.data.redis.core.StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private org.springframework.context.ApplicationContext applicationContext;
+
+    @Test
+    void unusedBootUserIsAbsentAndBasicAuthenticationCannotGrantAccess() {
+        var properties = applicationContext.getBean(org.springframework.boot.security.autoconfigure.SecurityProperties.class);
+        var headers = new org.springframework.http.HttpHeaders();
+        headers.setBasicAuth(properties.getUser().getName(), properties.getUser().getPassword());
+        assertThat(restTemplate.exchange(url("/auth/me"), org.springframework.http.HttpMethod.GET,
+                new org.springframework.http.HttpEntity<>(headers), String.class).getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(applicationContext.getBeansOfType(org.springframework.security.core.userdetails.UserDetailsService.class).size())
+                .as("JWT-only Cypher must not create a default password-bearing user").isZero();
+    }
+
     @BeforeEach
     void setUp() {
         restTemplate.setErrorHandler(new org.springframework.web.client.DefaultResponseErrorHandler() {

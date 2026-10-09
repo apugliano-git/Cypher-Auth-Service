@@ -105,7 +105,7 @@
 2026-10-08T16:50:47.672-03:00  WARN 91048 --- [cypher] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2026-10-08T16:50:47.859-03:00  WARN 91048 --- [cypher] [           main] .s.a.UserDetailsServiceAutoConfiguration :
 
-Using generated security password: 80f2cd67-d183-487f-9036-b1a7c50abb64
+[REDACTED credential-bearing log line]
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 

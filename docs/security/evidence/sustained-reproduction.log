@@ -110,7 +110,7 @@ OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader clas
 2026-10-09T00:46:33.907-03:00 ERROR 143306 --- [cypher] [           main] c.a.cypher.service.GeoLocationService    : GeoIP database not found at missing-test-geoip.mmdb
 2026-10-09T00:46:35.185-03:00  WARN 143306 --- [cypher] [           main] .s.a.UserDetailsServiceAutoConfiguration :
 
-Using generated security password: 263dbf53-ae89-484f-a9dd-a6342b7f0085
+[REDACTED credential-bearing log line]
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 

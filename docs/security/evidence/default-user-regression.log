@@ -1,0 +1,133 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ---------------------< com.augustopugliano:cypher >---------------------
+[INFO] Building Cypher Auth Service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.5.0:resources (default-resources) @ cypher ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO]
+[INFO] --- compiler:3.15.0:compile (default-compile) @ cypher ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 32 source files with javac [debug parameters release 21] to target/classes
+[INFO]
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ cypher ---
+[INFO] skip non existing resourceDirectory /home/augep/Documentos/Proyectos/Cypher_Auth_Service/src/test/resources
+[INFO]
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ cypher ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 8 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] /home/augep/Documentos/Proyectos/Cypher_Auth_Service/src/test/java/com/augustopugliano/cypher/AuthIntegrationTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/augep/Documentos/Proyectos/Cypher_Auth_Service/src/test/java/com/augustopugliano/cypher/AuthIntegrationTest.java: Recompile with -Xlint:unchecked for details.
+[INFO]
+[INFO] --- surefire:3.5.6:test (default-test) @ cypher ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.augustopugliano.cypher.AuthIntegrationTest
+15:26:28.581 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.augustopugliano.cypher.AuthIntegrationTest]: AuthIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:26:28.774 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.augustopugliano.cypher.CypherApplication for test class com.augustopugliano.cypher.AuthIntegrationTest
+15:26:28.903 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.augustopugliano.cypher.AuthIntegrationTest]: AuthIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:26:28.909 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.augustopugliano.cypher.CypherApplication for test class com.augustopugliano.cypher.AuthIntegrationTest
+15:26:30.352 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+15:26:30.355 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+15:26:30.372 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+15:26:30.662 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+15:26:31.396 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
+15:26:31.398 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+15:26:31.421 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker:
+  Server Version: 29.8.1
+  API Version: 1.56
+  Operating System: Zorin OS 18.1
+  Total Memory: 15646 MB
+15:26:31.638 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+15:26:31.647 [main] INFO org.testcontainers.utility.RegistryAuthLocator -- Failure when attempting to lookup auth config. Please ignore if you don't have images in an authenticated registry. Details: (dockerImageName: testcontainers/ryuk:0.14.0, configFile: /home/augep/.docker/config.json, configEnv: DOCKER_AUTH_CONFIG). Falling back to docker-java default behaviour. Exception message: Status 404: No config supplied. Checked in order: /home/augep/.docker/config.json (file not found), DOCKER_AUTH_CONFIG (not set)
+15:26:31.850 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: 182d35a9a1e387c31e1e9771e4dfed31e4dae008121a33088026bf193555b424
+15:26:32.424 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.785650203S
+15:26:32.431 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+15:26:32.432 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+15:26:32.432 [main] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+15:26:32.433 [main] INFO tc.redis:7 -- Creating container for image: redis:7
+15:26:32.505 [main] INFO tc.redis:7 -- Container redis:7 is starting: 7179cf5461cbc6906578f204a4cf3d09f04c083350765b561dce3668298f6aad
+15:26:32.865 [main] INFO tc.redis:7 -- Container redis:7 started in PT0.432014075S
+15:26:32.866 [main] INFO tc.postgres:16 -- Creating container for image: postgres:16
+15:26:32.954 [main] INFO tc.postgres:16 -- Container postgres:16 is starting: eddb52d7c4fa254f5df29246a1ce7b5a1b298a705af154fdcb7fc13924107eb7
+15:26:34.620 [main] INFO tc.postgres:16 -- Container postgres:16 started in PT1.75396984S
+15:26:34.621 [main] INFO tc.postgres:16 -- Container is started (JDBC URL: jdbc:postgresql://localhost:32773/cypher_test?loggerLevel=OFF)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-09T15:26:35.407-03:00  INFO 9015 --- [cypher] [           main] c.a.cypher.AuthIntegrationTest           : Starting AuthIntegrationTest using Java 21.0.3 with PID 9015 (started by augep in /home/augep/Documentos/Proyectos/Cypher_Auth_Service)
+2026-10-09T15:26:35.410-03:00  INFO 9015 --- [cypher] [           main] c.a.cypher.AuthIntegrationTest           : No active profile set, falling back to 1 default profile: "default"
+2026-10-09T15:26:36.520-03:00  INFO 9015 --- [cypher] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-09T15:26:36.524-03:00  INFO 9015 --- [cypher] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-09T15:26:36.768-03:00  INFO 9015 --- [cypher] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 229 ms. Found 3 JPA repository interfaces.
+2026-10-09T15:26:36.864-03:00  INFO 9015 --- [cypher] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-09T15:26:36.865-03:00  INFO 9015 --- [cypher] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-10-09T15:26:36.893-03:00  INFO 9015 --- [cypher] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.augustopugliano.cypher.repository.LoginAuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-10-09T15:26:36.893-03:00  INFO 9015 --- [cypher] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.augustopugliano.cypher.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-10-09T15:26:36.894-03:00  INFO 9015 --- [cypher] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.augustopugliano.cypher.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-10-09T15:26:36.894-03:00  INFO 9015 --- [cypher] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2026-10-09T15:26:37.899-03:00  INFO 9015 --- [cypher] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-09T15:26:37.921-03:00  INFO 9015 --- [cypher] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-09T15:26:37.922-03:00  INFO 9015 --- [cypher] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.26]
+2026-10-09T15:26:37.993-03:00  INFO 9015 --- [cypher] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2546 ms
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/augep/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.11/byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+2026-10-09T15:26:39.861-03:00  INFO 9015 --- [cypher] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-09T15:26:40.238-03:00  INFO 9015 --- [cypher] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@585718dd
+2026-10-09T15:26:40.242-03:00  INFO 9015 --- [cypher] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-09T15:26:40.550-03:00  INFO 9015 --- [cypher] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-09T15:26:40.677-03:00  INFO 9015 --- [cypher] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-09T15:26:41.345-03:00  INFO 9015 --- [cypher] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-09T15:26:41.469-03:00  WARN 9015 --- [cypher] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-10-09T15:26:41.502-03:00  INFO 9015 --- [cypher] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:32773/cypher_test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.15
+	Default catalog/schema: cypher_test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-09T15:26:43.407-03:00  INFO 9015 --- [cypher] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-09T15:26:43.480-03:00  INFO 9015 --- [cypher] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-09T15:26:43.647-03:00  INFO 9015 --- [cypher] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-09T15:26:45.069-03:00 ERROR 9015 --- [cypher] [           main] c.a.cypher.service.GeoLocationService    : GeoIP database not found at missing-test-geoip.mmdb
+2026-10-09T15:26:47.167-03:00  INFO 9015 --- [cypher] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 43639 (http) with context path '/'
+2026-10-09T15:26:47.180-03:00  INFO 9015 --- [cypher] [           main] c.a.cypher.AuthIntegrationTest           : Started AuthIntegrationTest in 12.231 seconds (process running for 20.29)
+2026-10-09T15:26:48.132-03:00  INFO 9015 --- [cypher] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-09T15:26:48.133-03:00  INFO 9015 --- [cypher] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-09T15:26:48.137-03:00  INFO 9015 --- [cypher] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-10-09T15:26:48.630-03:00  INFO 9015 --- [cypher] [xecutorLoop-1-1] i.l.core.protocol.ConnectionWatchdog     : Reconnecting, last destination was localhost/127.0.0.1:32772
+2026-10-09T15:26:48.639-03:00  WARN 9015 --- [cypher] [ioEventLoop-4-2] i.l.core.protocol.ConnectionWatchdog     : Cannot reconnect to [localhost/<unresolved>:32772]: Connection refused: localhost/127.0.0.1:32772
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.54 s -- in com.augustopugliano.cypher.AuthIntegrationTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  30.953 s
+[INFO] Finished at: 2026-10-09T15:26:48-03:00
+[INFO] ------------------------------------------------------------------------

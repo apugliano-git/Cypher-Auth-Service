@@ -529,7 +529,7 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
 2026-10-08T17:07:12.108-03:00 ERROR 105036 --- [cypher] [           main] c.a.cypher.service.GeoLocationService    : GeoIP database not found at missing-test-geoip.mmdb
 2026-10-08T17:07:13.010-03:00  WARN 105036 --- [cypher] [           main] .s.a.UserDetailsServiceAutoConfiguration :
 
-Using generated security password: 7e2703e2-ad14-4390-9e91-352bf5ec77a3
+[REDACTED credential-bearing log line]
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 

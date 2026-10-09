@@ -113,7 +113,7 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
 2026-10-09T00:10:42.555-03:00 ERROR 123600 --- [cypher] [           main] c.a.cypher.service.GeoLocationService    : GeoIP database not found at missing-test-geoip.mmdb
 2026-10-09T00:10:44.207-03:00  WARN 123600 --- [cypher] [           main] .s.a.UserDetailsServiceAutoConfiguration :
 
-Using generated security password: 9a2a001c-2201-40e7-bc6d-b8c27ae5ce82
+[REDACTED credential-bearing log line]
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
@@ -123,7 +123,7 @@ This generated password is for development use only. Your security configuration
 2026-10-09T00:10:47.703-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2026-10-09T00:10:47.706-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-10-09T00:10:47.711-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
-2026-10-09T00:10:47.929-03:00  WARN 123600 --- [cypher] [o-auto-1-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.augustopugliano.cypher.dto.TokenResponse> com.augustopugliano.cypher.controller.AuthController.login(com.augustopugliano.cypher.dto.LoginRequest,jakarta.servlet.http.HttpServletRequest): [Field error in object 'loginRequest' on field 'password': rejected value [SyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPassword]; codes [Size.loginRequest.password,Size.password,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [loginRequest.password,password]; arguments []; default message [password],128,0]; default message [size must be between 0 and 128]] ]
+[REDACTED credential-bearing log line]
 2026-10-09T00:10:48.645-03:00  INFO 123600 --- [cypher] [xecutorLoop-1-1] i.l.core.protocol.ConnectionWatchdog     : Reconnecting, last destination was localhost/127.0.0.1:32820
 2026-10-09T00:10:48.657-03:00  WARN 123600 --- [cypher] [ioEventLoop-4-2] i.l.core.protocol.ConnectionWatchdog     : Cannot reconnect to [localhost/<unresolved>:32820]: Connection refused: localhost/127.0.0.1:32820
 [ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 33.35 s <<< FAILURE! -- in com.augustopugliano.cypher.AuthIntegrationTest
@@ -134,7 +134,7 @@ Expecting actual:
   "2026-10-09T00:10:47.703-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2026-10-09T00:10:47.706-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-10-09T00:10:47.711-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
-2026-10-09T00:10:47.929-03:00  WARN 123600 --- [cypher] [o-auto-1-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.augustopugliano.cypher.dto.TokenResponse> com.augustopugliano.cypher.controller.AuthController.login(com.augustopugliano.cypher.dto.LoginRequest,jakarta.servlet.http.HttpServletRequest): [Field error in object 'loginRequest' on field 'password': rejected value [SyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPassword]; codes [Size.loginRequest.password,Size.password,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [loginRequest.password,password]; arguments []; default message [password],128,0]; default message [size must be between 0 and 128]] ]
+[REDACTED credential-bearing log line]
 "
 not to contain:
   "SyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPassword"
@@ -150,7 +150,7 @@ Expecting actual:
   "2026-10-09T00:10:47.703-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2026-10-09T00:10:47.706-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-10-09T00:10:47.711-03:00  INFO 123600 --- [cypher] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
-2026-10-09T00:10:47.929-03:00  WARN 123600 --- [cypher] [o-auto-1-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.augustopugliano.cypher.dto.TokenResponse> com.augustopugliano.cypher.controller.AuthController.login(com.augustopugliano.cypher.dto.LoginRequest,jakarta.servlet.http.HttpServletRequest): [Field error in object 'loginRequest' on field 'password': rejected value [SyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPassword]; codes [Size.loginRequest.password,Size.password,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [loginRequest.password,password]; arguments []; default message [password],128,0]; default message [size must be between 0 and 128]] ]
+[REDACTED credential-bearing log line]
 "
 not to contain:
   "SyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPasswordSyntheticNeverLogPassword"

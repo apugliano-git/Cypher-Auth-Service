@@ -13,14 +13,34 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
-      - run: ./mvnw -B clean verify
-      - uses: actions/upload-artifact@v4
+      - run: python3 -m unittest discover -s scripts/security -p test_evidence.py
+      - run: python3 scripts/security/evidence.py docs/security/evidence
+      - name: Verify and publish test summaries
+        shell: bash
+        run: |
+          set +e
+          ./mvnw -B clean verify > "$RUNNER_TEMP/cypher-tests.log" 2>&1
+          result=$?
+          set -e
+          mkdir -p target
+          python3 scripts/security/evidence.py --summary "$RUNNER_TEMP/cypher-tests.log" > target/security-test.log
+          cat target/security-test.log
+          python3 scripts/security/evidence.py target/security-test.log
+          exit "$result"
+      - name: Check public artifact privacy
+        id: evidence
         if: always()
+        shell: bash
+        run: |
+          python3 scripts/security/evidence.py docs/security/evidence
+          for path in target/security-test.log target/security-load.json target/security-sustained.json; do
+            if [ -f "$path" ]; then python3 scripts/security/evidence.py "$path"; fi
+          done
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.evidence.outcome == 'success'
         with:
           name: synthetic-test-evidence
           path: |
-            target/surefire-reports/
+            target/security-test.log
             target/security-load.json
-            target/security-load-driver.log
             target/security-sustained.json
-            target/security-sustained-driver.log
