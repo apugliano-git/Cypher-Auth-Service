@@ -1,0 +1,10 @@
+{
+  "old_registration_order": "file then directory",
+  "old_result": "empty fixture directory survives JVM exit",
+  "fixed_registration_order": "directory then file",
+  "fixed_result": "directory and file absent after JVM exit",
+  "isolated_probe": "PASS",
+  "personal_paths_touched": false,
+  "full_suite_observed_fresh_key_directories": 1,
+  "remaining_after_test_jvm_exit": 0
+}

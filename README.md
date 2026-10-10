@@ -62,7 +62,7 @@ Do not delete an existing PostgreSQL volume to upgrade. This remediation require
 ./mvnw clean verify
 ```
 
-This runs deterministic JWT/validation/optional-work checks, actual HTTP/PostgreSQL/Redis flows, races, failure recovery, independent Java verification, synthetic backup/restore and a short bounded load campaign with security limits active. Docker socket access and local Mockito instrumentation are required. Reports are generated afresh in `target/surefire-reports/` and `target/security-load.json`. CI runs the same command; no hosted CI execution is claimed until pushed by the owner.
+This runs deterministic JWT/validation/optional-work checks, actual HTTP/PostgreSQL/Redis flows, races, failure recovery, independent Java verification, synthetic backup/restore and a short bounded load campaign with security limits active. Docker socket access and local Mockito instrumentation are required. Reports are generated afresh in `target/surefire-reports/`, `target/security-load.json` and `target/security-sustained.json`. CI runs the same suite and publishes only controlled summaries/metrics; raw reports stay local. Retained audit evidence is compact; intermediate build/test output is not versioned. Hosted CI results have not been verified from this environment.
 
 To repeat only the local campaign:
 

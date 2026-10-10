@@ -1,7 +1,5 @@
 package com.augustopugliano.cypher.dto;
 
-import java.util.UUID;
-
 public class UserDto {
     private String id;
     private String email;

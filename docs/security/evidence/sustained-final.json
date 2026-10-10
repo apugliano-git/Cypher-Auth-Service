@@ -18,7 +18,7 @@
     "limits_active": true,
     "sources": "127.0.0.1..60; recovery .100",
     "llm": "disabled",
-    "jvm_pid": 144460
+    "jvm_pid": 39923
   },
   "measurement_seconds": 180.0,
   "measured_attempts": 240,
@@ -32,10 +32,10 @@
       "statuses": {
         "200": 20
       },
-      "p50_ms": 100.967,
-      "p95_ms": 238.526,
-      "p99_ms": 670.997,
-      "admitted_p95_ms": 238.526
+      "p50_ms": 194.074,
+      "p95_ms": 469.591,
+      "p99_ms": 1916.949,
+      "admitted_p95_ms": 469.591
     },
     {
       "phase": "minute-1",
@@ -44,10 +44,10 @@
       "statuses": {
         "401": 20
       },
-      "p50_ms": 94.098,
-      "p95_ms": 132.717,
-      "p99_ms": 294.961,
-      "admitted_p95_ms": 132.717
+      "p50_ms": 181.704,
+      "p95_ms": 339.34,
+      "p99_ms": 491.737,
+      "admitted_p95_ms": 339.34
     },
     {
       "phase": "minute-1",
@@ -56,10 +56,10 @@
       "statuses": {
         "201": 20
       },
-      "p50_ms": 97.342,
-      "p95_ms": 168.239,
-      "p99_ms": 1117.684,
-      "admitted_p95_ms": 168.239
+      "p50_ms": 174.913,
+      "p95_ms": 311.395,
+      "p99_ms": 4435.001,
+      "admitted_p95_ms": 311.395
     },
     {
       "phase": "minute-1",
@@ -68,10 +68,10 @@
       "statuses": {
         "200": 20
       },
-      "p50_ms": 21.976,
-      "p95_ms": 50.278,
-      "p99_ms": 94.634,
-      "admitted_p95_ms": 50.278
+      "p50_ms": 48.811,
+      "p95_ms": 144.026,
+      "p99_ms": 726.435,
+      "admitted_p95_ms": 144.026
     },
     {
       "phase": "minute-2",
@@ -80,10 +80,10 @@
       "statuses": {
         "200": 20
       },
-      "p50_ms": 98.45,
-      "p95_ms": 129.38,
-      "p99_ms": 136.155,
-      "admitted_p95_ms": 129.38
+      "p50_ms": 236.679,
+      "p95_ms": 278.092,
+      "p99_ms": 341.595,
+      "admitted_p95_ms": 278.092
     },
     {
       "phase": "minute-2",
@@ -92,10 +92,10 @@
       "statuses": {
         "401": 20
       },
-      "p50_ms": 89.787,
-      "p95_ms": 123.384,
-      "p99_ms": 152.398,
-      "admitted_p95_ms": 123.384
+      "p50_ms": 216.765,
+      "p95_ms": 327.93,
+      "p99_ms": 342.718,
+      "admitted_p95_ms": 327.93
     },
     {
       "phase": "minute-2",
@@ -104,10 +104,10 @@
       "statuses": {
         "201": 20
       },
-      "p50_ms": 88.689,
-      "p95_ms": 116.791,
-      "p99_ms": 125.257,
-      "admitted_p95_ms": 116.791
+      "p50_ms": 201.697,
+      "p95_ms": 263.954,
+      "p99_ms": 277.567,
+      "admitted_p95_ms": 263.954
     },
     {
       "phase": "minute-2",
@@ -116,10 +116,10 @@
       "statuses": {
         "200": 20
       },
-      "p50_ms": 18.559,
-      "p95_ms": 28.184,
-      "p99_ms": 34.982,
-      "admitted_p95_ms": 28.184
+      "p50_ms": 51.261,
+      "p95_ms": 90.779,
+      "p99_ms": 124.322,
+      "admitted_p95_ms": 90.779
     },
     {
       "phase": "minute-3",
@@ -128,10 +128,10 @@
       "statuses": {
         "200": 20
       },
-      "p50_ms": 90.72,
-      "p95_ms": 138.864,
-      "p99_ms": 173.284,
-      "admitted_p95_ms": 138.864
+      "p50_ms": 229.569,
+      "p95_ms": 264.109,
+      "p99_ms": 290.549,
+      "admitted_p95_ms": 264.109
     },
     {
       "phase": "minute-3",
@@ -140,10 +140,10 @@
       "statuses": {
         "401": 20
       },
-      "p50_ms": 95.051,
-      "p95_ms": 133.143,
-      "p99_ms": 137.556,
-      "admitted_p95_ms": 133.143
+      "p50_ms": 212.931,
+      "p95_ms": 307.955,
+      "p99_ms": 335.45,
+      "admitted_p95_ms": 307.955
     },
     {
       "phase": "minute-3",
@@ -152,10 +152,10 @@
       "statuses": {
         "201": 20
       },
-      "p50_ms": 85.046,
-      "p95_ms": 99.985,
-      "p99_ms": 135.66,
-      "admitted_p95_ms": 99.985
+      "p50_ms": 201.918,
+      "p95_ms": 261.193,
+      "p99_ms": 274.595,
+      "admitted_p95_ms": 261.193
     },
     {
       "phase": "minute-3",
@@ -164,453 +164,453 @@
       "statuses": {
         "200": 20
       },
-      "p50_ms": 16.848,
-      "p95_ms": 26.004,
-      "p99_ms": 28.705,
-      "admitted_p95_ms": 26.004
+      "p50_ms": 50.878,
+      "p95_ms": 96.315,
+      "p99_ms": 100.176,
+      "admitted_p95_ms": 96.315
     }
   ],
   "resources": [
     {
       "phase": "before",
       "elapsed_seconds": 0.0,
-      "jvm_rss_kib": 424744,
-      "available_kib": 8249336,
+      "jvm_rss_kib": 530604,
+      "available_kib": 8123624,
       "jvm_cpu_percent": null
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 2.179,
-      "jvm_rss_kib": 453456,
-      "available_kib": 8214356,
-      "jvm_cpu_percent": 229.94
+      "elapsed_seconds": 7.572,
+      "jvm_rss_kib": 545052,
+      "available_kib": 8036700,
+      "jvm_cpu_percent": 229.79
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 3.557,
-      "jvm_rss_kib": 482512,
-      "available_kib": 8181244,
-      "jvm_cpu_percent": 169.01
+      "elapsed_seconds": 8.745,
+      "jvm_rss_kib": 545036,
+      "available_kib": 8029472,
+      "jvm_cpu_percent": 166.31
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 6.367,
-      "jvm_rss_kib": 482732,
-      "available_kib": 8182244,
-      "jvm_cpu_percent": 115.69
+      "elapsed_seconds": 9.854,
+      "jvm_rss_kib": 549036,
+      "available_kib": 8031508,
+      "jvm_cpu_percent": 171.19
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 9.393,
-      "jvm_rss_kib": 482808,
-      "available_kib": 8180740,
-      "jvm_cpu_percent": 48.58
+      "elapsed_seconds": 10.88,
+      "jvm_rss_kib": 549268,
+      "available_kib": 8021136,
+      "jvm_cpu_percent": 117.95
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 12.289,
-      "jvm_rss_kib": 482912,
-      "available_kib": 8183656,
-      "jvm_cpu_percent": 16.92
+      "elapsed_seconds": 13.048,
+      "jvm_rss_kib": 569184,
+      "available_kib": 7892728,
+      "jvm_cpu_percent": 70.11
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 15.393,
-      "jvm_rss_kib": 483084,
-      "available_kib": 8229160,
-      "jvm_cpu_percent": 28.35
+      "elapsed_seconds": 16.136,
+      "jvm_rss_kib": 580512,
+      "available_kib": 7815372,
+      "jvm_cpu_percent": 58.29
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 18.352,
-      "jvm_rss_kib": 483184,
-      "available_kib": 8197192,
-      "jvm_cpu_percent": 16.56
+      "elapsed_seconds": 18.575,
+      "jvm_rss_kib": 581088,
+      "available_kib": 8336408,
+      "jvm_cpu_percent": 34.04
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 21.329,
-      "jvm_rss_kib": 506452,
-      "available_kib": 8177780,
-      "jvm_cpu_percent": 22.84
+      "elapsed_seconds": 21.583,
+      "jvm_rss_kib": 581200,
+      "available_kib": 8337128,
+      "jvm_cpu_percent": 27.26
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 24.293,
-      "jvm_rss_kib": 518408,
-      "available_kib": 8174888,
-      "jvm_cpu_percent": 12.49
+      "elapsed_seconds": 24.54,
+      "jvm_rss_kib": 581284,
+      "available_kib": 8339920,
+      "jvm_cpu_percent": 23.33
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 27.371,
-      "jvm_rss_kib": 518972,
-      "available_kib": 8187536,
-      "jvm_cpu_percent": 18.84
+      "elapsed_seconds": 27.708,
+      "jvm_rss_kib": 581360,
+      "available_kib": 8330120,
+      "jvm_cpu_percent": 45.77
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 30.288,
-      "jvm_rss_kib": 519132,
-      "available_kib": 8222480,
-      "jvm_cpu_percent": 13.71
+      "elapsed_seconds": 30.584,
+      "jvm_rss_kib": 581432,
+      "available_kib": 8348512,
+      "jvm_cpu_percent": 33.38
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 33.32,
-      "jvm_rss_kib": 519236,
-      "available_kib": 8222796,
-      "jvm_cpu_percent": 27.37
+      "elapsed_seconds": 33.641,
+      "jvm_rss_kib": 581496,
+      "available_kib": 8314340,
+      "jvm_cpu_percent": 26.5
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 36.277,
-      "jvm_rss_kib": 519360,
-      "available_kib": 8231352,
-      "jvm_cpu_percent": 13.87
+      "elapsed_seconds": 36.522,
+      "jvm_rss_kib": 581584,
+      "available_kib": 8309296,
+      "jvm_cpu_percent": 25.68
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 39.358,
-      "jvm_rss_kib": 519476,
-      "available_kib": 8231032,
-      "jvm_cpu_percent": 14.93
+      "elapsed_seconds": 39.659,
+      "jvm_rss_kib": 581696,
+      "available_kib": 8321496,
+      "jvm_cpu_percent": 46.22
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 42.269,
-      "jvm_rss_kib": 519552,
-      "available_kib": 8231324,
-      "jvm_cpu_percent": 12.02
+      "elapsed_seconds": 42.546,
+      "jvm_rss_kib": 581740,
+      "available_kib": 8330848,
+      "jvm_cpu_percent": 23.9
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 45.323,
-      "jvm_rss_kib": 519524,
-      "available_kib": 8231340,
-      "jvm_cpu_percent": 23.25
+      "elapsed_seconds": 45.538,
+      "jvm_rss_kib": 588028,
+      "available_kib": 8332856,
+      "jvm_cpu_percent": 27.74
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 48.27,
-      "jvm_rss_kib": 519604,
-      "available_kib": 8231096,
-      "jvm_cpu_percent": 11.88
+      "elapsed_seconds": 48.528,
+      "jvm_rss_kib": 589300,
+      "available_kib": 8333024,
+      "jvm_cpu_percent": 22.75
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 51.38,
-      "jvm_rss_kib": 519684,
-      "available_kib": 8234220,
-      "jvm_cpu_percent": 15.76
+      "elapsed_seconds": 51.692,
+      "jvm_rss_kib": 602204,
+      "available_kib": 8317184,
+      "jvm_cpu_percent": 47.73
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 54.292,
-      "jvm_rss_kib": 519796,
-      "available_kib": 8234268,
-      "jvm_cpu_percent": 15.11
+      "elapsed_seconds": 54.505,
+      "jvm_rss_kib": 602296,
+      "available_kib": 8312172,
+      "jvm_cpu_percent": 23.82
     },
     {
       "phase": "minute-1",
-      "elapsed_seconds": 57.314,
-      "jvm_rss_kib": 519888,
-      "available_kib": 8182508,
-      "jvm_cpu_percent": 20.52
+      "elapsed_seconds": 57.682,
+      "jvm_rss_kib": 602376,
+      "available_kib": 8141112,
+      "jvm_cpu_percent": 35.56
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 60.399,
-      "jvm_rss_kib": 520080,
-      "available_kib": 8185008,
-      "jvm_cpu_percent": 25.6
+      "elapsed_seconds": 60.868,
+      "jvm_rss_kib": 602488,
+      "available_kib": 8106328,
+      "jvm_cpu_percent": 61.84
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 63.305,
-      "jvm_rss_kib": 520212,
-      "available_kib": 8191892,
-      "jvm_cpu_percent": 14.11
+      "elapsed_seconds": 63.643,
+      "jvm_rss_kib": 602568,
+      "available_kib": 8126064,
+      "jvm_cpu_percent": 37.84
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 66.293,
-      "jvm_rss_kib": 520268,
-      "available_kib": 8191780,
-      "jvm_cpu_percent": 19.41
+      "elapsed_seconds": 66.709,
+      "jvm_rss_kib": 602584,
+      "available_kib": 8112088,
+      "jvm_cpu_percent": 25.11
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 69.3,
-      "jvm_rss_kib": 520316,
-      "available_kib": 8192932,
-      "jvm_cpu_percent": 11.97
+      "elapsed_seconds": 69.635,
+      "jvm_rss_kib": 604656,
+      "available_kib": 8121616,
+      "jvm_cpu_percent": 24.95
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 72.338,
-      "jvm_rss_kib": 520368,
-      "available_kib": 8193324,
-      "jvm_cpu_percent": 13.17
+      "elapsed_seconds": 72.978,
+      "jvm_rss_kib": 604684,
+      "available_kib": 7957076,
+      "jvm_cpu_percent": 48.45
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 75.294,
-      "jvm_rss_kib": 520524,
-      "available_kib": 8193588,
-      "jvm_cpu_percent": 14.21
+      "elapsed_seconds": 75.873,
+      "jvm_rss_kib": 604768,
+      "available_kib": 7841392,
+      "jvm_cpu_percent": 31.44
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 78.298,
-      "jvm_rss_kib": 520604,
-      "available_kib": 8193628,
-      "jvm_cpu_percent": 22.97
+      "elapsed_seconds": 78.712,
+      "jvm_rss_kib": 604816,
+      "available_kib": 7813576,
+      "jvm_cpu_percent": 34.52
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 81.305,
-      "jvm_rss_kib": 520672,
-      "available_kib": 8192952,
-      "jvm_cpu_percent": 14.3
+      "elapsed_seconds": 81.649,
+      "jvm_rss_kib": 604884,
+      "available_kib": 7793724,
+      "jvm_cpu_percent": 30.65
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 84.35,
-      "jvm_rss_kib": 520816,
-      "available_kib": 8192700,
-      "jvm_cpu_percent": 14.45
+      "elapsed_seconds": 84.919,
+      "jvm_rss_kib": 604948,
+      "available_kib": 7737512,
+      "jvm_cpu_percent": 51.06
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 87.293,
-      "jvm_rss_kib": 520904,
-      "available_kib": 8232448,
-      "jvm_cpu_percent": 13.59
+      "elapsed_seconds": 87.662,
+      "jvm_rss_kib": 605016,
+      "available_kib": 7727408,
+      "jvm_cpu_percent": 32.81
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 90.319,
-      "jvm_rss_kib": 522636,
-      "available_kib": 8232700,
-      "jvm_cpu_percent": 24.12
+      "elapsed_seconds": 90.679,
+      "jvm_rss_kib": 605064,
+      "available_kib": 7686768,
+      "jvm_cpu_percent": 37.12
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 93.301,
-      "jvm_rss_kib": 522984,
-      "available_kib": 8214056,
-      "jvm_cpu_percent": 14.42
+      "elapsed_seconds": 93.719,
+      "jvm_rss_kib": 605140,
+      "available_kib": 7642392,
+      "jvm_cpu_percent": 29.61
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 96.341,
-      "jvm_rss_kib": 523076,
-      "available_kib": 8217744,
-      "jvm_cpu_percent": 18.42
+      "elapsed_seconds": 96.694,
+      "jvm_rss_kib": 605156,
+      "available_kib": 7612388,
+      "jvm_cpu_percent": 45.71
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 99.312,
-      "jvm_rss_kib": 523112,
-      "available_kib": 8218956,
-      "jvm_cpu_percent": 21.21
+      "elapsed_seconds": 99.666,
+      "jvm_rss_kib": 605160,
+      "available_kib": 7609788,
+      "jvm_cpu_percent": 26.92
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 102.278,
-      "jvm_rss_kib": 523152,
-      "available_kib": 8220852,
-      "jvm_cpu_percent": 11.46
+      "elapsed_seconds": 102.839,
+      "jvm_rss_kib": 605200,
+      "available_kib": 7552632,
+      "jvm_cpu_percent": 30.25
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 105.299,
-      "jvm_rss_kib": 523608,
-      "available_kib": 8095456,
-      "jvm_cpu_percent": 11.58
+      "elapsed_seconds": 105.823,
+      "jvm_rss_kib": 605208,
+      "available_kib": 7469032,
+      "jvm_cpu_percent": 30.5
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 108.379,
-      "jvm_rss_kib": 523740,
-      "available_kib": 8092940,
-      "jvm_cpu_percent": 25.97
+      "elapsed_seconds": 108.908,
+      "jvm_rss_kib": 605264,
+      "available_kib": 7418052,
+      "jvm_cpu_percent": 54.13
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 111.3,
-      "jvm_rss_kib": 523772,
-      "available_kib": 8083184,
-      "jvm_cpu_percent": 12.67
+      "elapsed_seconds": 111.659,
+      "jvm_rss_kib": 605316,
+      "available_kib": 7415236,
+      "jvm_cpu_percent": 29.45
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 114.262,
-      "jvm_rss_kib": 523840,
-      "available_kib": 8081388,
-      "jvm_cpu_percent": 10.47
+      "elapsed_seconds": 114.665,
+      "jvm_rss_kib": 605380,
+      "available_kib": 7422128,
+      "jvm_cpu_percent": 27.27
     },
     {
       "phase": "minute-2",
-      "elapsed_seconds": 117.291,
-      "jvm_rss_kib": 523880,
-      "available_kib": 8046504,
-      "jvm_cpu_percent": 14.19
+      "elapsed_seconds": 117.696,
+      "jvm_rss_kib": 605404,
+      "available_kib": 7402776,
+      "jvm_cpu_percent": 35.97
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 120.411,
-      "jvm_rss_kib": 523912,
-      "available_kib": 8046124,
-      "jvm_cpu_percent": 25.64
+      "elapsed_seconds": 120.851,
+      "jvm_rss_kib": 605424,
+      "available_kib": 7344232,
+      "jvm_cpu_percent": 49.43
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 123.3,
-      "jvm_rss_kib": 524080,
-      "available_kib": 8047460,
-      "jvm_cpu_percent": 14.54
+      "elapsed_seconds": 123.652,
+      "jvm_rss_kib": 605516,
+      "available_kib": 7353060,
+      "jvm_cpu_percent": 32.85
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 126.282,
-      "jvm_rss_kib": 524260,
-      "available_kib": 8046732,
-      "jvm_cpu_percent": 12.07
+      "elapsed_seconds": 126.684,
+      "jvm_rss_kib": 605652,
+      "available_kib": 7335132,
+      "jvm_cpu_percent": 30.34
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 129.339,
-      "jvm_rss_kib": 524276,
-      "available_kib": 8046068,
-      "jvm_cpu_percent": 23.22
+      "elapsed_seconds": 129.727,
+      "jvm_rss_kib": 605664,
+      "available_kib": 7321076,
+      "jvm_cpu_percent": 28.91
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 132.345,
-      "jvm_rss_kib": 524304,
-      "available_kib": 8045188,
-      "jvm_cpu_percent": 14.3
+      "elapsed_seconds": 132.828,
+      "jvm_rss_kib": 605668,
+      "available_kib": 7278500,
+      "jvm_cpu_percent": 52.24
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 135.296,
-      "jvm_rss_kib": 524324,
-      "available_kib": 8044552,
-      "jvm_cpu_percent": 11.52
+      "elapsed_seconds": 135.759,
+      "jvm_rss_kib": 605688,
+      "available_kib": 7242528,
+      "jvm_cpu_percent": 31.74
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 138.261,
-      "jvm_rss_kib": 524364,
-      "available_kib": 8044140,
-      "jvm_cpu_percent": 12.14
+      "elapsed_seconds": 138.755,
+      "jvm_rss_kib": 605700,
+      "available_kib": 7213824,
+      "jvm_cpu_percent": 28.7
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 141.327,
-      "jvm_rss_kib": 524416,
-      "available_kib": 8050280,
-      "jvm_cpu_percent": 21.85
+      "elapsed_seconds": 141.676,
+      "jvm_rss_kib": 605744,
+      "available_kib": 7189108,
+      "jvm_cpu_percent": 29.1
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 144.321,
-      "jvm_rss_kib": 524432,
-      "available_kib": 8050536,
-      "jvm_cpu_percent": 11.69
+      "elapsed_seconds": 144.676,
+      "jvm_rss_kib": 605768,
+      "available_kib": 7157168,
+      "jvm_cpu_percent": 44.0
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 147.288,
-      "jvm_rss_kib": 524468,
-      "available_kib": 8062720,
-      "jvm_cpu_percent": 11.46
+      "elapsed_seconds": 147.711,
+      "jvm_rss_kib": 605784,
+      "available_kib": 7126900,
+      "jvm_cpu_percent": 31.3
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 150.262,
-      "jvm_rss_kib": 524508,
-      "available_kib": 8062728,
-      "jvm_cpu_percent": 11.09
+      "elapsed_seconds": 150.805,
+      "jvm_rss_kib": 605812,
+      "available_kib": 7072920,
+      "jvm_cpu_percent": 28.44
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 153.289,
-      "jvm_rss_kib": 524596,
-      "available_kib": 8062288,
-      "jvm_cpu_percent": 11.89
+      "elapsed_seconds": 153.724,
+      "jvm_rss_kib": 605948,
+      "available_kib": 6888040,
+      "jvm_cpu_percent": 29.12
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 156.396,
-      "jvm_rss_kib": 526344,
-      "available_kib": 8061572,
-      "jvm_cpu_percent": 28.0
+      "elapsed_seconds": 156.847,
+      "jvm_rss_kib": 605980,
+      "available_kib": 6889276,
+      "jvm_cpu_percent": 52.83
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 159.293,
-      "jvm_rss_kib": 527416,
-      "available_kib": 8061840,
-      "jvm_cpu_percent": 15.53
+      "elapsed_seconds": 159.697,
+      "jvm_rss_kib": 605992,
+      "available_kib": 6864976,
+      "jvm_cpu_percent": 26.66
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 162.27,
-      "jvm_rss_kib": 527528,
-      "available_kib": 8061888,
-      "jvm_cpu_percent": 25.19
+      "elapsed_seconds": 162.78,
+      "jvm_rss_kib": 606032,
+      "available_kib": 6764776,
+      "jvm_cpu_percent": 30.5
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 165.303,
-      "jvm_rss_kib": 528024,
-      "available_kib": 8065200,
-      "jvm_cpu_percent": 20.78
+      "elapsed_seconds": 165.735,
+      "jvm_rss_kib": 606048,
+      "available_kib": 6735544,
+      "jvm_cpu_percent": 49.4
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 168.349,
-      "jvm_rss_kib": 528064,
-      "available_kib": 8096600,
-      "jvm_cpu_percent": 14.77
+      "elapsed_seconds": 168.619,
+      "jvm_rss_kib": 606068,
+      "available_kib": 6731396,
+      "jvm_cpu_percent": 29.13
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 171.283,
-      "jvm_rss_kib": 529064,
-      "available_kib": 8090468,
-      "jvm_cpu_percent": 11.59
+      "elapsed_seconds": 171.66,
+      "jvm_rss_kib": 606080,
+      "available_kib": 6740000,
+      "jvm_cpu_percent": 23.02
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 174.251,
-      "jvm_rss_kib": 529072,
-      "available_kib": 8092856,
-      "jvm_cpu_percent": 9.1
+      "elapsed_seconds": 174.772,
+      "jvm_rss_kib": 606088,
+      "available_kib": 6762720,
+      "jvm_cpu_percent": 27.31
     },
     {
       "phase": "minute-3",
-      "elapsed_seconds": 177.282,
-      "jvm_rss_kib": 529088,
-      "available_kib": 8012920,
-      "jvm_cpu_percent": 10.89
+      "elapsed_seconds": 177.807,
+      "jvm_rss_kib": 606100,
+      "available_kib": 6729016,
+      "jvm_cpu_percent": 49.43
     },
     {
       "phase": "end",
-      "elapsed_seconds": 180.0,
-      "jvm_rss_kib": 529096,
-      "available_kib": 8012672,
-      "jvm_cpu_percent": 0.37
+      "elapsed_seconds": 180.002,
+      "jvm_rss_kib": 606100,
+      "available_kib": 6740136,
+      "jvm_cpu_percent": 0.91
     },
     {
       "phase": "recovery",
-      "elapsed_seconds": 185.246,
-      "jvm_rss_kib": 529144,
-      "available_kib": 8009408,
-      "jvm_cpu_percent": 10.48
+      "elapsed_seconds": 185.462,
+      "jvm_rss_kib": 606112,
+      "available_kib": 6765624,
+      "jvm_cpu_percent": 8.97
     }
   ],
   "samples": [
@@ -618,1456 +618,1456 @@
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 1117.684
+      "ms": 4435.001
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 670.997
+      "ms": 1916.949
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 294.961
+      "ms": 491.737
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 94.634
+      "ms": 726.435
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 168.239
+      "ms": 311.395
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 238.526
+      "ms": 469.591
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 99.591
+      "ms": 295.63
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 50.278
+      "ms": 93.729
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 88.461
+      "ms": 224.035
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 119.755
+      "ms": 456.774
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 120.882
+      "ms": 311.572
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 36.954
+      "ms": 114.283
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 101.149
+      "ms": 262.94
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 162.246
+      "ms": 303.423
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 94.098
+      "ms": 339.34
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 34.562
+      "ms": 117.523
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 84.078
+      "ms": 270.137
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 97.117
+      "ms": 338.318
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 84.845
+      "ms": 297.406
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 22.748
+      "ms": 139.991
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 102.006
+      "ms": 310.063
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 152.202
+      "ms": 360.477
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 114.557
+      "ms": 319.923
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 23.693
+      "ms": 144.026
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 117.077
+      "ms": 153.272
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 100.967
+      "ms": 185.408
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 107.217
+      "ms": 181.704
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 25.991
+      "ms": 52.494
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 85.087
+      "ms": 168.977
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 122.276
+      "ms": 185.503
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 98.564
+      "ms": 179.159
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 22.814
+      "ms": 46.988
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 94.258
+      "ms": 151.45
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 96.601
+      "ms": 192.613
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 82.203
+      "ms": 153.787
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 18.927
+      "ms": 40.105
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 104.52
+      "ms": 192.802
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 113.96
+      "ms": 224.091
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 119.083
+      "ms": 213.736
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 33.083
+      "ms": 75.411
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 82.834
+      "ms": 160.812
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 91.91
+      "ms": 194.074
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 95.396
+      "ms": 176.218
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 17.666
+      "ms": 51.326
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 104.339
+      "ms": 189.492
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 107.134
+      "ms": 203.868
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 89.868
+      "ms": 199.073
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 18.5
+      "ms": 46.207
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 82.697
+      "ms": 145.203
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 91.804
+      "ms": 184.416
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 80.27
+      "ms": 151.926
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 21.976
+      "ms": 38.527
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 97.342
+      "ms": 174.913
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 112.984
+      "ms": 193.473
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 125.931
+      "ms": 238.119
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 20.852
+      "ms": 50.698
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 79.487
+      "ms": 147.219
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 87.965
+      "ms": 177.901
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 83.57
+      "ms": 177.473
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 17.526
+      "ms": 41.321
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 128.687
+      "ms": 164.987
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 91.346
+      "ms": 169.573
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 86.171
+      "ms": 155.965
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 16.451
+      "ms": 45.881
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 78.408
+      "ms": 163.324
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 89.478
+      "ms": 161.209
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 84.142
+      "ms": 159.446
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 17.117
+      "ms": 42.051
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 109.341
+      "ms": 190.408
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 115.306
+      "ms": 248.94
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 132.717
+      "ms": 206.488
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 21.734
+      "ms": 43.99
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 93.624
+      "ms": 131.771
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 86.855
+      "ms": 157.769
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 86.753
+      "ms": 164.692
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 24.507
+      "ms": 48.811
     },
     {
       "phase": "minute-1",
       "operation": "register",
       "status": 201,
-      "ms": 110.82
+      "ms": 239.643
     },
     {
       "phase": "minute-1",
       "operation": "login_valid",
       "status": 200,
-      "ms": 94.182
+      "ms": 226.015
     },
     {
       "phase": "minute-1",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 87.217
+      "ms": 176.383
     },
     {
       "phase": "minute-1",
       "operation": "refresh",
       "status": 200,
-      "ms": 20.876
+      "ms": 38.567
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 116.791
+      "ms": 175.925
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 136.155
+      "ms": 341.595
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 110.958
+      "ms": 301.39
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 34.982
+      "ms": 47.313
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 86.497
+      "ms": 183.689
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 112.756
+      "ms": 236.679
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 88.063
+      "ms": 179.058
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 17.368
+      "ms": 41.444
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 82.419
+      "ms": 206.102
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 104.498
+      "ms": 195.041
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 89.787
+      "ms": 247.334
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 15.56
+      "ms": 58.84
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 87.592
+      "ms": 218.08
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 102.831
+      "ms": 213.08
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 90.371
+      "ms": 159.542
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 18.717
+      "ms": 42.126
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 98.799
+      "ms": 263.954
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 108.408
+      "ms": 278.092
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 109.794
+      "ms": 342.718
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 20.473
+      "ms": 90.779
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 85.431
+      "ms": 277.567
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 98.45
+      "ms": 262.424
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 91.871
+      "ms": 249.391
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 17.32
+      "ms": 78.778
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 106.028
+      "ms": 249.057
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 88.654
+      "ms": 208.828
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 84.342
+      "ms": 196.712
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 18.099
+      "ms": 55.33
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 100.215
+      "ms": 201.697
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 98.115
+      "ms": 224.8
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 89.429
+      "ms": 176.092
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 16.835
+      "ms": 44.078
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 95.777
+      "ms": 245.295
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 107.556
+      "ms": 245.961
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 123.384
+      "ms": 301.621
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 23.187
+      "ms": 124.322
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 92.195
+      "ms": 201.131
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 93.061
+      "ms": 226.879
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 82.146
+      "ms": 181.895
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 25.16
+      "ms": 50.263
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 125.257
+      "ms": 175.894
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 91.955
+      "ms": 229.75
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 86.408
+      "ms": 223.4
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 15.257
+      "ms": 48.111
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 93.321
+      "ms": 238.326
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 88.494
+      "ms": 256.712
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 90.595
+      "ms": 177.559
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 28.184
+      "ms": 44.596
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 91.569
+      "ms": 193.782
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 129.38
+      "ms": 166.908
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 98.871
+      "ms": 273.609
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 20.767
+      "ms": 57.857
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 88.689
+      "ms": 186.117
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 115.84
+      "ms": 234.015
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 91.185
+      "ms": 191.095
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 15.269
-    },
-    {
-      "phase": "minute-2",
-      "operation": "register",
-      "status": 201,
-      "ms": 81.533
-    },
-    {
-      "phase": "minute-2",
-      "operation": "login_valid",
-      "status": 200,
-      "ms": 97.329
-    },
-    {
-      "phase": "minute-2",
-      "operation": "login_invalid",
-      "status": 401,
-      "ms": 83.283
-    },
-    {
-      "phase": "minute-2",
-      "operation": "refresh",
-      "status": 200,
-      "ms": 15.123
+      "ms": 52.802
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 82.742
+      "ms": 256.468
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 106.343
+      "ms": 251.048
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 89.235
+      "ms": 257.203
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 20.36
+      "ms": 72.661
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 98.318
+      "ms": 228.01
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 106.818
+      "ms": 259.69
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 152.398
+      "ms": 255.594
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 21.055
+      "ms": 78.185
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 83.884
+      "ms": 224.028
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 92.645
+      "ms": 273.548
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 104.501
+      "ms": 327.93
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 18.559
+      "ms": 80.981
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 80.887
+      "ms": 177.877
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 84.785
+      "ms": 240.893
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 80.349
+      "ms": 192.403
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 14.986
+      "ms": 45.606
     },
     {
       "phase": "minute-2",
       "operation": "register",
       "status": 201,
-      "ms": 88.43
+      "ms": 198.867
     },
     {
       "phase": "minute-2",
       "operation": "login_valid",
       "status": 200,
-      "ms": 93.924
+      "ms": 224.217
     },
     {
       "phase": "minute-2",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 87.924
+      "ms": 189.216
     },
     {
       "phase": "minute-2",
       "operation": "refresh",
       "status": 200,
-      "ms": 20.574
+      "ms": 51.261
+    },
+    {
+      "phase": "minute-2",
+      "operation": "register",
+      "status": 201,
+      "ms": 179.217
+    },
+    {
+      "phase": "minute-2",
+      "operation": "login_valid",
+      "status": 200,
+      "ms": 247.666
+    },
+    {
+      "phase": "minute-2",
+      "operation": "login_invalid",
+      "status": 401,
+      "ms": 216.765
+    },
+    {
+      "phase": "minute-2",
+      "operation": "refresh",
+      "status": 200,
+      "ms": 49.989
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 99.213
+      "ms": 211.672
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 173.284
+      "ms": 264.109
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 112.178
+      "ms": 273.62
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 26.004
+      "ms": 100.176
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 84.137
+      "ms": 194.988
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 96.373
+      "ms": 186.765
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 101.976
+      "ms": 223.227
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 16.499
+      "ms": 44.403
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 88.29
+      "ms": 195.339
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 83.148
+      "ms": 213.263
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 92.847
+      "ms": 210.619
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 16.871
+      "ms": 62.636
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 82.389
+      "ms": 231.134
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 90.016
+      "ms": 239.768
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 137.556
+      "ms": 212.931
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 28.705
+      "ms": 41.515
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 93.958
+      "ms": 196.684
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 117.28
+      "ms": 259.49
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 111.34
+      "ms": 274.008
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 22.247
+      "ms": 96.315
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 84.164
+      "ms": 274.595
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 91.796
+      "ms": 246.784
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 105.004
+      "ms": 187.855
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 14.578
+      "ms": 47.614
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 76.348
+      "ms": 261.193
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 87.348
+      "ms": 229.814
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 81.783
+      "ms": 203.544
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 15.261
+      "ms": 56.021
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 135.66
+      "ms": 210.186
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 90.72
+      "ms": 230.773
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 82.326
+      "ms": 191.388
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 18.229
+      "ms": 41.429
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 91.09
+      "ms": 178.247
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 110.079
+      "ms": 193.062
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 100.44
+      "ms": 252.634
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 18.457
+      "ms": 49.797
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 88.109
+      "ms": 240.155
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 89.948
+      "ms": 247.786
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 95.051
+      "ms": 171.843
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 13.877
+      "ms": 49.108
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 79.268
+      "ms": 236.813
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 83.918
+      "ms": 215.768
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 82.802
+      "ms": 260.127
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 15.592
+      "ms": 89.527
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 94.094
+      "ms": 241.069
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 87.823
+      "ms": 229.569
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 89.928
+      "ms": 206.409
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 16.848
+      "ms": 44.285
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 99.985
+      "ms": 193.02
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 138.864
+      "ms": 290.549
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 133.143
+      "ms": 307.955
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 23.278
+      "ms": 53.766
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 82.324
+      "ms": 253.261
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 101.424
+      "ms": 199.033
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 88.905
+      "ms": 192.44
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 19.694
+      "ms": 50.878
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 78.08
+      "ms": 191.6
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 90.739
+      "ms": 254.123
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 85.593
+      "ms": 273.2
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 15.411
+      "ms": 58.828
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 85.046
+      "ms": 200.113
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 101.161
+      "ms": 206.76
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 97.165
+      "ms": 237.607
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 18.843
+      "ms": 88.813
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 98.378
+      "ms": 187.703
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 118.11
+      "ms": 214.604
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 109.906
+      "ms": 177.346
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 22.419
+      "ms": 37.785
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 83.864
+      "ms": 209.766
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 88.323
+      "ms": 198.261
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 96.194
+      "ms": 204.91
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 14.194
+      "ms": 45.031
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 78.174
+      "ms": 201.918
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 80.196
+      "ms": 257.477
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 78.182
+      "ms": 253.557
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 14.082
+      "ms": 57.079
     },
     {
       "phase": "minute-3",
       "operation": "register",
       "status": 201,
-      "ms": 92.952
+      "ms": 186.629
     },
     {
       "phase": "minute-3",
       "operation": "login_valid",
       "status": 200,
-      "ms": 84.034
+      "ms": 204.055
     },
     {
       "phase": "minute-3",
       "operation": "login_invalid",
       "status": 401,
-      "ms": 90.222
+      "ms": 335.45
     },
     {
       "phase": "minute-3",
       "operation": "refresh",
       "status": 200,
-      "ms": 14.404
+      "ms": 78.865
     },
     {
       "phase": "recovery",
       "operation": "register",
       "status": 201,
-      "ms": 86.008
+      "ms": 242.785
     },
     {
       "phase": "recovery",
       "operation": "login_valid",
       "status": 200,
-      "ms": 159.096
+      "ms": 215.758
     }
   ],
   "unexpected_count": 0,
   "server_errors_or_timeouts": 0,
-  "wall_seconds": 185.247
+  "wall_seconds": 185.467
 }

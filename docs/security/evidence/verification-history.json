@@ -1,0 +1,208 @@
+{
+  "source_snapshot": "a86967a1aba65269b2f3280c9fdde48ed22f6a16",
+  "method": "Summaries of sanitized historical logs; not rerun results. Full snapshots remain in Git. No arbitrary log content or credential values retained.",
+  "records": [
+    {
+      "source_file": "baseline.log",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "closeout-verify.log",
+      "tests": 51,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "concurrency-reproductions.log",
+      "tests": 17,
+      "failures": 5,
+      "errors": 1,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "AuthIntegrationTest.concurrentDuplicateRegistrationHasDomainResponses",
+        "AuthIntegrationTest.failedSigningDoesNotConsumeRefreshToken",
+        "AuthIntegrationTest.repairsCounterWithoutTtlAndCountsConcurrently",
+        "AuthIntegrationTest.shouldConsumeRefreshTokenOnlyOnceWhenRequestsRace"
+      ]
+    },
+    {
+      "source_file": "date-reproduction.log",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "JwtContractTest.numericDateStringsAreNotNumericClaims"
+      ]
+    },
+    {
+      "source_file": "default-user-regression.log",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "default-user-reproduction.log",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "AuthIntegrationTest.unusedBootUserIsAbsentAndBasicAuthenticationCannotGrantAccess"
+      ]
+    },
+    {
+      "source_file": "evidence-privacy-final-verify.log",
+      "tests": 52,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "final-verify.log",
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "identity-44-verify.log",
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "log-privacy-reproduction.log",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "AuthIntegrationTest.invalidPasswordIsNotCopiedToLogsOrResponse"
+      ]
+    },
+    {
+      "source_file": "refresh-closure-verify.log",
+      "tests": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "reproductions.log",
+      "tests": 12,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "AuthIntegrationTest.longUserAgentCannotBreakAuditPersistence",
+        "AuthIntegrationTest.successfulLoginsStillConsumeResourceBudget",
+        "JwtContractTest.emitsIdentityContract",
+        "JwtContractTest.jwksUsesUnsignedMinimalRsaIntegers",
+        "JwtContractTest.rejectsSignedTokensMissingContractClaims",
+        "RegistrationValidationTest.boundsLoginAndRefreshWithoutImposingNewPasswordMinimum"
+      ]
+    },
+    {
+      "source_file": "resource-reproductions.log",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "AuthIntegrationTest.requestBodiesAreBoundedAndForwardedHeadersCannotBypassIpBudget",
+        "LlmIsolationTest.noApiKeyMeansNoOutboundCall"
+      ]
+    },
+    {
+      "source_file": "review-regression.log",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "review-reproductions.log",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "AuthIntegrationTest.blockedIpCannotPoisonOtherAccountBudgets",
+        "LlmIsolationTest.tricklingResponseHasTotalDeadline"
+      ]
+    },
+    {
+      "source_file": "role-regression.log",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "SUCCESS",
+      "failed_cases": []
+    },
+    {
+      "source_file": "role-reproduction.log",
+      "tests": 2,
+      "failures": 1,
+      "errors": 1,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "JwtContractTest.invalidRolesCannotBeIssuedOrAccepted",
+        "JwtContractTest.issuedTokensRoundTripForBothLocallyProvisionedRoles"
+      ]
+    },
+    {
+      "source_file": "signing-reproduction.log",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "AuthIntegrationTest.failedSigningDoesNotConsumeRefreshToken"
+      ]
+    },
+    {
+      "source_file": "sustained-reproduction.log",
+      "tests": 2,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "build_result": "FAILURE",
+      "failed_cases": [
+        "AuthIntegrationTest.sustainedAdmittedAuthenticationRecoversAndPreservesPersistence"
+      ]
+    }
+  ]
+}

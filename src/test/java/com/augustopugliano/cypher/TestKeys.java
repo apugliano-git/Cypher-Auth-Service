@@ -15,8 +15,8 @@ public final class TestKeys {
             Path path = Files.createTempDirectory("cypher-key-").resolve("test.p12");
             Process p = new ProcessBuilder("keytool", "-genkeypair", "-alias", "cypher-key", "-keyalg", "RSA", "-keysize", "2048", "-storetype", "PKCS12", "-keystore", path.toString(), "-storepass", PASSWORD, "-dname", "CN=Synthetic Cypher Test", "-validity", "1", "-noprompt").redirectOutput(ProcessBuilder.Redirect.DISCARD).redirectError(ProcessBuilder.Redirect.DISCARD).start();
             if (!p.waitFor(15, java.util.concurrent.TimeUnit.SECONDS) || p.exitValue() != 0) throw new IllegalStateException("keytool failed");
-            path.toFile().deleteOnExit();
             path.getParent().toFile().deleteOnExit();
+            path.toFile().deleteOnExit();
             return path;
         } catch (Exception e) { throw new ExceptionInInitializerError(e); }
     }

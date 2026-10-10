@@ -1,0 +1,11 @@
+[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 311.6 s -- in com.augustopugliano.cypher.AuthIntegrationTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.582 s -- in com.augustopugliano.cypher.LlmIsolationTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.158 s -- in com.augustopugliano.cypher.RegistrationValidationTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.647 s -- in com.augustopugliano.cypher.AnomalySafetyTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.810 s -- in com.augustopugliano.cypher.RefreshBoundaryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.909 s -- in com.augustopugliano.cypher.PasswordPolicyTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.212 s -- in com.augustopugliano.cypher.JwtContractTest
+[INFO] Tests run: 52, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+Python evidence regressions: 7 tests, PASS
+Evidence privacy check: PASS

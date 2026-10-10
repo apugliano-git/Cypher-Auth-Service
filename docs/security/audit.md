@@ -1,29 +1,18 @@
-# Cypher security audit — 2026-10-08 / closure 2026-10-09
+# Cypher security audit
 
-Scope: Cypher only; Keystone/Ratchet read for identity contract. No deployment, paid API calls, real-key rotation or personal data changes. Starting commit `0392710105a86abf4873aaafab83076d1e42110a`, clean main; working branch `codex/security-audit-2026-10-08`.
+Updated 2026-10-10 after review/cleanup of published commits `16b3084` and `a86967a`. Scope: Cypher only, synthetic local fixtures and loopback demo. No production certification, paid LLM calls, real credential rotation, consumer modifications or deployment.
 
-Current disposition is in [Bounded closeout](#bounded-closeout--2026-10-09). Earlier checkpoint results below are retained as dated evidence, not the current verdict. C08 still requires the owner’s non-secret confirmation. The subsequent [evidence-publication correction](#evidence-publication-correction) records the owner-reported password alert and remediation.
+## Baseline and scope
 
-## Baseline
-`./mvnw test`: sandbox Docker socket denied (1 validation pass, integration environment error). Rerun outside sandbox: **6 tests, 0 failures/errors/skips**, 25.852 s. Evidence: [baseline](evidence/baseline.log). Java Temurin 21.0.3, Maven Wrapper 3.9.16, Boot 4.1.1, Testcontainers effective 2.0.5 (mixed declarations to align), Tomcat 11.0.24. Machine: 8 logical CPUs, 15,646 MiB RAM, ~8,234 MiB available, swap already in use. No applicable AGENTS.md in Cypher. Fixtures generate their own RSA key.
+The audit started from clean commit `0392710105a86abf4873aaafab83076d1e42110a`. The first restricted run failed on Docker access; the elevated baseline executed **6 tests, zero failures/errors/skips**. Recorded stack: Java 21.0.3, Maven Wrapper 3.9.16, Boot 4.1.1, PostgreSQL 16 and Redis 7. Historical failures and successive regressions are retained as value-free [verification records](evidence/verification-history.json); these are summaries of the sanitized `a86967a` snapshot, not new runs. Git retains that snapshot for review.
 
-## Threat model / surface
-Untrusted HTTP clients can submit credentials, bearer/refresh tokens and metadata; a stolen token holder can replay tokens; a valid user can consume resources. DB/Redis and local keystore are trusted infrastructure; GeoIP and LLM output are optional/untrusted data. Assets: passwords/hashes, RSA private key, session continuity, identity/role, audit evidence and bounded resources.
+Untrusted HTTP clients submit credentials, bearer/refresh tokens and metadata. A valid user can consume resources; a stolen-token holder can replay tokens. Password hashes, signing key, identity/role, refresh continuity and audit evidence are assets. DB/Redis/local keystore are trusted infrastructure; geolocation and optional LLM data cannot authorize a request. Email identity remains exact and case-sensitive; no automatic merging or migration.
 
-POST register/login/refresh → validation/filter → controller → services → PostgreSQL/Redis. GET me → bearer verification → DTO. GET JWKS → public local key only. GeoIP is local; LLM is optional outgoing HTTP. No cookie authentication intended. Account identity remains exact case-sensitive email (no migration/merging).
-
-## Implementation plan (authorized inline execution)
-1. JWT/JWKS: JwtService, JwksController, SecurityConfig/filter, properties; mandatory iss/aud/kid/UUID sub/iat/exp/email and USER/ANALYST role, RS256 only, 30 s skew, bounded tokens; unsigned RSA integers. Unit adversarial tests and independent HTTP verifier. Old tokens without new claims require login again.
-2. Bound inputs and dependencies: DTOs, request filter, Redis Lua atomic counter+TTL, distinct IP/account keys, retain counters on successful login, refresh throttle; 503 on infrastructure errors, bounded pools/timeouts. HTTP/unit/real Redis regression.
-3. Transactions: UserService unique-race domain error; refresh signs inside transaction, no second branch, absolute seven-day session inherited by successors. Real DB N-way races, rollback, replay and persistence tests. Replay rejects old token only; no claim of family theft detection.
-4. Optional explanation: bounded executor/queue, reject/drop explanation without failing login, disabled without explicit configuration, local stub tests/timeouts/response cap. GeoIP literal addresses only; audit metadata bounded and issuance outcome coherent.
-5. Operations: schema consistency/restart/backup restore synthetic tests; repository/history secret scan (redacted), dependency advisories, CI, local measured stepped load with limits active, README and identity contract.
-
-Each fix gets a failing reproduction where feasible, targeted green regression and full suite. No broad stack migration. The prior `2026-09-01-security-hardening.md` plan was rechecked: row locking, restricted routes, registration bounds/throttling, env secrets and non-root/private-network fixtures already existed; its unchecked boxes were not treated as instructions to repeat resolved work.
+POST register/login/refresh → request bounds/validation → controller → services → PostgreSQL/Redis. GET me → bearer validation → identity DTO. GET JWKS → local public key only. GeoIP is local; explanations are optional external HTTP. No cookie authentication or public administration API.
 
 ## Findings and disposition
 
-Severity is based on demonstrated preconditions/impact; signed malformed claims require access to the trusted signer/same-key issuance, not an ability to forge RSA. No unsigned-token authentication bypass or caller-controlled role elevation was found in tested flows.
+Severity reflects actual prerequisites/impact. No unsigned-token bypass or public role elevation was demonstrated. Critical/high infrastructure component matches are classified separately from confirmed Cypher vulnerabilities; no owner risk acceptance is implied.
 
 | ID | Priority / CIA | State | Root evidence / preconditions / impact | Fix and regression |
 |---|---|---|---|---|
@@ -41,20 +30,73 @@ Severity is based on demonstrated preconditions/impact; signed malformed claims 
 | C12 | Low / C | HARDENED | New-password Argon2 defaults used 16 MiB vs current OWASP minimum recommendation 19 MiB/2 iterations/parallelism 1 | New hashes use 19 MiB; policy test failed before patch, legacy hashes still verify; measured campaign repeated. Existing lower-cost hashes are not automatically rehashed |
 | C14 | Medium / C | FIXED | Spring default validation warning included rejected password text on overlength credentials, observed in the fresh HTTP campaign | Capture-log regression and generic 400 advice; no password/body logging permitted |
 | C15 | Medium component / A,I | FIXED; zero final matches | Trivy found Alpine libpng/zlib CVEs in the built image; no PNG processing or native gzprintf caller was found on authentication paths | Targeted runtime package upgrades, independent final image rescan; not a demonstrated HTTP exploit |
-| C16 | Operational / C,I,A | CLASSIFIED FOR LOCAL SCOPE; PUBLIC PREREQUISITES OPEN | Old cached DB/Redis image packages matched security advisories; many fixed by updated official images. Remaining component matches require applicability review; no confirmed auth exploit | Updated/pinned Compose digests, fresh 47-test fixture suite + rescan; critical-match triage below, no blanket suppression or distro migration |
+| C16 | Operational / C,I,A | CLASSIFIED FOR LOCAL SCOPE; PUBLIC PREREQUISITES OPEN | Old cached DB/Redis image packages matched security advisories; many fixed by updated official images. Remaining component matches require applicability review; no confirmed auth exploit | Updated/pinned Compose digests, real fixture suite + rescan; complete advisory classification, no blanket suppression or distro migration |
 | C17 | Medium / A,I | FIXED | Issuer emitted stored ANALYST while own verifier allowed only USER; invalid stored roles could also be signed | Shared exact USER/ANALYST allowlist for issuance/validation; JWT red→green and HTTP login/refresh/me plus public injection regression; no admin API |
 | C18 | Medium / C | FIXED; verification complete | Raw test logs published at commit 16b3084 contained generated Boot passwords and rejected synthetic credentials; the previous pattern scan missed these formats | Sanitize 24 credential-bearing log lines, exclude unused Boot user, regression for no default user/Basic access, tested evidence guard and gated/sanitized CI output; previous Git history remains |
 | C13 | Operational / A,I | REQUIRED BEFORE EXPOSURE | No automatic retention/session cap; DB superuser local default; single signing key; legacy local-zone audit timestamps; proxy/NAT shared budgets | Procedures and explicit prerequisites in operations/identity contract. No purge, admin subsystem or silent timestamp/account migration added |
 
-### Reproduction and verification ledger
 
-- Baseline: 6 tests passed after Docker sandbox elevation; initial restricted run reported environment error, never PASS.
-- First adversarial campaign: 12 tests / 6 failures, proving claims/JWKS/input/reset/UA issues ([log](evidence/reproductions.log)).
-- Registration/refresh/Redis reproductions: duplicate 500s, orphan TTL, successor expiry extension ([log](evidence/concurrency-reproductions.log)); signer failure demonstrably consumed token ([log](evidence/signing-reproduction.log)).
-- Body/disabled-LLM cases: 400 instead of early 413 for oversized JSON, local outgoing call with empty key ([log](evidence/resource-reproductions.log)).
-- Independent review: blocked IP affected victim budget and trickle lasted ~20 s ([log](evidence/review-reproductions.log)); regression later passed with real cancellation. The first attempt at a manual deadline still drained HttpURLConnection and failed; the implementation was replaced, not the time expectation relaxed.
-- Intermediate errors were corrected: Clock bean initialization cycle, JJWT 0.12.5 registry API difference, Testcontainers 2.x non-generic PostgreSQL class, Spring 7's `CONTENT_TOO_LARGE` enum alias (HTTP remains 413), and strict header-before-payload parsing. A targeted unit run was blocked by sandbox Mockito instrumentation and rerun with elevation. These transient runs do not establish passing checkpoints.
-- Suites grew through 26, 29 and 33 passing tests; one later 39-test suite failed trickle cancellation, and a 41-test run caught compressed-header parsing order in classes compiled before the source correction. Final evidence must come from the fresh clean verification below.
+## Verification and reproducibility
+
+Run the actual suite, with Docker available for disposable fixtures:
+
+```bash
+./mvnw clean verify
+python3 -m unittest discover -s scripts/security -p test_evidence.py
+python3 scripts/security/evidence.py docs/security/evidence
+```
+
+Fresh cleanup verification on 2026-10-10: **52 Java tests, zero failures/errors/skips; seven Python regressions PASS; evidence privacy check PASS** ([test summaries](evidence/final-tests.log)). The fixture directory observed during this run was absent after the test JVM exited. All eight Java source files under `src/test` are active tests or the shared synthetic-key fixture; the four scripts are used by tests, CI or documented reproduction. The tests cover:
+
+- JWT roles/mandatory claims/RS256/signature/kid/skew and malformed/oversized/compressed tokens; public registration ignores injected roles; HTTP USER/ANALYST login/refresh/me; independent Spring/Nimbus verification using served JWKS.
+- Five-way duplicate registration (one 201, remaining 409); eight-way refresh races repeated three times (one 200, remaining 401), persisted hashes/revocation/lineage/absolute expiry; replay, exact expiration, signer/constraint/audit failure rollback and restart continuity.
+- Atomic Redis counter/TTL/concurrency/expiry, valid-login budgets, blocked-IP isolation, forged forwarding headers, bounded bodies/headers/passwords/refresh/metadata, DB/Redis errors and recovery; disposable Redis only, never personal `flushDb()`.
+- Optional LLM disabled/configured behavior, bounded queue, local stub failures/429/5xx/malformed/oversized/trickling responses and deadline cancellation; literal-only GeoIP and non-positive duration handling.
+- Synthetic backup/restore, schema validation/restart and finite stepped/sustained HTTP campaigns with SQL invariants; password-log privacy and absence of the unused Boot development account/Basic access.
+
+Regressions were observed failing before their fixes where feasible; the historical record includes those red/green results. A successful Docker package with `-DskipTests` is not suite evidence. Hosted CI remains unverified locally: `gh` lacks API authentication, while SSH Git access works.
+
+### Measured local workload
+
+Retained [stepped metrics](evidence/load-final.json) and [sustained metrics](evidence/sustained-final.json) are the final small campaigns, not aggregates of intermediate runs. They preserve samples, statuses, latency distributions, resource readings, configuration and recovery. Machine/tool baseline: [machine](evidence/machine.json).
+
+The sustained campaign schedules sixty differentiated synthetic IP/account workflows over **180 seconds**, concurrency **1**, each doing register, correct login, incorrect login and refresh: **240 measured admitted requests**, followed by recovery register/login. Controls stay active: login/register 5 attempts per five-minute fixed window, refresh 30 per IP; no counter resets or diagnostic profile. This is differentiated legitimate traffic, not one shared NAT or proof of distributed-abuse resistance.
+
+Budget: HTTP timeout 5 s, driver <210 s, sampled JVM RSS <2 GiB, host available RAM >2 GiB, stop on unexpected response; each operation/minute admitted p95 <1 s. SQL assertions require 61 users, 121 audit rows, 121 hashed refresh rows, 60 revoked predecessors, unique emails and consistent successor/revocation/absolute expiry, <=10 DB connections and successful recovery. Stepped load separately checks 226 requests including setup/recovery and active expected 429s. The JSON separates admitted 2xx/401, expected 429 and errors/timeouts. These finite results establish no maximum capacity, long-run memory stability, production SLO or DDoS guarantee.
+
+### Dependencies and infrastructure
+
+The final Maven/OSV scan queried 164 public coordinates and returned zero matches at its recorded date ([coordinates](evidence/dependencies-final.txt), [result](evidence/osv-final.json)); this is time/database limited. Maven Wrapper's distribution digest was verified against the official SHA-512 ([record](evidence/wrapper.json)). No new stack migration was made.
+
+All **592 current PG/Redis vulnerability matches** remain in the [scan projection](evidence/infrastructure-scans.json), including all severities, package versions, corrections, primary URLs and vendor severity/CVSS. Unrelated SBOM inventories/repeated advisory prose and superseded raw scans were removed; previous severity counts remain. All **43 unique HIGH/CRITICAL identifiers** map to prerequisites, configured exposure, correction and proposed local/public disposition in [classification](evidence/infrastructure-classification.json); [official-source snapshots](evidence/official-infrastructure-advisories.json) support those decisions. Sources/scans were checked 2026-10-09, not refreshed by this cleanup.
+
+PostgreSQL and Redis digests remain pinned in Compose. The configured profile and disposable same-image probes ([PG](evidence/postgres-exposure.txt), [Redis](evidence/redis-exposure.txt)) have no HTTP shell, privileged/SYS_ADMIN/host namespace/device access, homed/TPM workloads, untrusted archive ingestion, DTLS or XML SQL input. Gosu's affected embedded Go parsers are not called by its trusted UID-switch/exec flow. MiniZip is a Debian binary-package false positive. Stable vendor patch gaps remain; adding an affected parser/privilege/SQL feature requires reassessment. The classification permits only the tested synthetic local boundary; it does not accept component risks for arbitrary deployment.
+
+The last built Cypher image had zero Alpine/JAR matches and UID 1000/JRE 21.0.12.1+1; its scan is retained in the projection. That image **predates the Boot-user exclusion** and was not rebuilt here. Native JRE internals are not exhaustively audited; no deployment/image publication is claimed.
+
+## Publication correction and cleanup
+
+Publishing raw audit logs at `16b3084` was an evidence-handling error. The owner-reported generic-password alert came from Spring's generated development account. The publication rescan found **13 generated Boot warnings, 10 rejected synthetic credential fields and one other assignment** ([inventory](evidence/evidence-exposure.json)). `a86967a` removed those values from the branch tip and excluded the unused default user. Basic credentials returned 401 in the reproduction; no live DB/keystore/Anthropic exposure was established by that specific report. C08 remains a separate unresolved owner check.
+
+The evidence guard handles demonstrated credential formats; multiline cases were reproduced and fixed. CI publishes only allowed test/build summaries, preserves Maven failure, omits raw reports and gates public artifacts. This is a bounded format guard, not comprehensive secret detection. See [publication procedure](operations.md#publishing-sanitized-evidence).
+
+The cleanup removes empty/intermediate/duplicate evidence, the obsolete uncommitted-tree manifest, four unused imports and one duplicate import. Active security tests, load scripts and fixture helpers stay. A real isolated JVM probe reproduced the fixture directory leak: `deleteOnExit` runs in reverse registration order. Registering the parent before its file removes both at exit ([probe](evidence/temporary-fixture-cleanup.json)). Existing unrelated files/volumes/secrets are untouched.
+
+Old commits and possible previous CI logs/artifacts remain accessible; branch cleanup does not erase them or close alerts. No history rewrite, force push, real rotation or alert dismissal took place. [Historical credential locations](evidence/historical-credentials.json) still require the owner’s non-secret confirmation and applicable rotation in [operations](operations.md#historical-credential-verification--owner-action).
+
+## Checkpoints and verdict
+
+| CP | Local-scope status | Evidence / boundary |
+|---|---|---|
+| CP0 | PASS | Actual six-test baseline in verification history; synthetic fixtures |
+| CP1 | PASS | HTTP/trust boundaries, prioritized findings and minimal compatibility plan |
+| CP2 | PASS | JWT/roles/public registration/JWKS adversaries and independent Java verifier; actual consumers pending |
+| CP3 | PASS | Real PostgreSQL registration/refresh races, persistence, replay/expiry/rollback |
+| CP4 | PASS | Active limits, bounded/degraded dependencies, LLM stubs and admitted sustained work |
+| CP5 | PASS local | Actual final suite/campaign, restore/restart, scans/classification; hosted CI/public runtime not claimed |
+| CP6 | PASS synthetic local stage | Own fixes traced; C08 owner verification and public/consumer prerequisites remain open |
+
+**Verdict:** suitable for a finite isolated synthetic local demo within the measured budget. Historical/real credentials remain **BLOCKED on owner verification**; no favorable public/production or complete ecosystem integration claim. Next consumer work is Ratchet/.NET/Keystone validation as specified in the [identity contract](identity-contract.md). Public TLS/proxy trust, restricted DB role, retention/storage, key distribution/rotation and current patched runtime still require implementation/owner decisions.
 
 ### Supporting standards and official sources (consulted 2026-10-08)
 
@@ -66,7 +108,7 @@ Severity is based on demonstrated preconditions/impact; signed malformed claims 
 
 [Apache Tomcat official advisories](https://tomcat.apache.org/security-11.html): OSV matches CVE-2026-65905, CVE-2026-65182, CVE-2026-68525 require configurations absent here; patch 11.0.26 also includes later protocol fixes. [Spring CVE-2026-47877](https://spring.io/security/cve-2026-47877/) concerns an OAuth authorization-server consent page absent in Cypher, and effective Security 7.1.1 is patched. [Jackson advisory](https://github.com/FasterXML/jackson-databind/security/advisories/GHSA-wv8q-qhhj-9h54) requires polymorphic fallback not enabled in these DTOs; patched BOMs nevertheless remove old component matches. [BC releases](https://www.bouncycastle.org/download/bouncy-castle-java/) provide 1.86; [CVE-2025-8885](https://github.com/bcgit/bc-java/wiki/CVE%E2%80%902025%E2%80%908885) was already fixed before 1.78.1 and concerns untrusted ASN.1, not this password path. No CVE is inferred from age alone.
 
-Evidence: [initial dependency tree](evidence/dependencies.txt), [final dependency tree](evidence/dependencies-final.txt), [initial post-patch OSV scan](evidence/osv-remediated.json), [final OSV scan](evidence/osv-final.json): 164 Maven artifacts queried, zero final matches. OSV is a secondary index, not a guarantee of complete advisory coverage; official sources/applicability take precedence. An actual image scan was subsequently run with official Trivy; results and binary-JRE coverage limitations are recorded below. Maven Wrapper distribution SHA-512 matched official Maven Central and SHA-256 is pinned ([evidence](evidence/wrapper.json)); cached installations are not revalidated automatically on every invocation.
+Evidence: [final dependency tree](evidence/dependencies-final.txt) and [final OSV scan](evidence/osv-final.json): 164 Maven artifacts queried, zero final matches. OSV is a secondary index, not complete advisory coverage; official sources/applicability take precedence. The retained infrastructure projection records image results separately. Maven Wrapper distribution SHA-512 matched official Maven Central and SHA-256 is pinned ([evidence](evidence/wrapper.json)); cached installations are not revalidated on every invocation.
 
 ## Tested scope and remaining checks
 
@@ -78,206 +120,19 @@ Optional LLM is tested solely with local controlled responses, including actual 
 
 Independent Java Spring/Nimbus validates real HTTP tokens/JWKS and rejects foreign issuer/audience. Full Ratchet ownership/integration and .NET/Keystone remain **BLOCKED/outside consumer implementation scope**; SDK absent, Keystone is a plan. Exact pending files/tests are in [identity contract](identity-contract.md). Nexa was not audited or used.
 
-## Evidence locations
+## Source and regression locations
 
-References below describe the remediated working tree; earlier behavior is recorded by red reproductions and the starting commit. Public source/configuration hashes will be saved in `evidence/source-manifest.json`; no `.env` or real keystore enters that manifest.
+The final commit and retained verification records identify the reviewed source. Historical reproducers are summarized in verification history; private `.env` and real keystores are excluded.
 
 | Findings | Source / regression location |
 |---|---|
-| C01 | `src/main/java/com/augustopugliano/cypher/service/JwtService.java:90`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
+| C01 | `src/main/java/com/augustopugliano/cypher/service/JwtService.java:95`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
 | C02 | `src/main/java/com/augustopugliano/cypher/controller/JwksController.java:28`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
 | C03 | `src/main/java/com/augustopugliano/cypher/service/LoginService.java:60`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
 | C04 | `src/main/java/com/augustopugliano/cypher/service/RateLimitService.java:22`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
-| C05 | `src/main/java/com/augustopugliano/cypher/service/UserService.java:34`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
+| C05 | `src/main/java/com/augustopugliano/cypher/service/UserService.java:31`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
 | C05 | `src/main/java/com/augustopugliano/cypher/config/RequestBoundsFilter.java:14`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
-| C06 | `src/main/java/com/augustopugliano/cypher/service/RefreshTokenService.java:70`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
+| C06 | `src/main/java/com/augustopugliano/cypher/service/RefreshTokenService.java:69`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
 | C07 | `src/main/java/com/augustopugliano/cypher/service/LlmExplanationService.java:30`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
-| C09 | `src/main/java/com/augustopugliano/cypher/service/AnomalyDetectionService.java:57`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
+| C09 | `src/main/java/com/augustopugliano/cypher/service/AnomalyDetectionService.java:58`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
 | C12 | `src/main/java/com/augustopugliano/cypher/config/SecurityConfig.java:26`; corresponding named tests in `src/test/java/com/augustopugliano/cypher/` |
-
-## Verification before the bounded closeout (historical record)
-
-`./mvnw clean verify` on 2026-10-09 finished **47 tests, zero failures/errors/skips, BUILD SUCCESS, 88 seconds** ([complete log](evidence/final-verify.log)). This is a fresh compile/test/package invocation, not cached reports or skipped tests. The baseline commit is unchanged; patches are local in the audit branch. A read-only independent review found account-budget poisoning, drip-response timeout and load-response classification defects; all were fixed and regressed, not accepted.
-
-### Local load results
-
-The suite invokes `python3 scripts/security/load.py --url http://127.0.0.1:<fixture-port> --fixture-pid <test-jvm> --output target/security-load.json` only against its disposable app/DB/Redis. It uses 32 synthetic identities and distinct loopback source addresses; production-default limits remain active, LLM disabled. Fixture setup has 64 requests, measured phases 160, recovery 2, **226 total in 12.655 seconds**. Measured statuses: 72×200, 32×201, 32×401, 24×429; no unexpected status, 5xx or timeout. No invalid credential succeeds. New recovery registration/login succeed and database assertions pass (unique users, hash lengths, single rotation linkage, inherited expiry, <=10 DB connections).
-
-Machine/resource evidence: [machine](evidence/machine.json). Budget was fixed before load: concurrency <=8, campaign <=60 seconds, HTTP <=5 seconds, >=2 GiB available host RAM, JVM RSS <=2 GiB, stop after >2 server errors/timeouts (any unexpected response fails the final check). Per-phase available-memory check and post-load database invariants are enforced. CPU percentages are for the JVM process and may exceed 100% on this eight-CPU machine; they include fixture/JIT/GC overhead. JVM RSS is sampled per phase, not an instantaneous peak; PostgreSQL/Redis CPU/queue internals are not instrumented. Optional executor saturation has a separate deterministic regression. Small samples make p95/p99 coarse; these seconds-long phases are a bounded adversarial campaign, not sustained capacity or DDoS certification.
-
-| Phase | Concurrency | Requests | Seconds | Total rps | JVM RSS MiB | JVM CPU % |
-|---|---:|---:|---:|---:|---:|---:|
-| baseline | 1 | 16 | 1.354 | 11.821 | 648.6 | 124.12 |
-| step-2 | 2 | 32 | 1.403 | 22.809 | 649.3 | 280.84 |
-| step-4 | 4 | 48 | 1.684 | 28.51 | 955.6 | 441.31 |
-| spike | 8 | 64 | 0.94 | 68.115 | 1014.6 | 567.27 |
-
-Latency in ms. Admitted p95 excludes cheap 429s; it is not inferred from total throughput. Full sample/status/resource data: [JSON](evidence/load-final.json), [driver](evidence/load-driver.log).
-
-| Phase | Operation | p50 | p95 | p99 | Admitted p95 |
-|---|---|---:|---:|---:|---:|
-| baseline | login_valid | 96.318 | 119.948 | 119.948 | 119.948 |
-| baseline | login_invalid | 98.056 | 156.807 | 156.807 | 156.807 |
-| baseline | register | 90.579 | 102.512 | 102.512 | 102.512 |
-| baseline | refresh | 21.204 | 30.705 | 30.705 | 30.705 |
-| step-2 | login_valid | 99.41 | 169.443 | 169.443 | 169.443 |
-| step-2 | login_invalid | 97.767 | 153.21 | 153.21 | 153.21 |
-| step-2 | register | 95.962 | 152.785 | 152.785 | 152.785 |
-| step-2 | refresh | 20.494 | 32.773 | 32.773 | 32.773 |
-| step-4 | login_valid | 190.546 | 232.753 | 232.753 | 232.753 |
-| step-4 | login_invalid | 170.981 | 204.781 | 204.781 | 204.781 |
-| step-4 | register | 150.915 | 206.534 | 206.534 | 206.534 |
-| step-4 | refresh | 31.674 | 58.236 | 58.236 | 58.236 |
-| spike | login_valid | 17.514 | 359.488 | 359.488 | 359.488 |
-| spike | login_invalid | 22.913 | 343.799 | 343.799 | 343.799 |
-| spike | register | 25.236 | 274.111 | 274.111 | 274.111 |
-| spike | refresh | 53.913 | 112.066 | 112.066 | 112.066 |
-
-Three synchronized eight-client refresh races each return exactly one 200 and seven 401 with persisted lineage assertions. Five concurrent registrations return one 201 and four 409. This finite repetition does not prove absence of all intermittent failures.
-
-### Previous checkpoint disposition
-
-| Checkpoint | Status | Command / result / evidence |
-|---|---|---|
-| CP0 baseline | PASS | `./mvnw test` with Docker access: 6/6; clean starting commit, generated fixtures; [baseline](evidence/baseline.log) |
-| CP1 surface/plan | PASS | Source/caller inspection, threat model and findings above; failing reproductions linked; unchanged public routes/response fields and documented compatibility |
-| CP2 own identity + Java contract | PASS | `./mvnw clean verify`: JwtContractTest + real HTTP independent Spring/Nimbus consumer; strict invalid claims, public unsigned JWKS, no injected role. Full Ratchet/Keystone/.NET consumer integration remains BLOCKED, not part of this PASS |
-| CP3 concurrent integrity | PASS | Same command: repeated 8-way refresh, 5-way registration, exact responses and PostgreSQL rows, signer/audit rollback, replay/successor and exact expiration |
-| CP4 tested abuse/degradation | PASS | Same command: Lua concurrency/TTL repair, valid-login budgets, forwarding spoof, body/trickle bounds, Redis pause and PG lock 503/recovery, disabled/failing/saturated LLM; broader distributed/slow-header cases remain outside verified scope |
-| CP5 complete operational assurance | BLOCKED | Suite, actual Spring context restart, synthetic pg_dump/restore, load and Maven OSV scan pass. Container verification recorded below. Trivy scans completed for app/DB/Redis; app has zero matches. Infrastructure image disposition is detailed below; hosted CI not run. No omitted check is promoted to PASS |
-| CP6 unrestricted favorable closure | BLOCKED | Own reproduced high finding C03 fixed; C08 historical credential non-use/revocation cannot be verified externally. Owner prerequisites and consumer validation remain open; no risk accepted on owner's behalf |
-
-**Verdict:** suitable for a finite, isolated local demo using synthetic identities, generated development keys and loopback exposure within the tested budget. Public exposure/production readiness and complete ecosystem integration are **not approved by this evidence**. Historical credentials must be verified/rotated as applicable, patched runtime/image scan and operational controls completed, and consumer validators exercised. No deployment/push/key rotation or personal volume deletion occurred.
-
-To resume blocked checks: finish infrastructure advisory applicability and rerun the image scanner command in [operations](operations.md), run the added GitHub workflow after an owner-authorized push, execute `.NET` fixture/consumer tests described in [identity contract](identity-contract.md), and record the owner's historical-credential verification without disclosing values. Retention/proxy/restricted DB role and rotation prerequisites are described in operations; no consumer changes were made here.
-
-### Container build
-
-`docker build -t cypher-security-audit:20261009 .` passed after a reproducible Wrapper checksum rejection: the JDK build stage lacked unzip and selected TAR.GZ despite a checksum pinned for ZIP. Adding unzip only to the build stage retains checksum enforcement ([failed reproduction](evidence/image-build-reproduction.log), [successful build](evidence/image-build.log)). Image ID `sha256:02abd0ee2da2de33a5b2485fecb99cac210ce38721a17b03b514b1ad3b739be9`; configured runtime user `cypher`. Packaging inside Docker deliberately skips tests; the separate clean 47-test run is the final test evidence. No image was pushed or deployment created. The build uses recorded base digests in its log but tags are not permanently pinned in source.
-
-### Additional closure checks
-
-A fresh 46-test clean suite passed on 2026-10-09 after adding explicit unknown/expired/revoked refresh rejection and a real PostgreSQL constraint failure on successor INSERT. The latter returned 503, retained the original unconsumed token with no successor, and succeeded after removing the fixture-only constraint ([log](evidence/refresh-closure-verify.log)). A repeat measured load is recorded separately in [repeat JSON](evidence/load-repeat.json); the tables above identify the final 47-test campaign, not a mixed aggregate. The final 47-test suite also passes the log-privacy regression.
-
-Runtime smoke command `docker run --rm --entrypoint sh cypher-security-audit:20261009 -c 'id -u; java -version'` returned UID 1000 and Temurin JRE 21.0.12.1+1. This tests runtime identity/version, not full Compose deployment. An isolated Trivy attempt scans the exported image without mounting the Docker socket or secrets; its result will be recorded separately.
-
-The validation privacy test failed before correction: Spring's default warning copied the synthetic password into logs ([reproduction](evidence/log-privacy-reproduction.log)). Generic 400 advice now handles validation/malformed-body exceptions without including rejected values. Normal incorrect credentials remain generic 401. No real passwords were collected in this investigation.
-
-Trivy official image digest `sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa` scanned the actual first exported image: two MEDIUM Alpine matches, no Java matches ([raw JSON](evidence/image-scan-before.json)). [libpng's official advisory](https://github.com/pnggroup/libpng/security/advisories/GHSA-qvg3-h654-xq3j) confirms CVE-2026-46675 in <=1.6.58, fixed 1.6.59; [zlib upstream report](https://github.com/madler/zlib/issues/1310) records CVE-2026-85091, and Alpine's patched package version is supplied by the scan. These paths are not demonstrated exploitable through Cypher; the Docker runtime upgrades libpng/zlib rather than assuming the newest Temurin tag contains every OS patch. Consulted 2026-10-09. The final Cypher image rescan returned zero Alpine/JAR matches ([JSON](evidence/image-app-final.json)). This result is database/time limited, not an absence-of-vulnerabilities guarantee.
-
-Final log-privacy regression and all 47 tests pass in [final clean verification](evidence/final-verify.log). The final Docker build includes that advice and targeted Alpine upgrades ([build](evidence/image-final-build.log)); final image ID `sha256:f9c7b64473f2a2c1c7fd510d120d296678e1a970a5c132188cb2e41a3bcf535a`. [Runtime smoke evidence](evidence/runtime.log) confirms UID 1000 and JRE 21.0.12.1+1, matching the [official Temurin 21 release](https://github.com/adoptium/temurin21-binaries/releases) consulted 2026-10-09. Maven/JAR scanning is not a binary audit of every native JRE path.
-
-### Infrastructure image scan / applicability
-
-The initial cached `postgres:16` image (`sha256:e17e86066e5ef83e0952a9347f5c792b7ece00972e2aa787a6986f471b3dd3d5`) returned 571 package matches (14 CRITICAL, 141 HIGH); cached `redis:7` (`sha256:71da9275c5f3fcb97d0fa0c8c5b36cc995327265420f17a04bfd544f458059f7`) returned 258 (4 CRITICAL, 57 HIGH). These are component matches, **not 829 confirmed Cypher vulnerabilities**. Complete unfiltered evidence: [PostgreSQL](evidence/image-postgres.json), [Redis](evidence/image-redis.json). App image has zero final matches. Trivy version 0.75.0, pinned scanner digest above; fresh public vulnerability DB plus Java DB. No scan accessed `.env`, personal volumes or keystore.
-
-Critical-match triage against official sources (2026-10-09):
-
-- [CVE-2023-45853 / Debian](https://security-tracker.debian.org/tracker/CVE-2023-45853): Redis Bookworm zlib1g is a binary-package false positive for MiniZip; Debian notes the vulnerable contrib code is not built/provided in that binary. No broad suppression file added.
-- [CVE-2026-8376 / Debian](https://security-tracker.debian.org/tracker/CVE-2026-8376): requires compiling attacker-controlled Perl expressions on a **32-bit** build; these fixtures are amd64 and auth does not invoke Perl. The component is still tracked/patched when available.
-- [CVE-2026-13221 / Debian](https://security-tracker.debian.org/tracker/CVE-2026-13221) and [CVE-2026-42496 / Debian](https://security-tracker.debian.org/tracker/CVE-2026-42496): respectively huge Perl regex tries and unsafe Perl Archive::Tar extraction. HTTP credentials use Java validation/Argon2 and parameterized JPA, with no Perl/tar caller. Not demonstrated reachable from auth, not a license to run untrusted scripts/archives inside infrastructure containers.
-- [CVE-2026-6653 / Debian](https://security-tracker.debian.org/tracker/CVE-2026-6653): libxml2 UAF remains a distro issue (Debian labels it minor/postponed). Cypher accepts bounded JSON and does not submit attacker-controlled SQL/XML to PostgreSQL. Direct privileged DB/XML usage is outside that boundary and remains an operational risk.
-- [CVE-2025-68121 / official Go](https://pkg.go.dev/vuln/GO-2026-4337): Go crypto/tls resumption; scanner location is `usr/local/bin/gosu`. [gosu's source](https://github.com/tianon/gosu/blob/master/main.go) switches process credentials/execs and has no TLS handshake flow. No exploit is demonstrated from the mere embedded stdlib version; broader Go findings require symbol/caller analysis.
-
-Remaining component matches are preserved without blanket acceptance. The bounded closeout below completes all 43 HIGH/CRITICAL identifier classifications; MEDIUM/LOW/UNKNOWN notices remain outside that additional round. Before public operation, preserve the reviewed boundaries and follow current vendor patches. No automatic distro switch (e.g. Debian→Alpine) was made: PostgreSQL libc/collation differences can affect existing indexes/data and need an isolated migration check. Initial image-update attempts encountered Docker Hub TLS/CDN timeouts; a permission-review timeout was retried successfully, not treated as unsafe or as user approval. No image update was deployed.
-
-Official image updates completed after retry. Compose now pins the reviewed current image digests: PostgreSQL `sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d`, Redis `sha256:4fa24486b8bcca8eec45ee0eb166edc674795e53a2b53d1a9ef263eecebaac85`. No major server/distro switch or deployment occurred. The final 47-test suite passed on fresh fixtures using these newly cached official images; existing personal databases remain untouched.
-
-Current rescan: PostgreSQL **363 component matches** (2 CRITICAL, 82 HIGH, 123 MEDIUM, 134 LOW, 22 UNKNOWN); Redis **229** (1 CRITICAL, 49 HIGH, 99 MEDIUM, 79 LOW, 1 UNKNOWN). [PostgreSQL JSON](evidence/image-postgres-current.json), [Redis JSON](evidence/image-redis-current.json). Old Perl critical matches disappear. The remaining Redis critical is the documented MiniZip binary false positive; PostgreSQL critical matches are libxml2/XML and gosu's embedded Go TLS. PostgreSQL's 22 fixable HIGH/CRITICAL matches all refer to gosu's embedded stdlib; Redis has zero fixable HIGH/CRITICAL matches. Merely recompiling gosu to clean a version-only report is not an auth fix; call-path analysis is required. No global ignore rule or claim of 592 reachable vulnerabilities is made. This earlier unresolved classification is superseded by the bounded closeout below; public operational requirements remain open.
-
-Exact scan reproduction: export each pinned image with `docker save -o /tmp/<owned-image>.tar <image-reference>`; run `docker run --rm -v /tmp/<owned-image>.tar:/scan/image.tar:ro ghcr.io/aquasecurity/trivy@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa image --input /scan/image.tar --scanners vuln --timeout 3m --format json`. This gives the current public DB result, which may change. Before exposure, revalidate the classified preconditions against the intended runtime, provision reviewed images/restricted roles and rerun the suite/restore tests; do not replace or delete a live data volume to eliminate scanner output.
-
-Final recorded verification: `./mvnw clean verify` on updated PostgreSQL/Redis images passes **47/47, zero failures/errors/skips, 88 seconds**. `git diff --check` passes. `docker compose --env-file .env.example config --quiet` validates without showing expanded configuration or reading personal `.env`. Server versions are captured in [PostgreSQL](evidence/postgres-version.txt) and [Redis](evidence/redis-version.txt). Baseline commit remains unchanged; all remediation is reviewable as local changes on the audit branch, no commits/push/deployment performed. `evidence/source-manifest.json` records public source/configuration/document hashes to identify this uncommitted tree. Tests continue to isolate `flushDb()` to their exclusively owned disposable Redis fixture.
-
-## Bounded closeout — 2026-10-09
-
-Scope is unchanged: own Cypher remediation, generated synthetic fixtures, finite local loopback demo. Ratchet/.NET/Keystone consumer integration and public deployment prerequisites are distinct pending work. No administrative subsystem, distro switch, suppression file, real credential rotation, push or deployment was added.
-
-### Roles
-
-Keystone's planned local `ANALYST` provisioning exposed a reproducible contradiction: `generateToken()` signed ANALYST but `getClaims()` rejected it. It also signed unsupported stored roles. Two targeted regressions failed before the fix ([red](evidence/role-reproduction.log)); the shared exact `USER`/`ANALYST` predicate now governs both operations ([12 JWT tests](evidence/role-regression.log)). HTTP tests cover both roles through login/rotation/me, and caller-injected ANALYST remains USER at registration; existing ADMIN injection regression remains. Authorized provisioning is a documented exact-UUID local SQL action on a synthetic account, not an HTTP route. No real account was modified. Consumers still must authorize their own endpoints; previous JWT roles last until expiry/skew.
-
-### Infrastructure classification completed
-
-All **43 unique HIGH/CRITICAL identifiers** in the recorded current PG/Redis scans are mapped to preconditions, actual configured exposure, correction status and a proposed decision in [complete classification](evidence/infrastructure-classification.json). It includes every identifier, package/installed version, image and official source; coverage is asserted against the raw scan set. [Official advisory snapshots](evidence/official-infrastructure-advisories.json) verify all 43 Go/Debian records (no blocked source reads). Consulted 2026-10-09. No severity-only suppression or owner risk acceptance.
-
-This is the **configured Compose + disposable same-image probe** exposure model, not inspection of personal live containers. [PostgreSQL probe](evidence/postgres-exposure.txt) confirms homed/TPM daemon/devices absent; [Redis probe](evidence/redis-exposure.txt) confirms tls-port=0. Default capability mask excludes SYS_ADMIN; no privileged/host namespace/socket/device mount is configured. Default fstab does not authorize user mounts. Web input flows through bounded JSON and parameterized JPA, not shell/SQL/XML execution. A compromised host, directly exposed DB, arbitrary SQL console or a new parsing feature changes these conclusions.
-
-| Component / identifiers | Required precondition | Exposure in this local profile | Correction available / proposed decision |
-|---|---|---|---|
-| Debian zlib1g / CVE-2023-45853 | Vulnerable MiniZip binary and crafted archive metadata | Source-package match; Bookworm binary excludes vulnerable contrib code per Debian | Binary false positive for this image. No demo blocker; reassess added minizip/pyminizip, no general ignore |
-| gosu embedded Go / 22 IDs listed individually in JSON | Affected TLS/x509, HTTP/URL, mail/MIME, XML/template, os.Root or CNAME functions processing malicious input | Process UID switcher with trusted startup arguments; these callers absent. Windows-specific panic also not this Linux profile | Official fixed compiler ranges recorded per ID; requires upstream gosu rebuild, not apt replacement of embedded Go. No auth-path blocker; recheck changed callers and upstream rebuild before an exposed deployment |
-| util-linux / 53613, 76642, 78408–78410 (all CVE-2026) | Local shell plus authorized fstab/user/X-mount or privileged nsenter/cgroup operation, writable source/target path | No HTTP shell, user mount, SYS_ADMIN/privileged mode or host namespace/device access | 53613 fixed in Trixie; later issues have upstream fixes but stable vendor gaps. Keep prerequisites absent; do not import unstable packages/change distro. Local demo permitted; privileged/untrusted-shell deployment requires patch/isolation review |
-| systemd/udev / CVE-2026-16742 | Running homed and logged-in homed-managed user | homed executable/service absent; library source match | Upstream fix, stable gaps; no blocker under absent-service condition. Reassess if homed/host services added |
-| GnuPG / CVE-2026-24882 | TPM-backed keys through tpm2daemon PKDECRYPT | Daemon/devices absent; Java signing is unrelated | Fixed upstream, Trixie pending; no blocker here. Patch before adding TPM decrypt workloads |
-| ncurses / CVE-2025-69720 | infocmp on malicious terminfo | Not invoked by auth/server startup | Upstream fix; stable status in snapshot. No blocker; forbid untrusted terminal tooling until patched |
-| gzip / CVE-2026-41992 | Crafted LZW/LZH chain in one gzip command | No archive/upload shell flow | Upstream/vendor status recorded, stable gap. No blocker here; patch before introducing untrusted archives |
-| libacl / CVE-2026-54369 | Privileged ACL operation on attacker-writable ancestor/symlink path | API cannot select paths/ACLs; operator-owned volumes, no untrusted local shell | Upstream 2.4.0, stable gap. Keep ownership/mount boundary; local demo permitted, untrusted shared-path ACL processing blocked pending patch/review |
-| Perl Archive::Tar / CVE-2026-9538 | Parse attacker-sized archive entries | No Perl/tar ingestion; synthetic backup uses pg_dump/restore | Fixed upstream/unstable; stable gap. No blocker; patch before untrusted archive processing |
-| OpenSSL / CVE-2026-84782 | DTLS fragmented/retransmitted handshake with suspended writes | Redis TCP, tls-port=0; optional Redis TLS is also TCP, not DTLS | Official fix, no Bookworm fix at snapshot. No DTLS exposure; no local blocker. Direct public Redis remains prohibited independently |
-| libxml2 / CVE-2026-6653, 74860, 86138–86140, 86142–86144 | Malicious XML/XPointer/XInclude/output; 74860 additionally Python SAX bindings | PG links libxml2, but auth submits no XML SQL; no Python binding. Direct SQL limited to trusted local operator | Upstream 2.15.4 fixes, stable vendor gaps. No blocker for synthetic auth demo. Public API requires private DB + restricted app role; untrusted SQL/XML exposure/ingestion blocked until patched or separately reviewed isolation |
-
-These are proposals grounded in absent prerequisites, not permission to ignore vulnerable components. They do **not** individually block the measured local synthetic demo. Before public API exposure, verify that the absent preconditions stay absent, apply available supported vendor patches, restrict the DB role/network, and secure TLS/proxy/runtime/retention. A public API alone does not make gosu's uncalled Go parsers or DTLS reachable. An owner must decide any intended feature requiring an affected path; no risk is accepted here.
-
-### Historical credential action
-
-C08 is still **BLOCKED (external owner confirmation)**. The owner was asked to inventory PostgreSQL endpoints/roles, `.env`/Compose/IDE/service secret overrides, any previously owned remote/demo installations and CI stores; then check reuse in other credentials without disclosing values. Exact required confirmation and the prepared interactive rotation/recovery procedure are in [operations](operations.md#historical-credential-verification--owner-action). Changing POSTGRES_PASSWORD does not rotate a role in an existing volume, and changing a password does not terminate existing sessions. No secret value or hash is requested; no actual rotation took place. Generated fixture DB/key credentials are independent of the historical values, so this does not invalidate the synthetic demo evidence.
-
-### Sustained admitted work
-
-The predeclared campaign is **180 seconds**, one sequential workflow every three seconds, concurrency **1**, on this 8-CPU/15.6-GiB workstation. Sixty independent synthetic IP/account workflows each perform register, correct login, incorrect login, refresh. The default 5-attempt/5-minute limits and refresh limit remain active: no reset, window change or diagnostic profile. This represents differentiated clients within their normal budgets; it does not measure one NAT sharing an IP or distributed-abuse resistance.
-
-Stop/acceptance budget: HTTP 5 seconds; entire driver <210 seconds; JVM sampled RSS <2 GiB, available host memory >2 GiB; stop on any unexpected response. Require all 240 measured requests admitted and per-operation/per-minute admitted p95 <1 second (a generous small-demo criterion compared with the existing ~0.1-second sequential baseline, not a production SLO). Five seconds of cooldown then synthetic recovery register/login; DB invariant assertions follow. Driver missing-mode regression failed before implementation ([red](evidence/sustained-reproduction.log)).
-
-Observed: **180.000 s measurement, 240/240 admitted, 1.333 requests/s**, 60×201, 120×200, 60×401; **zero 429/5xx/timeouts/unexpected responses**. Recovery adds one 201 and one 200, total wall 185.247 s. RSS sampled every cycle: 414.79→516.74 MiB, maximum 516.74 MiB; minimum available RAM 7821.69 MiB. This ~102-MiB RSS increase during warmup does not prove a leak or stable long-run memory. Peak interval JVM CPU 229.94% (about 2.3 logical CPUs, includes JIT/GC/test process); no process CPU hard quota or DB/Redis CPU profiler is claimed.
-
-| Operation (60 admitted samples each) | p50 ms | p95 ms | p99 ms |
-|---|---:|---:|---:|
-| Correct login | 97.329 | 162.246 | 670.997 |
-| Incorrect credentials | 91.185 | 133.143 | 294.961 |
-| Register | 91.090 | 128.687 | 1117.684 |
-| Refresh | 18.843 | 34.982 | 94.634 |
-
-The 1.118-second registration sample is included, not discarded as warmup. All minute-specific p95s meet the criterion. Samples/resources/per-minute distributions: [JSON](evidence/sustained-final.json). These minute-scale, concurrency-one results are a sustained **small demo** check, not max capacity, a high-concurrency claim or production benchmark.
-
-Post-run DB: **61 users, 121 audit rows, 121 hashed refresh rows, 60 revoked predecessors**; no duplicate email/successor branch, missing successor, inconsistent revocation/absolute expiry or wrong hash length; <=10 DB connections and recovery account present. Real row assertions and HTTP statuses pass in the integration test.
-
-### Final closeout checkpoints
-
-| CP | Status for measured local scope | Evidence / remaining boundary |
-|---|---|---|
-| CP0 | PASS | Original six-test baseline and synthetic fixtures retained |
-| CP1 | PASS | Original threat model/patch trace plus bounded role/infra closeout |
-| CP2 | PASS | Both roles, public registration restriction, JWT adversaries and independent Java JWKS contract; full Ratchet/.NET integration remains pending |
-| CP3 | PASS | Real DB races, replay, signer/storage/audit rollback and persisted invariants |
-| CP4 | PASS | Limits/TTL, bounded input/dependency failures, optional LLM and sustained admitted traffic |
-| CP5 | PASS (local) | 51-test clean suite, restart/restore, dependency/image scans and all critical/high classifications; hosted CI and public deployment are not claimed |
-| CP6 | PASS (synthetic local stage only) | Own corrections traced/tested; C08 owner verification and public prerequisites remain BLOCKED/open separately, not accepted risks |
-
-**Stage verdict:** own Cypher remediation is ready for a finite, isolated synthetic **local demo within the measured budget**, and the next repository work can focus on Ratchet. No statement of complete ecosystem integration or public/production readiness follows. C08 remains externally blocked for previously used/real credentials; Ratchet subject ownership and issuer/audience/skew enforcement, .NET role middleware and their consumer tests are pending. Public TLS/proxy/DB role/retention/key/runtime boundaries still require implementation/owner decisions.
-
-Final clean command `./mvnw clean verify`: **51 tests, zero failures/errors/skips, BUILD SUCCESS, 4 min 26 s**, [complete log](evidence/closeout-verify.log). Read-only closeout code review found no concrete issues; it did not run Maven/Docker itself. Changes are prepared locally for a reviewable commit; no commit/push/deployment is executed automatically.
-
-Final image verification: `docker build -t cypher-security-audit:20261009-closeout .` passed ([build](evidence/closeout-image-build.log)); image ID `sha256:c80929cdb3612df2f0ebb8363a1f5d775a01b83c62bbb33ad9850c7c5f505e5f`. Trivy 0.75.0 using the pinned scanner digest and exported final image returned **zero Alpine/JAR matches** ([raw JSON](evidence/closeout-image-scan.json), [scanner log](evidence/closeout-image-scan.log)). This includes the role correction, uses the cached current public vulnerability databases and does not replace the separate 51-test clean run. No Compose deployment is claimed.
-
-Final runtime smoke `docker run --rm --entrypoint sh cypher-security-audit:20261009-closeout -c 'id -u; java -version'` returned **UID 1000 / Temurin JRE 21.0.12.1+1** ([evidence](evidence/closeout-runtime.log)). `git diff --check` is clean. The authorized source, tests, configuration and evidence are staged for a reviewable commit on `codex/security-audit-2026-10-08`; HEAD remains the recorded baseline. The public-file SHA-256 manifest excludes ignored modernization logs, personal secrets and generated build output.
-
-Commit preparation detected trailing spaces emitted by Maven/container loggers in previously untracked evidence. Only line-end spaces/tabs in saved `.log` files were normalized; test results/messages remain intact. Staged whitespace verification was then rerun, without a general suppression rule.
-
-
-## Evidence-publication correction
-
-The owner reported a generic-password alert in `evidence/signing-reproduction.log` after the explicitly requested commit/push `16b30846310536b6c98812175b7b68353748a06d`. Publishing raw reproduction logs was an audit handling error. The earlier locations-only PEM/API-key scan did **not** prove safe publication of generic/generated/test passwords; that limitation is now explicit.
-
-A value-withholding rescan of the committed logs found **24 credential-bearing lines**: **13 generated Boot password warnings, 10 rejected synthetic credential fields, one other credential assignment** ([inventory](evidence/evidence-exposure.json)). All were replaced with a redaction marker while preserving test result/failure evidence. No exposed values or secret hashes are repeated in this incident record. The historical warning's generator was confirmed in the actual Boot 4.1.1 `UserDetailsServiceAutoConfiguration` bytecode. Its in-memory development user was unnecessary: own auth uses JPA users/Argon2/JWT, not Basic/form login.
-
-A real HTTP regression first demonstrated that even the configured default user's Basic credentials returned 401 for `/auth/me`, then failed because the unwanted UserDetailsService existed ([sanitized red](evidence/default-user-reproduction.log)). Excluding only that Boot auto-configuration removed the account and startup warning; the same regression passes ([green](evidence/default-user-regression.log)). These reported generated passwords belong to ended synthetic Testcontainers/JUnit runs; they are not DB passwords, keystore protection or an Anthropic key. This specific report does not establish a live Cypher account bypass or justify rotating unrelated real secrets. C08 remains externally blocked; it is not resolved by this classification.
-
-`scripts/security/evidence.py` detects the observed formats, provides explicit-file log redaction and rejects unsafe evidence using file/line diagnostics without values. Four initial unit regressions ran and failed three cases before implementation ([red](evidence/evidence-privacy-reproduction.log)); the committed-evidence check rejected the 24 lines ([red](evidence/evidence-check-reproduction.log)). The read-only review then reproduced a multiline-value leak in the initial redactor ([value-free red record](evidence/evidence-multiline-reproduction.json)); it was fixed by conservative truncation at a credential marker and preservation of strictly permitted Maven summaries. Seven final tests cover multiline values and the real CLI's reject/redact/summary/recheck behavior. CI prints only allowlisted summary lines, preserves a failing Maven exit code, excludes raw reports from artifact publication and gates selected artifacts. This is a format guard, not a comprehensive entropy/vendor scanner or a permission to publish raw credentials.
-
-Removal from the branch tip does not erase old commits or automatically close alerts ([GitHub guidance](https://docs.github.com/en/code-security/how-tos/manage-security-alerts/manage-secret-scanning-alerts/resolving-alerts), consulted 2026-10-09). Old Git/CI output may retain the expired test values. No history rewrite/force push, real-secret rotation or alert dismissal is authorized by this fix. If the owner’s alert refers to a different value/service, its scope must be verified without pasting the value; the prepared real-credential procedure remains in operations.
-
-
-Final verification after the publication correction: `./mvnw clean verify` **52 tests, zero failures/errors/skips, BUILD SUCCESS**, with no generated-password warning or detected credential format in the captured final output ([sanitized log](evidence/evidence-privacy-final-verify.log)). This includes a fresh three-minute admitted campaign and its PostgreSQL invariants ([fresh metrics](evidence/evidence-privacy-load.json)). `python3 -m unittest discover -s scripts/security -p test_evidence.py` passes **7/7** ([log](evidence/evidence-privacy-regression.log)); `python3 scripts/security/evidence.py docs/security/evidence` passes. Read-only review confirmed the demonstrated multiline leak is closed. Product JWT/password/session contracts are unchanged; CP2–CP6's local scope remains qualified as previously stated. The previously built Docker image predates the default-user exclusion and was not rebuilt for this narrow correction; no deployment/image publication is claimed.
-
-Hosted-run metadata lookup was **BLOCKED** because local GitHub CLI has no API authentication; SSH Git push access does not provide it. No runner log/artifact was downloaded, modified or dismissed. Earlier CI artifacts/console and commit 16b3084 may still contain expired generated test credentials. The owner can review the alert/run in GitHub; no secret should be pasted here. History removal would require a separately authorized coordinated rewrite and would not substitute for revocation of an actually live credential.
